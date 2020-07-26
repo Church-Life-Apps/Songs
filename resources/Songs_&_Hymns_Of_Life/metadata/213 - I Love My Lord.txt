@@ -1,0 +1,33 @@
+< KeepItInTune >
+.Title: 213 - I Love My Lord
+.Page 247
+.Author: Madame Jeanne-Marie Bouvier de la Motte-Guyon (1648-1717) bio
+.Music: E. Burgess
+.Presentation: v1 v2
+.Key: Ab Major
+.Guitar: 
+.Time: 4/4
+.Meter: 10.6.10.6.10.10.
+.Scripture: 
+.Theme: Experience of Christ
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 5543531615355443
+.Date composed: 
+.Misc: Wed, Jan 25, 2017
+
+[v1]
+ I love my Lord, but with no love of mine, 
+ For I have none to give; 
+ I love Thee, Lord, but all the love is Thine, 
+ For by Thy love I live. 
+ I am as nothing, and rejoice to be 
+ Emptied, and lost, and swallowed up in Thee.
+[v2]
+ Thou, Lord, alone, art all Thy children need, 
+ And there is none beside; 
+ From Thee the streams of blessedness proceed, 
+ In Thee the blessed abide. 
+ Fountain of life, and all-abounding grace, 
+ Our source, our center, and our dwelling place.

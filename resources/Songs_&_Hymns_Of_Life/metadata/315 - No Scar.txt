@@ -1,0 +1,37 @@
+< KeepItInTune >
+.Title: 315 - No Scar
+.Page 367
+.Author: Amy Carmichael
+.Music: Frederick Charles Maker (1844-1927)
+.Presentation: v1 v2 v3
+.Key: C Major
+.Guitar: 
+.Time: 4/4
+.Meter: 4.10.8.8.6.
+.Scripture: 
+.Theme: The Way of the Cross
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 33323554431122
+.Date composed: 
+.Misc: Wed, Jan 25, 2017
+
+[v1]
+ Hast thou no scar? 
+ No hidden scar on foot, or side, or hand? 
+ I hear thee sung throughout the land,
+ I hear them hail thy shining star, 
+ Hast thou no scar? no scar?
+[v2]
+ Hast thou no wound? 
+ Yet I was wounded by the archers, spent, 
+ Leaned Me against a tree; and rent 
+ By rav’ning beasts ’round me, I swooned: 
+ Hast thou no wound? no wound?
+[v3]
+ No wound? no scar? 
+ Yet, as the Master shall the servant be, 
+ And pierced the feet that follow Me; 
+ But whole? can he have followed far 
+ Who has no wound nor scar?

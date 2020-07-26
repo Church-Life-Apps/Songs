@@ -1,0 +1,54 @@
+< KeepItInTune >
+.Title: 81 - Hark! Ten Thousand Voices Crying
+.Page: 91
+.Author: John Nelson Darby (1800-1882) bio
+.Music: Geistliche Lieder, German
+.Presentation: v1 v2 v3 v4 v5 v6 v7
+.Key: G Major
+.Guitar: 
+.Time: 9/8
+.Meter: 8.7.8.7.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 5651332125
+.Date composed: 
+.Misc: Thu, Jan 26, 2017
+
+[v1]
+ Hark! ten thousand voices crying 
+ “Lamb of God!” with one accord; 
+ Thousand thousand saints replying, 
+ Wake at once the echo’ng chord.
+[v2]
+ “Praise the Lamb!” the chorus waking, 
+ All in heav’n together throng; 
+ Loud and far, each tongue partaking, 
+ Rolls around the endless song.
+[v3]
+ Grateful incense this, ascending 
+ Ever to the Father’s throne; 
+ Every knee to Jesus bending, 
+ All the mind in heav’n is one.
+[v4]
+ All the Father’s counsels claiming
+ Equal honors to the Son;
+ All the Son’s effulgence beaming, 
+ Makes the Father’s glory known.
+[v5]
+ By the Spirit all pervading,
+ Hosts unnumbered round the Lamb,
+ Crowned with light and joy unfading,
+ Hail Him as the great “I AM.”
+[v6]
+ Joyful now the new creation
+ Rests in undisturbed repose,
+ Blest in Jesus’ full salvation,
+ Sorrow now nor *thraldom knows.
+[v7]
+ Hark! still louder swells the singing,
+ As the notes are heard again;
+ Through creation’s vault is ringing
+ Joy’s response. Amen! Amen!

@@ -1,0 +1,51 @@
+< KeepItInTune >
+.Title: 422 - My Prayer
+.Page 500, 501
+.Author: 
+.Music: 
+.Presentation: v1 c v2 c v3 c
+.Key: 
+.Guitar: 
+.Time: 
+.Meter: 
+.Scripture: 
+.Theme: 
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 
+.Date composed: 
+.Misc: 
+
+[v1]
+ More holiness give me, 
+ More strivings within, 
+ More patience in suff’ring, 
+ More sorrow for sin, 
+ More faith in my Savior, 
+ More sense of His care, 
+ More joy in His service, 
+ More freedom in prayer. 
+[v2]
+ More gratitude give me, 
+ More trust in the Lord, 
+ More zeal for His glory, 
+ More hope in His Word, 
+ More tears for His sorrows, 
+ More pain at His grief, 
+ More meekness in trial, 
+ More praise for relief.
+[v3]
+ More purity give me, 
+ More strength to o’ercome, 
+ More freedom from earth-stains, 
+ More quest for the throne, 
+ More fit for the kingdom, 
+ More useful I’d be, 
+ More blessed and holy, 
+ More, Savior, like Thee.
+[c1]
+ Come, my Savior, and help me, 
+ Comfort, strengthen and keep me; 
+ Thou each moment will save me, 
+ Thou art saving me now.

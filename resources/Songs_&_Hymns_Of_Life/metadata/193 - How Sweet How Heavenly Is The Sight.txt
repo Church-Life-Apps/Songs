@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 193 - How Sweet, How Heavenly Is The Sight
+.Page 223
+.Author: Joseph Swain (1761-1796)
+.Music: A. J. Jamouneau
+.Presentation: v1 v2 v3 v4 v5
+.Key: Bb Major
+.Guitar: 
+.Time: 3/4
+.Meter: 8.6.8.6.
+.Scripture: 
+.Theme: The Church
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 33323543555634
+.Date composed: 
+.Misc: Tue, Jan 24, 2017
+
+[v1]
+ How sweet, how heav’nly is the sight, 
+ When those who love the Lord 
+ In one another’s peace delight, 
+ And so fulfill His Word.
+[v2]
+ When each can feel his brother’s sigh, 
+ And with him bear a part; 
+ When sorrow flows from eye to eye, 
+ And joy from heart to heart.
+[v3]
+ When, free from envy, scorn and pride, 
+ Our wishes all above,
+ Each can his brother’s failings hide, 
+ And show a brother’s love.
+[v4]
+ When love, in one delightful stream, 
+ Through every bosom flows; 
+ When union sweet, and dear esteem, 
+ In every action glows.
+[v5]
+ Love is the golden chain that binds;
+ The saints Thy grace thus prove.
+ And he is glory’s heir that finds
+ His bosom glow with love.

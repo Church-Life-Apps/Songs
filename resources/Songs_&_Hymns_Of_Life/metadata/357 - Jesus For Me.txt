@@ -1,0 +1,38 @@
+< KeepItInTune >
+.Title: 357 - Jesus For Me
+.Page 426
+.Author: William James Kirkpatrick (1838-1921)
+.Music: John L. Hatton
+.Presentation: v1 c v2 c v3 c
+.Key: C Major
+.Guitar: 
+.Time: 3/4
+.Meter: 10.10.10.9. with chorus.
+.Scripture: 
+.Theme: Experience of Christ
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 3135351715
+.Date composed: 
+.Misc: Wed, Jan 25, 2017
+
+[v1]
+ Jesus, my Savior, is all things to me; 
+ Oh, what a wonderful Savior is He, 
+ Guiding, protecting, o’er life’s rolling sea, 
+ Mighty Deliv’rer— Jesus for me. 
+[v2]
+ Jesus in sickness, and Jesus in health, 
+ Jesus in poverty, comfort or wealth; 
+ Sunshine or tempest, whatever it be, 
+ He is my Safety— Jesus for me.
+[v3]
+ He is my Refuge, my Rock, and my Tow’r, 
+ He is my Fortress, my Strength and my Pow’r; 
+ Life Everlasting, my Day’s-man is He, 
+ Blessed Redeemer— Jesus for me.
+[c1]
+ Jesus for me, Jesus for me,
+ All the time everywhere, 
+ Jesus for me.

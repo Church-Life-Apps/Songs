@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 44 - The Name Of Jesus
+.Page: 48
+.Author: W. C. Martin
+.Music: Edmund Simon Lorenz (1854-1942)
+.Presentation: v1 c1 v2 c1 v3 c1 v4 c1
+.Key: Bb Major
+.Guitar: 
+.Time: 3/4
+.Meter: 8.8.8.7. with chorus.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 5176354472174655
+.Date composed: 
+.Misc: Thu, Jan 19, 2017
+
+[v1]
+ The name of Jesus is so sweet, 
+ I love its music to repeat; 
+ It makes my joys full and complete, 
+ The precious name of Jesus. 
+[v2]
+ I love the name of Him whose heart 
+ Knows all my griefs and bears a part; 
+ Who bids all anxious fears depart, 
+ I love the name of Jesus.
+[v3]
+ That name I fondly love to hear, 
+ It never fails my heart to cheer, 
+ Its music dries the falling tear; 
+ Exalt the name of Jesus.
+[v4]
+ No word of man can ever tell 
+ How sweet the name I love so well,  
+ Oh, let its praises ever swell, 
+ Oh, praise the name of Jesus.
+[c1]
+ Jesus! oh, how sweet the name, 
+ Jesus! every day the same; 
+ Jesus! let all saints proclaim 
+ Its worthy praise forever.

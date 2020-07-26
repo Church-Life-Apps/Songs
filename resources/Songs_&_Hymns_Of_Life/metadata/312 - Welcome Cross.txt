@@ -1,0 +1,39 @@
+< KeepItInTune >
+.Title: 312 - Welcome Cross
+.Page 363
+.Author: William Cowper (1731-1800)
+.Music: Wolfgang Amadeus Mozart (1756-1791)
+.Presentation: v1 v2 v3 v4
+.Key: F Major
+.Guitar: 
+.Time: 3/4
+.Meter: 7.7.7.7.
+.Scripture: 
+.Theme: The Way of the Cross
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 117544353542132
+.Date composed: 
+.Misc: Wed, Jan 25, 2017
+
+[v1]
+ ’Tis my happiness below 
+ Not to live without the cross; 
+ But the Savior’s pow’r to know, 
+ Sanctifying every loss.
+[v2]
+ Trials must and will befall; 
+ But with humble faith to see 
+ Love inscribed upon them all— 
+ This is happiness to me.
+[v3]
+ Did I meet no trials here, 
+ No chastisement by the way, 
+ Might I not, with reason, fear 
+ I should prove a castaway?
+[v4]
+ Trials make the promise sweet; 
+ Trials give new life to prayer; 
+ Bring me to my Savior’s feet, 
+ Lay me low and keep me there.

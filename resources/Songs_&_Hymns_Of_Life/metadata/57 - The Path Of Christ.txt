@@ -1,0 +1,49 @@
+< KeepItInTune >
+.Title: 57 - The Path Of Christ
+.Page: 64
+.Author: James George Deck (1807-1884)
+.Music: From Little Flock Tune Book
+.Presentation: v1 v2 v3 v4 v5 v6
+.Key: C Major
+.Guitar: 
+.Time: 3/4
+.Meter: 8.6.8.6.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 54351527543
+.Date composed: 
+.Misc: Thu, Jan 19, 2017
+
+[v1]
+ O Lord, when we the path retrace 
+ Which Thou on earth hast trod, 
+ To man Thy wondrous love and grace, 
+ Thy faithfulness to God;
+[v2]
+ Thy love, by man so sorely tried, 
+ Proved stronger than the grave; 
+ The very spear that pierced Thy side 
+ Drew forth the blood to save;
+[v3]
+ Faithful amidst unfaithfulness,
+ ’Midst darkness only light, 
+ Thou didst Thy Father’s name confess, 
+ And in His will delight;
+[v4]
+ Unmoved by Satan’s subtle wiles,
+ Or suff’ring, shame, and loss,
+ Thy path, uncheered by earthly smiles,    
+ Led only to the cross.
+[v5]
+ O Lord, with sorrow, and with shame,
+ We meekly would confess,
+ How little we, who bear Thy name,
+ Thy mind and ways express.
+[v6]
+ Give us Thy meek, Thy lowly mind;
+ We fain would like Thee be,
+ And all our rest and pleasure find
+ In learning, Lord, of Thee.

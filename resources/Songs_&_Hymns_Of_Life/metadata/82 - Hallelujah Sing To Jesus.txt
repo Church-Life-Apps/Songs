@@ -1,0 +1,55 @@
+< KeepItInTune >
+.Title: 82 - Hallelujah! Sing To Jesus
+.Page: 92
+.Author: William Chatterton Dix (1837-1898)
+.Music: John Zundel (1815-1882)
+.Presentation: v1 v2 v3 v4
+.Key: Bb Major
+.Guitar: 
+.Time: 4/4
+.Meter: 8.7.8.7.D.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 55653232176165453
+.Date composed: 
+.Misc: Fri, Jan 20, 2017
+
+[v1]
+ Hallelujah! sing to Jesus, 
+ His the scepter, His the throne; 
+ Hallelujah! His the triumph, 
+ His the victory alone. 
+ Hark, the songs of His redeemed ones 
+ Thunder like a mighty flood: 
+ Jesus out of every nation 
+ Hath redeemed us by His blood.
+[v2]
+ Hallelujah! not as orphans 
+ Are we left in sorrow now; 
+ Hallelujah! He is near us, 
+ Faith believes, nor questions how. 
+ Though the clouds from sight received Him 
+ When the forty days were o’er, 
+ Shall our hearts forget His promise, 
+ “I am with you evermore”?
+[v3]
+ Hallelujah! Bread of heaven, 
+ Thou on earth our food, our stay; 
+ Hallelujah! here the hungry 
+ Come to Thee from day to day. 
+ Advocate and Intercessor, 
+ My Redeemer pleads for me, 
+ On the throne of the Almighty 
+ Now and to eternity.
+[v4]
+ Hallelujah! sing to Jesus, 
+ His the scepter, His the throne; 
+ Hallelujah! His the triumph, 
+ His the victory alone. 
+ Hark, the songs of His redeemed ones 
+ Thunder like a mighty flood: 
+ Jesus, out of every nation, 
+ Hath redeemed us by His blood.

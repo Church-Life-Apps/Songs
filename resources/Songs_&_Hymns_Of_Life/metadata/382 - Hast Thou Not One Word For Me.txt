@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 382 - Hast Thou Not One Word For Me
+.Page 454
+.Author: C. L. Hamlen
+.Music: Henry Percy Smith (1825-1898)
+.Presentation: v1 v2 v3 v4 v5
+.Key: D Major
+.Guitar: 
+.Time: 3/4
+.Meter: 8.8.8.8.
+.Scripture: 
+.Theme: Study of the Word
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 33343222554311765
+.Date composed: 
+.Misc: Tue, Jan 24, 2017
+
+[v1]
+ Lord, hast Thou not one word for me 
+ To bind my soul more close to Thee, 
+ That every evil I may flee; 
+ One word, O Lord, one word from Thee?
+[v2]
+ One word, to show how weak am I 
+ When in my strength alone I try, 
+ In vain I toil, in vain I sigh; 
+ One word, O Lord, one word from Thee.
+[v3]
+ One word, to show how near Thou art, 
+ For Thou dost dwell within my heart; 
+ And of Thy life I share a part; 
+ One word, O Lord, one word from Thee.
+[v4]
+ One word of pow’r, oh, let me hear,
+ Above the heart’s most anxious fear,
+ Thy still, small voice, yet deep and clear; 
+ One word, O Lord, one word from Thee.
+[v5]
+ One word of final triumph, Lord;
+ Sweet hope Thy promises afford,
+ To dwell with Thee in sweet accord;
+ One word, O Lord, one word from Thee.

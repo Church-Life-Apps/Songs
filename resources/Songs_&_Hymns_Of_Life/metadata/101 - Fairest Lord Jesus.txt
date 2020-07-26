@@ -1,0 +1,47 @@
+< KeepItInTune >
+.Title: 101 - Fairest Lord Jesus
+.Page: 116
+.Author: German (17th Century)
+.Music: Schleisische Volkslieder (1842)
+.Presentation: v1 v2 v3 v4
+.Key: Eb Major
+.Guitar: 
+.Time: 4/4
+.Meter: 5.6.8.5.5.8.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 1112713333423
+.Date composed: 
+.Misc: Thu, Jan 26, 2017
+
+[v1]
+ Fairest Lord Jesus! 
+ Ruler of all nature! 
+ O Thou of God and man the Son! 
+ Thee will I cherish, 
+ Thee will I honor, 
+ Thou, my soul’s glory, joy, and crown!
+[v2]
+ Fair are the meadows, 
+ Fairer still the woodlands, 
+ Robed in the blooming garb of spring; 
+ Jesus is fairer, 
+ Jesus is purer, 
+ Who makes the woeful heart to sing!
+[v3]
+ Fair is the sunshine, 
+ Fairer still the moonlight,
+ And all the twinkling starry host; 
+ Jesus shines brighter, 
+ Jesus shines purer, 
+ Than all the angels heav’n can boast!
+[v4]
+ All fairest beauty,
+ Heavenly and earthly, 
+ Wondrously, Jesus, is found in Thee; 
+ None can be nearer, 
+ Fairer, or dearer, 
+ Than Thou my Savior art to me.

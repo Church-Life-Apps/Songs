@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 192 - God Be With You
+.Page 222
+.Author: Jeremiah Eames Rankin (1828-1904)
+.Music: William Gould Tomer (1833-1896)
+.Presentation: v1 c v2 c v3 c v4 c
+.Key: C Major
+.Guitar: 
+.Time: 4/4
+.Meter: 9.8.8.9. with chorus.
+.Scripture: 
+.Theme: The Church
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 33333352366666665
+.Date composed: 
+.Misc: Tue, Jan 24, 2017
+
+[v1]
+ God be with you till we meet again; 
+ By His counsels guide, uphold you, 
+ With His sheep in love enfold you: 
+ God be with you till we meet again. 
+[v2]
+ God be with you till we meet again; 
+ ’Neath His wings protecting hide you, 
+ Daily manna still provide you: 
+ God be with you till we meet again. 
+[v3]
+ God be with you till we meet again; 
+ When life’s perils thick confound you, 
+ Put His arms unfailing round you: 
+ God be with you till we meet again. 
+[v4]
+ God be with you till we meet again; 
+ Keep love’s banner floating o’er you, 
+ Smite death’s threat’ning wave before you: 
+ God be with you till we meet again. 
+[c1]
+ Till we meet, till we meet, 
+ Till we meet at Jesus’ feet; 
+ Till we meet, till we meet, 
+ God be with you till we meet again.
