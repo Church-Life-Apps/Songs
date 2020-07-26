@@ -1,0 +1,47 @@
+{
+  "title": "Great Is Thy Faithfulness",
+  "songNumber": 10,
+  "pages": "10, 11",
+  "author": "Thomas Obediah Chisholm (1866-1960)",
+  "music": "William Marion Runyan (1870-1957)",
+  "presentation": "v1 c1 v2 c1 v3 c1",
+  "key": "D Major",
+  "guitar": "",
+  "time": "3/4",
+  "meter": "11.10.11.10. with chorus.",
+  "scripture": "",
+  "theme": "Worship of the Father",
+  "theme2": "",
+  "urlLink": "",
+  "notes": "",
+  "ccli": "33332244443",
+  "dateComposed": "",
+  "misc": "Tue, Dec 27, 2016",
+  "lyrics": {
+    "V1": [
+      "\"Great is Thy faithfulness,\" O God my Father,",
+      "There is no shadow of turning with Thee;",
+      "Thou changest not, Thy compassions, they fail not;",
+      "As Thou hast been Thou forever wilt be."
+    ],
+    "V2": [
+      "Summer and winter, and springtime and harvest.",
+      "Sun, moon and stars in their courses above,",
+      "Join with all nature in manifold witness",
+      "To Thy great faithfulness, mercy and love."
+    ],
+    "V3": [
+      "Pardon for sin and a peace that endureth.",
+      "Thy own dear presence to cheer and to guide;",
+      "Strength for today and bright hope for tomorrow,",
+      "Blessings all mine, with ten thousand beside!"
+    ],
+    "C1": [
+      "\"Great is Thy faithfulness!\"",
+      "\"Great is Thy faithfulness!\"",
+      "Morning by morning new mercies I see;",
+      "All I have needed Thy hand hath provided \u2014",
+      "\"Great is Thy faithfulness,\" Lord, unto me!"
+    ]
+  }
+}
