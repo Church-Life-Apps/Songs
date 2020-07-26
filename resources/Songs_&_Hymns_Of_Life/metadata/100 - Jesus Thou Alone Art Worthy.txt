@@ -1,0 +1,34 @@
+< KeepItInTune >
+.Title: 100 - Jesus, Thou Alone Art Worthy
+.Page: 115
+.Author: Mrs. J. A. Trench
+.Music: Anonymous
+.Presentation: v1 v2 v3
+.Key: F Major
+.Guitar: 
+.Time: 2/4
+.Meter: 8.7.8.7.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 133217122123423212
+.Date composed: 
+.Misc: Thu, Jan 26, 2017
+
+[v1]
+ Jesus, Thou alone art worthy 
+ Ceaseless praises to receive;
+ For Thy love and grace and goodness 
+ Rise o’er all our thoughts conceive.
+[v2]
+ With adoring heart, we render 
+ Honor to Thy precious name, 
+ Overflowing with Thy mercies, 
+ Far and wide Thy worth proclaim.
+[v3]
+ Praise Him! praise Him! praise the Savior! 
+ Saints, aloud your voices raise, 
+ Praise Him! praise Him! till in glory 
+ Perfected we’ll sing His praise.

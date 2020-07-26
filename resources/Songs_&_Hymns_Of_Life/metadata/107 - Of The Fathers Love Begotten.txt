@@ -1,0 +1,51 @@
+< KeepItInTune >
+.Title: 107 - Of The Father's Love Begotten
+.Page: 123
+.Author: Aurelius Clemens Prudentius (348-circa 413); Translated by John Mason Neale (1818-1866)
+.Music: John Hughes (1873-1932)
+.Presentation: v1 v2 v3 v4
+.Key: F Major
+.Guitar: 
+.Time: 4/4
+.Meter: 8.7.8.7.8.7.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 56511712323164321
+.Date composed: 
+.Misc: Thu, Jan 19, 2017
+
+[v1]
+ Of the Father’s love begotten, 
+ Ere the worlds began to be, 
+ He is Alpha and Omega,
+ He the source, the ending He, 
+ Of the things that are and have been, 
+ And that future years shall see, 
+ Evermore and evermore!
+[v2]
+ This is He whom they in old time 
+ Chanted of with one accord; 
+ Whom the voices of the prophets 
+ Promised in their faithful word; 
+ Now He shines, the long-expected, 
+ Let creation praise its Lord,
+ Evermore and evermore!
+[v3]
+ O ye heights of heav’n adore Him; 
+ Angel hosts His praises sing; 
+ Pow’r, dominions, bow before Him, 
+ And extol our Lord and King! 
+ Let no tongue on earth be silent, 
+ Every voice in concert ring, 
+ Evermore and evermore!
+[v4]
+ Christ, to Thee, with God the Father, 
+ And, O Holy Ghost, to Thee, 
+ Hymn and chant and high thanksgiving, 
+ And unwearied praises be; 
+ Honor, glory, and dominion, 
+ And eternal victory, 
+ Evermore and evermore!

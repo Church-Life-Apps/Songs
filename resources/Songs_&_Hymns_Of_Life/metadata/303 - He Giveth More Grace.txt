@@ -1,0 +1,34 @@
+< KeepItInTune >
+.Title: 303 - He Giveth More Grace
+.Page 353
+.Author: Annie Johnson Flint (1866-1932)
+.Music: Anonymous
+.Presentation: v1 c v2 c
+.Key: F Major
+.Guitar: 
+.Time: 3/4
+.Meter: 12.11.12.11.
+.Scripture: 
+.Theme: Comfort in Trials
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 335432346721
+.Date composed: 
+.Misc: Tue, Jan 24, 2017
+
+[v1]
+ He giveth more grace when the burdens grow greater, 
+ He sendeth more strength when the labors increase, 
+ To added affliction He addeth His mercy, 
+ To multiplied trials, He multiplies peace.  
+[v2]
+ When we have exhausted our store of endurance, 
+ When our strength has failed ere the day is half done, 
+ When we reach the end of our hoarded resources, 
+ Our Father’s full giving is only begun.
+[c1]
+ His love has no limit, His grace has no measure, 
+ His power no boundary known unto men, 
+ For out of His infinite riches in Jesus, 
+ He giveth and giveth and giveth again.

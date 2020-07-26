@@ -1,0 +1,39 @@
+< KeepItInTune >
+.Title: 33 - Father, Thy Son Beloved Leads Our Praise
+.Page: 35
+.Author: Robert Allen
+.Music: Frederick Cook Atkinson (1841-1896)
+.Presentation: v1 v2 v3 v4
+.Key: Bb Major
+.Guitar: 
+.Time: 4/4
+.Meter: 10.10.10.10.
+.Scripture: 
+.Theme: Worship of the Father
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 3334365443
+.Date composed: 
+.Misc: Wed, Jan 18, 2017
+
+[v1]
+ Father, Thy Son beloved leads our praise 
+ After the banquet feast is had and done; 
+ How dear, how sweet to Thee the praise He leads, 
+ And in His praises joining we are one.
+[v2]
+ Father, we need no goodness more than Thee, 
+ Nor do we seek a love that’s less than Thine; 
+ How we adore Thee now that here we know 
+ Thy searchless, uncreated life divine.
+[v3]
+ Father, within Thy love our love to Thee 
+ Grows, far transcending all our earthly ties; 
+ Thine own dear love in power leads our hearts 
+ Where Thine own presence deeply satisfies.
+[v4]
+ Father, by joining with Thy Son beloved, 
+ We all with gladness praise Thee now again; 
+ Joyfully feasting on Thy holy love, 
+ Tasting, as sons, the sweetness of Thy name.

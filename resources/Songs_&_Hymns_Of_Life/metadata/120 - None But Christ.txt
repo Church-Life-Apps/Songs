@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 120 - None But Christ
+.Page: 138, 139
+.Author: Emma Frances Shuttleworth Bevan (1827-1909)
+.Music: James McGranahan (1840-1907)
+.Presentation: v1 c v2 c v3 c v4 c
+.Key: F Major
+.Guitar: 
+.Time: 4/2
+.Meter: 8.6.8.6.D.
+.Scripture: 
+.Theme: Experience of Christ
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 513331355553222123
+.Date composed: 
+.Misc: Wed, Jan 25, 2017
+
+[v1]
+ O Christ, in Thee my soul hath found, 
+ And found in Thee alone, 
+ The peace, the joy I sought so long, 
+ The bliss till now unknown. 
+[v2]
+ I sighed for rest and happiness, 
+ I yearned for them, not Thee; 
+ But, while I passed my Savior by, 
+ His love laid hold on me.
+[v3]
+ I tried the broken cisterns, Lord, 
+ But, ah, the waters failed! 
+ E’en as I stooped to drink they fled,
+ And mocked me as I wailed.
+[v4]
+ The pleasures lost I sadly mourned, 
+ But never wept for Thee, 
+ Till grace the sightless eyes received, 
+ Thy loveliness to see.
+[c1]
+ Now none but Christ can satisfy, 
+ None other name for me;  
+ There’s love and life and lasting joy, 
+ Lord Jesus, found in Thee.

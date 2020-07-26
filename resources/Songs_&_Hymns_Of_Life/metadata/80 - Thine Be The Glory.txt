@@ -1,0 +1,32 @@
+< KeepItInTune >
+.Title: 80 - Thine Be The Glory
+.Page: 90
+.Author: Edmond Louis Budry (1854-1932); Translated by Richard B. Hoyle
+.Music: George Frederick Handel (1685-1759)
+.Presentation: v1 c v2 c
+.Key: Eb Major
+.Guitar: 
+.Time: 4/4
+.Meter: 10.11.11.11. with chorus.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 534512345432
+.Date composed: 
+.Misc: Fri, Jan 20, 2017
+
+[v1]
+ Thine be the glory, risen, conqu’ring Son; 
+ Endless is the vict’ry Thou o’er death hast won; 
+ Angels in bright raiment rolled the stone away, 
+ Kept the folded grave-clothes, where Thy body lay. 
+[v2]
+ Lo! Jesus meets us, risen from the tomb; 
+ Lovingly He greets us, scatters fear and gloom; 
+ Let the Church with gladness, hymns of triumph sing, 
+ For her Lord now liveth, death hath lost its sting.
+[c1]
+ Thine be the glory, risen, conqu’ring Son, 
+ Endless is the vict’ry Thou o’er death hast won.

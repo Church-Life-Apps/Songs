@@ -1,0 +1,39 @@
+< KeepItInTune >
+.Title: 22 - Revive Us Again
+.Page: 23
+.Author: William Paton MacKay (1839-1885)
+.Music: John Jenkins Husband (1760-1825)
+.Presentation: v1 v2 v3 v4
+.Key: F Major
+.Guitar: 
+.Time: 3/4
+.Meter: Peculiar Meter.
+.Scripture: 
+.Theme: Worship of the Father
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 51111123333
+.Date composed: 
+.Misc: Wed, Jan 18, 2017
+
+[v1]
+ We praise Thee, O God, for the Son of Thy love, 
+ For our Savior who died and is now gone above. 
+ Hallelujah! Thine the glory, Hallelujah! Amen; 
+ Hallelujah! Thine the glory, Revive us again.
+[v2]
+ We praise Thee, O God, for Thy Spirit of light, 
+ Who has shown us our Savior, and scattered our night.
+ Hallelujah! Thine the glory, Hallelujah! Amen; 
+ Hallelujah! Thine the glory, Revive us again.
+[v3]
+ All glory and praise to the Lamb that was slain, 
+ Who has borne all our sins, and doth cleanse every stain.
+ Hallelujah! Thine the glory, Hallelujah! Amen; 
+ Hallelujah! Thine the glory, Revive us again.
+[v4]
+ Revive us again; fill each heart with Thy love, 
+ May each soul be rekindled with fire from above.
+ Hallelujah! Thine the glory, Hallelujah! Amen; 
+ Hallelujah! Thine the glory, Revive us again.

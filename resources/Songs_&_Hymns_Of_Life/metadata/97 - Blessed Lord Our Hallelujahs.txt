@@ -1,0 +1,44 @@
+< KeepItInTune >
+.Title: 97 - Blessed Lord, Our Hallelujahs
+.Page: 112
+.Author: H. d'A. Champney
+.Music: Philip Paul Bliss (1838-1876)
+.Presentation: v1 c v2 c v3 c v4 c
+.Key: C Major
+.Guitar: 
+.Time: 2/4
+.Meter: 8.5.8.5.D.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 5653121656532
+.Date composed: 
+.Misc: Thu, Jan 26, 2017
+
+[v1]
+ Blessed Lord, our hallelujahs 
+ Now to Thee we raise; 
+ Never could we fully utter 
+ All Thy worth and praise! 
+[v2]
+ Praise the Lamb! Yes, Thou art worthy, 
+ Who didst shed Thy blood 
+ To redeem Thy saints and make us 
+ Kings and priests to God!
+[v3]
+ Hallelujah! Thou, Lord Jesus, 
+ Canst not cease to love; 
+ Thine we are and Thine forever, 
+ One with Thee above.
+[v4]
+ Praise the Lord! Yes, hallelujah! 
+ Who would hush the song? 
+ Join with saints from every nation,
+ Every tribe and tongue.
+[c1]
+ Praise the Lamb, for He is worthy! 
+ Sweet eternal strain.  
+ Hallelujah! Hallelujah! 
+ Praise the Lord! Amen.

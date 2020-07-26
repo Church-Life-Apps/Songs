@@ -1,0 +1,47 @@
+< KeepItInTune >
+.Title: 1 - Glory Be To God The Father
+.Page: 1
+.Author: Horatius Bonar (1808-1889)
+.Music: Henry Thomas Smart (1813-1879)
+.Presentation: v1 v2 v3 v4
+.Key: Bb Major
+.Guitar: Bb
+.Time: 4/4
+.Meter: 8.7.8.7.8.7.
+.Scripture: 
+.Theme: Blessing of the Trinity
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 531532156651543
+.Date composed: 
+.Misc: .Meter:
+
+[v1]
+ Glory be to God the Father, 
+ Glory be to God the Son,
+ Glory be to God the Spirit, 
+ Great Jehovah, Three in One! 
+ As it was, is now, and shall be 
+ While the endless ages run.
+[v2]
+ Glory be to Him Who loved us, 
+ Washed us from each spot and stain! 
+ Glory be to Him Who bought us, 
+ Made us kings with Him to reign! 
+ Glory, glory, glory, glory 
+ To the Lamb that once was slain!
+[v3]
+ Glory to the King of angels,
+ Glory to the Church’s King, 
+ Glory to the King of nations! 
+ Heav’n and earth, your praises bring; 
+ Glory, glory, glory, glory 
+ To the King of glory bring!
+[v4]
+ “Glory, blessing, praise eternal!” 
+ Thus the choir of angels sings; 
+ “Honor, riches, pow’r, dominion!” 
+ Thus its praise creation brings; 
+ Glory, glory, glory, glory, 
+ Glory to the King of kings!

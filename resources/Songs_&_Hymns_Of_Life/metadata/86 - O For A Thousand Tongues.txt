@@ -1,0 +1,39 @@
+< KeepItInTune >
+.Title: 86 - O For A Thousand Tongues
+.Page: 97
+.Author: Charles Wesley (1707-1788) bio
+.Music: Carl Gottholf Glaser (1784-1829)
+.Presentation: v1 v2 v3 v4
+.Key: G Major
+.Guitar: 
+.Time: 3/2
+.Meter: 8.6.8.6.
+.Scripture: 
+.Theme: Praise of the Lord
+.Theme 2: 
+.URL link: 
+.Notes: 
+.CCLI: 51122321233432
+.Date composed: 
+.Misc: Thu, Jan 26, 2017
+
+[v1]
+ O for a thousand tongues to sing 
+ My great Redeemer’s praise, 
+ The glories of my God and King, 
+ The triumphs of His grace.
+[v2]
+ My gracious Master and my God, 
+ Assist me to proclaim, 
+ To spread through all the earth abroad 
+ The honors of Thy name.
+[v3]
+ Jesus! the name that charms our fears, 
+ That bids our sorrows cease;
+ ’Tis music in the sinner’s ears, 
+ ’Tis life, and health, and peace.
+[v4]
+ Jesus! the name that charms our fears, 
+ That bids our sorrows cease; 
+ ’Tis music in the sinner’s ears, 
+ ’Tis life, and health, and peace.
