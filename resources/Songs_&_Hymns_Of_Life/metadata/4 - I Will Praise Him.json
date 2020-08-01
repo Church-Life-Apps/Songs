@@ -1,0 +1,40 @@
+{
+  "title": "I Will Praise Him",
+  "songNumber": 4,
+  "pages": "4",
+  "author": "Margaret Jenkins Harris (1865-1919)",
+  "music": "Margaret Jenkins Harris (1865-1919)",
+  "presentation": "v1 c1 v2 c1",
+  "key": "Eb Major",
+  "guitar": "",
+  "time": "4/4",
+  "meter": "8.7.8.7. with chorus.",
+  "scripture": "",
+  "theme": "Blessing of the Trinity",
+  "theme2": "",
+  "urlLink": "",
+  "notes": "",
+  "ccli": "334321444254323",
+  "dateComposed": "",
+  "misc": "Tue, Dec 27, 2016",
+  "lyrics": {
+    "v1": [
+      "Glory, glory to the Father!",
+      "Glory, glory to the Son!",
+      "Glory, glory to the Spirit!",
+      "Glory to the Three in One!"
+    ],
+    "v2": [
+      "Praise the Father who has purposed!",
+      "Praise the Son who all has done!",
+      "Praise the Spirit who transmitteth!",
+      "Praise the Three who work as one!"
+    ],
+    "c1": [
+      "Let us praise Him! Let us praise Him!",
+      "Praise our God, the Three in One!",
+      "Give Him glory; give Him glory!",
+      "Wondrous things for us our God hath done!"
+    ]
+  }
+}

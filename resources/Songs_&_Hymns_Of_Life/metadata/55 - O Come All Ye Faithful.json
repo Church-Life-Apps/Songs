@@ -1,0 +1,56 @@
+{
+  "title": "O Come, All Ye Faithful",
+  "songNumber": 55,
+  "pages": "62",
+  "author": "John Francis Wade (1711-1786) bio; Translated by Frederick Oakeley",
+  "music": "John Francis Wade's Cantus Diversi",
+  "presentation": "v1 c v2 c v3 c v4 c",
+  "key": "Ab Major",
+  "guitar": "",
+  "time": "4/4",
+  "meter": "Peculiar Meter.",
+  "scripture": "",
+  "theme": "Praise of the Lord",
+  "theme2": "",
+  "urlLink": "",
+  "notes": "",
+  "ccli": "115125323432",
+  "dateComposed": "",
+  "misc": "Thu, Jan 19, 2017",
+  "lyrics": {
+    "v1": [
+      "O come, all ye faithful,",
+      "Joyful and triumphant,",
+      "O come ye, O come ye to Bethlehem;",
+      "Come and behold Him,",
+      "Born the King of angels;"
+    ],
+    "v2": [
+      "True God of true God,",
+      "Light of light eternal,",
+      "Our lowly nature He hath not abhorred;",
+      "Son of the Father,",
+      "Begotten, not created;"
+    ],
+    "v3": [
+      "Sing, choirs of angels,",
+      "Sing in exultation;",
+      "Sing, all ye citizens of heav'n above;",
+      "Glory to God \u2013",
+      "In the highest;"
+    ],
+    "v4": [
+      "Yea, Lord, we greet Thee,",
+      "Born this happy morning,",
+      "Jesus, to Thee be all glory giv'n;",
+      "Word of the Father,",
+      "Now in flesh appearing;"
+    ],
+    "c1": [
+      "O come, let us adore Him,",
+      "O come, let us adore Him,",
+      "O come, let us adore Him,",
+      "Christ the Lord."
+    ]
+  }
+}
