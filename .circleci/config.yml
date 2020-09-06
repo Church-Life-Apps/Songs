@@ -1,46 +1,31 @@
-version: 2
-  jobs:
-    build:
-      docker:
-        - image: circleci/android:api-28-node
-      working_directory: ~/repo
-      environment:
-        JVM_OPTS: -Xmx3200m
-      steps:
-        - checkout
-        - run: 
-            name: "Install gradle"
-            command: |
-              wget https://services.gradle.org/distributions/gradle-4.0.2-bin.zip -P /tmp
-              sudo unzip -d /opt/gradle /tmp/gradle-*.zip
-              echo 'export GRADLE_HOME=/opt/gradle/gradle-4.0.2' >> $BASH_ENV
-              echo 'export PATH=$PATH:/opt/gradle/gradle-4.0.2/bin' >> $BASH_ENV
-              source $BASH_ENV
-        - run:
-            name: "Install ionic and cordova"
-            command: |
-              sudo npm install -g ionic cordova yarn
-        - run:
-            name: "Install npm packages"
-            command: |
-              yarn install
-        - run:
-            name: "Install Cordova plugins and add android platform"
-            command: |
-              ionic cordova platform add android --noresources
-              ionic config set -g telemetry true
-        - run:
-            name: "Generate apk"
-            command: |
-              ionic cordova build android --verbose
-              mkdir -p /tmp/apk
-              cp -r platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/apk
-        - store_artifacts:
-            path: /tmp/apk
-            destination: apks
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:12.16
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: "sudo npm install -g npm@5"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: install-packages
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: test
+          command: npm run test
+
 
   workflows:
     version: 2
-    build_and_deploy:
+    build_and_test:
       jobs:
         - build
+        - node/test
