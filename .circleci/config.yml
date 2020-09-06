@@ -11,6 +11,7 @@ jobs:
       - echo "building test"
 
 workflows:
-  node-tests:
+  build-and-test:
     jobs:
+      - build
       - node/test
