@@ -1,29 +1,16 @@
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+
 jobs:
   build:
     docker:
-      - image: cimg/node:12.16
-    working_directory: ~/repo
+      - image: circleci/node:latest
     steps:
       - checkout
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build Application
-          command: npm run build
-      - save_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
+      - echo "building test"
 
-  workflows:
-    build-and-test:
-      jobs:
-        - build
-        - node/test
+workflows:
+  node-tests:
+    jobs:
+      - node/test
