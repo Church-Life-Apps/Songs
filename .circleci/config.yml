@@ -1,25 +1,17 @@
 version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+
 jobs:
   build:
     docker:
-      - image: circleci/node:12.9.1-browsers
-  
-    working_directory: ~/repo
-steps:
+      - image: circleci/<language>:<version TAG>
+    steps:
       - checkout
-      
-      - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      
-      - run: yarn install
-   
-      - save_cache:
-        paths:
-          - node_modules
-          - ~/.npm 
-          - ~/.cache
-        key: v1-dependencies-{{ checksum "package.json" }}
-    
-      - run: yarn test
+      - run: echo "this is a test build job"
+
+workflows:
+  build-and-test:
+    jobs:
+      - build
+      - node/test
