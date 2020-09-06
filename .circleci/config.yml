@@ -24,7 +24,7 @@ jobs:
           name: test
           command: npm run test
       - run:
-          command: node -v
+          command: npm start
 
 workflows:
   build-and-test:
