@@ -41,6 +41,7 @@ const ExamplePage: React.FC = () => {
 
 function test()
 {
+  console.log('test');
   let songs = new Songs();
 }
 

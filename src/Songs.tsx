@@ -1,6 +1,7 @@
 /* Data structures to support handling songs */
+import '@capacitor-community/http';
 
-import { File } from '@ionic-native/file/ngx';
+import { Plugins } from '@capacitor/core';
 
 abstract class Songbook
 {
@@ -34,6 +35,8 @@ class Songs
 
   constructor()
   {
+    console.log('songs constructor');
+
     this.songbooks = new Map();
 
     // create and add black book
@@ -64,11 +67,20 @@ class BlackBook extends Songbook
 
   compileSongs(): void
   {
-    // this is harder than I thought.
+    console.log('blackbook compile songs');
+
+    const { Http } = Plugins;
+
+    // Example of getting a remote file below.
+    // To get this working locally, also need to get "Moesif Origin & CORS Changer" extension to avoid CORS error.
+    const ret = Http.request({
+      method: 'GET',
+      url: 'https://raw.githubusercontent.com/Church-Life-Apps/Songs/master/resources/Songs_%26_Hymns_Of_Life/metadata/1%20-%20Glory%20Be%20To%20God%20The%20Father.json',
+    });
+
+    console.log(ret);
   }
 }
-
-
 
 
 export { Songs };
