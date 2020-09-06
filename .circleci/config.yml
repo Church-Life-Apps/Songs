@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/<language>:<version TAG>
+      - image: circleci/node@3.0.0
     steps:
       - checkout
       - run: echo "this is a test build job"
