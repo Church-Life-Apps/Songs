@@ -23,7 +23,6 @@ jobs:
             - ./node_modules
 
   workflows:
-    version: 2
     build-and-test:
       jobs:
         - build
