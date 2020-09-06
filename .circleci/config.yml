@@ -23,7 +23,7 @@ jobs:
 
   docker-test:
     docker:
-      - image: cimg/node:current
+      - image: circleci/node:current
       - run:
           name: Test
           command: npm test
