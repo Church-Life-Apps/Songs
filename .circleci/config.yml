@@ -24,6 +24,7 @@ jobs:
   docker-test:
     docker:
       - image: circleci/node:current
+    steps:
       - run:
           name: Test
           command: npm test
