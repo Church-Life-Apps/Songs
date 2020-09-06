@@ -75,7 +75,7 @@ class BlackBook extends Songbook
     // To get this working locally, also need to get "Moesif Origin & CORS Changer" extension to avoid CORS error.
     const ret = Http.request({
       method: 'GET',
-      url: 'https://raw.githubusercontent.com/Church-Life-Apps/Songs/master/resources/Songs_%26_Hymns_Of_Life/metadata/1%20-%20Glory%20Be%20To%20God%20The%20Father.json',
+      url: 'https://raw.githubusercontent.com/Church-Life-Apps/Songs/master/resources/Songs_%26_Hymns_Of_Life/metadata/1.json',
     });
 
     console.log(ret);
