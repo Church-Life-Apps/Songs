@@ -5,3 +5,7 @@ workflows:
   node-tests:
     jobs:
       - node/test
+  build-and-test:
+    jobs:
+      - build
+      - test
