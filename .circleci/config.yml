@@ -4,14 +4,31 @@ orbs:
 
 jobs:
   build:
-    docker:
-      - image: circleci/node@3.0.0
+    working_directory: ~/Songs
+    executor: node/default
     steps:
       - checkout
-      - run: echo "this is a test build job"
+      - node/install-npm
+      - node/install-packages:
+          app-dir: ~/Songs
+          cache-path: node_modules
+          override-ci-command: npm i
+      - persist_to_workspace
+          root: .
+          paths:
+            - .
+
+  docker-test:
+    docker:
+      - image: cimg/node:current
+      - run:
+          name: Test
+          command: npm test
+
 
 workflows:
   build-and-test:
     jobs:
       - build
+      - docker-test
       - node/test
