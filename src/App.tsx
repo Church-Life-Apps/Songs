@@ -31,12 +31,8 @@ const App: React.FC = () => (
   <IonApp>
     <IonHeader>
 
-      <IonToolbar testing if CI build works>
+      <IonToolbarasdasd>
         <IonTitle>Hymnal App</IonTitle>
-just adding some
-random stuf
-
-that I think should break the build
 
       </IonToolbar>
     </IonHeader>
