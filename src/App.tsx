@@ -30,7 +30,7 @@ import ExamplePage from './pages/ExamplePage';
 const App: React.FC = () => (
   <IonApp>
     <IonHeader>
-      <IonToolbarfasdf>
+      <IonToolbar>
         <IonTitle>Hymnal App</IonTitle>
       </IonToolbar>
     </IonHeader>
