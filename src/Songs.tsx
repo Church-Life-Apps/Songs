@@ -1,5 +1,4 @@
 /* Data structures to support handling songs */
-import '@capacitor-community/http';
 
 import { Plugins } from '@capacitor/core';
 
