@@ -31,7 +31,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonHeader>
 
-      <IonToolbarasdasd>
+      <IonToolbar>
         <IonTitle>Hymnal App</IonTitle>
 
       </IonToolbar>
