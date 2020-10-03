@@ -3,6 +3,12 @@ import React, { useState } from 'react';
 import SongViewer from '../components/SongViewer';
 import './HomePage.css';
 
+/**
+ * Home Page Component.
+ *
+ * Use 'useState' for dynamic variables. 
+ * When the variable changes, the places where it's being used are automatically re-rendered.
+ */
 const HomePage: React.FC = () => {
   const [number, setNumber] = useState<number>(1);
   const [songVisibility, setSongVisibility] = useState<boolean>(false);
