@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  IonApp,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from '@ionic/react';
+import { IonApp, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -25,7 +19,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import ExamplePage from './pages/ExamplePage';
+import HomePage from './pages/HomePage';
 
 const App: React.FC = () => (
   <IonApp>
@@ -38,8 +32,7 @@ const App: React.FC = () => (
     <IonContent>
       {/* Ion Content goes here */}
 
-      <ExamplePage />
-
+      <HomePage />
     </IonContent>
   </IonApp>
 );
