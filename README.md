@@ -1,2 +1,18 @@
 # Songs
 An Ionic web, Android and iOS app for the SHL and SFG songbooks
+
+
+# Android
+To run the app on Android app follow these steps:
+
+1. Install Android Studio if you don't already have it.
+2. Navigate to the root directory of this project in Terminal.
+3. To open Android studio with the project code, run `npx cap open android`
+4. To update the Android version with the latest web code, run `ionic capacitor sync`.
+5. Connect your Android device to your computer, or with an emulator run the app.
+
+Info came from this guide: https://www.joshmorony.com/deploying-capacitor-applications-to-android-development-distribution/
+We will need it when we want to deploy to Google Play store.
+
+
+# iOS - TBD
