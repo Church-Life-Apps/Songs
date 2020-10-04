@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor-community/http": "^0.2.1",
+    "@capacitor/ios": "^2.2.1",
     "@capacitor/android": "^2.2.1",
     "@capacitor/core": "^2.2.1",
     "@ionic/react": "^5.0.7",
