@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hymnal App</string>
+    <string name="title_activity_main">Hymnal App</string>
+    <string name="package_name">church.life.apps.songs</string>
+    <string name="custom_url_scheme">church.life.apps.songs</string>
+</resources>
