@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "Songbook1",
+  "appId": "church.life.apps.songs",
+  "appName": "Hymnal App",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
