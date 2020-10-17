@@ -23,12 +23,6 @@ import HomePage from './pages/HomePage';
 
 const App: React.FC = () => (
   <IonApp>
-    <IonHeader>
-      <IonToolbar>
-        <IonTitle>Hymnal App</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-
     <IonContent>
       {/* Ion Content goes here */}
 
