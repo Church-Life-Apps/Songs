@@ -15,4 +15,13 @@ Info came from this guide: https://www.joshmorony.com/deploying-capacitor-applic
 We will need it when we want to deploy to Google Play store.
 
 
-# iOS - TBD
+# iOS
+To run the app on iPhone follow these steps:
+
+1. Requires an IPhone and a Mac computer.
+2. Install XCode if you don't already have it (XCode only runs on Mac).
+    - Install cocoapods, and create a user to be a developer (don't need paid developer account yet)
+3. Navigate to the root directory of this project in Terminal.
+4. To open XCode with the project code, run `npx cap open ios`
+5. To update the iOS version with the latest web code, run `ionic capacitor sync`.
+6. Connect your iPhone to your computer, or with an simulator run the app.
