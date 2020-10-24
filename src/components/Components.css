@@ -36,6 +36,15 @@ ion-toggle {
   margin: 10px;
 }
 
+#backToSettingsButton {
+    margin: 15px;
+}
+
+#settingsTitle {
+    font-size: large;
+    font-weight: bold;
+}
+
 ion-modal {
   --border-radius: 8px !important;
 }

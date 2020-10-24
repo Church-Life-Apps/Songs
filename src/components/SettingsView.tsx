@@ -1,5 +1,5 @@
-import { IonContent } from '@ionic/react';
-import React from 'react';
+import { IonButton, IonContent, IonItem, IonLabel, IonList } from '@ionic/react';
+import React, { useState } from 'react';
 import './Components.css';
 import FeedbackForm from './FeedbackForm';
 
@@ -7,12 +7,29 @@ import FeedbackForm from './FeedbackForm';
  * Settings Page.
  */
 const SettingsView: React.FC = () => {
+  const [chosenSetting, setChosenSetting] = useState<string>('');
+
   return (
     <IonContent>
-      {/* TODO: Make settings page a List view with various things to choose from. */}
+      {/* To add another settings item, add another IonItem with an IonLabel. */}
+      {chosenSetting == '' ? (
+        <IonList>
+          <IonItem id='settingsTitle'>
+            <IonLabel>Settings</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel onClick={() => setChosenSetting('feedback')}>Submit Feedback</IonLabel>
+          </IonItem>
+        </IonList>
+      ) : null}
 
-      <FeedbackForm />
+      {chosenSetting == 'feedback' ? <FeedbackForm /> : null}
 
+      {chosenSetting != '' ? (
+        <IonButton color="light" expand="full" id="backToSettingsButton" onClick={() => setChosenSetting('')}>
+          Return to Settings
+        </IonButton>
+      ) : null}
     </IonContent>
   );
 };

@@ -44,7 +44,9 @@ const FeedbackScreen: React.FC = () => {
         ></IonTextarea>
       </IonItem>
 
-      <IonButton onClick={() => sendEmail()}>Submit Feedback</IonButton>
+      <IonButton expand="full" onClick={() => sendEmail()}>
+        Submit Feedback
+      </IonButton>
 
       <IonModal id="feedbackResponseModal" isOpen={feedbackResponseModal} onDidDismiss={() => clearResponseModal()}>
         <h1 className="center">{feedbackResponseText}</h1>
