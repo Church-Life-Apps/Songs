@@ -2,24 +2,53 @@
   "title": "Blessed Be The Name",
   "songNumber": 45,
   "pages": "49",
-  "author": "",
-  "music": "",
+  "author": "William Henry Clark",
+  "music": "Ralph E. Hudson",
   "presentation": "v1",
-  "key": "",
+  "key": "Ab Major",
   "guitar": "",
-  "time": "",
-  "meter": "",
+  "time": "4/4",
+  "meter": "8.6.8.6. with chorus.",
   "scripture": "",
   "theme": "",
   "theme2": "",
   "urlLink": "",
   "notes": "",
-  "ccli": "",
-  "dateComposed": "",
+  "ccli": "55131165551312",
+  "dateComposed": "c. 1888",
   "misc": "",
   "lyrics": {
     "v1": [
-      "No lyrics"
+      "All praise to Him who reigns on high,",
+      "In majesty supreme,",
+      "Who gave His life for man to die,",
+      "That He might man redeem."
+    ],
+    "c1": [
+      "Blessed be the name,",
+      "  Blessed be the name,",
+      "Blessed be the name of the Lord.",
+      "  Blessed be the name,",
+      "  Blessed be the name,",
+      "  Blessed be the name of the Lord."
+    ],
+    "v2": [
+      "His name above all names shall stand,",
+      "Exalted more and more,",
+      "At God the Father’s own right hand,",
+      "Where angel hosts adore."
+    ],
+    "v3": [
+      "Redeemer, Savior, Friend of man",
+      "Once ruined by the fall,",
+      "Thou hast devised salvation’s plan,",
+      "For Thou hast died for all."
+    ],
+    "v4": [
+      "His name shall be the Counsellor,",
+      "The mighty Prince of Peace,",
+      "Of all earth’s kingdoms, Conqueror,",
+      "Whose reign shall never cease."
     ]
   }
 }
