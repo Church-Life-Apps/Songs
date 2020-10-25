@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SongViewer.css';
+import './Components.css';
 import { makeThreeDigits } from '../utils/SongUtils';
 import { IonToggle } from '@ionic/react';
 

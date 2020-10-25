@@ -1,0 +1,50 @@
+/* Put all CSS stuff here.  */
+
+.center {
+  text-align: center;
+}
+
+/* Song Viewer */
+ion-toggle {
+  --background: #73d2f8;
+  --handle-background: #1f96f8;
+
+  --background-checked: #73d2f8;
+  --handle-background-checked: #1f96f8;
+}
+
+#songTogglerDiv {
+  text-align: right;
+
+  margin-top: -40px;
+  margin-right: 20px;
+}
+
+/* Settings Pages */
+#feedbackResponseModal {
+  padding: 15px;
+  background-color: transparent;
+}
+
+#feedbackResponseOKButton {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+}
+
+#feedbackFormDiv {
+  margin: 10px;
+}
+
+#backToSettingsButton {
+  margin: 14px;
+}
+
+#settingsTitle {
+  font-size: large;
+  font-weight: bold;
+}
+
+ion-modal {
+  --border-radius: 8px !important;
+}

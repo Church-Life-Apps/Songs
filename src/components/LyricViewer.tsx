@@ -1,5 +1,5 @@
 import React from 'react';
-import './LyricViewer.css';
+import './Components.css';
 
 interface LyricViewProps {
   songNumber: number;
