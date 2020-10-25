@@ -50,9 +50,9 @@ ion-modal {
 }
 
 #lyricTextBox {
-    margin-left: 10%;
+  padding-left: 10%;
 }
 
 #lyricViewFooter {
-    margin: 20px;
+  margin: 20px;
 }
