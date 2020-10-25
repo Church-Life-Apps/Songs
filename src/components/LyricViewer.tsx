@@ -1,4 +1,4 @@
-import { IonItem, IonTextarea } from '@ionic/react';
+import { IonItem, IonLabel } from '@ionic/react';
 import React from 'react';
 import './Components.css';
 
@@ -20,11 +20,10 @@ const LyricViewer: React.FC<LyricViewProps> = (props) => {
   return (
     <div>
       <h2 className="center">{data['title']}</h2>
-      <b>
-        <IonItem id="lyricTextBox">
-          <IonTextarea readonly value={lyrics} rows={lyrics.split(/\r\n|\r|\n/).length}></IonTextarea>
-        </IonItem>
-      </b>
+
+      <IonItem>
+        <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
+      </IonItem>
 
       <footer id="lyricViewFooter">Author: {data['author'] == '' ? 'Unknown' : data['author']}</footer>
     </div>
@@ -42,7 +41,7 @@ const LyricViewer: React.FC<LyricViewProps> = (props) => {
         lyrics += `\t${line}\n`;
       });
     });
-    lyrics = lyrics.trimStart()
+    lyrics = lyrics.trimStart();
     return lyrics;
   }
 };
