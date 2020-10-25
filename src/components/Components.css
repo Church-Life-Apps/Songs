@@ -48,3 +48,11 @@ ion-toggle {
 ion-modal {
   --border-radius: 8px !important;
 }
+
+#lyricTextBox {
+    margin-left: 10%;
+}
+
+#lyricViewFooter {
+    margin: 20px;
+}
