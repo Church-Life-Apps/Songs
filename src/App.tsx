@@ -20,15 +20,22 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import HomePage from './pages/HomePage';
+import { Database } from './database/Database';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonContent>
-      {/* Ion Content goes here */}
+const App: React.FC = () => {
 
-      <HomePage />
-    </IonContent>
-  </IonApp>
-);
+  // Initialize Singleton DB.
+  Database.getInstance()
+
+  return (
+    <IonApp>
+      <IonContent>
+        {/* Ion Content goes here */}
+
+        <HomePage />
+      </IonContent>
+    </IonApp>
+  );
+};
 
 export default App;

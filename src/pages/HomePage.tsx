@@ -17,6 +17,7 @@ import SettingsView from '../components/SettingsView';
 import SongViewer from '../components/SongViewer';
 import './HomePage.css';
 import settingsIcon from '../assets/icons/settings_icon.jpg';
+import DBTest from '../components/DBTest';
 
 /**
  * Home Page Component.
@@ -39,7 +40,6 @@ const HomePage: React.FC = () => {
             This might require some react magic to get state from a child component */}
             <IonButton onClick={(e) => setLyricsOnlyMode(!lyricsOnlyMode)}>
               {!lyricsOnlyMode ? 'image mode' : 'lyric mode'}
-
             </IonButton>
             <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)} alt="Settings Button"></img>
           </IonButtons>
@@ -69,8 +69,10 @@ const HomePage: React.FC = () => {
         </IonItem>
         <IonButton onClick={(e) => setSongVisibility(!songVisibility)}>Show or Hide Song</IonButton>
 
+            <DBTest songNumber={number}></DBTest>
+
         {/* Song will hide and show depending on the songVisibility boolean which is changed by the button click*/}
-        {songVisibility ? (
+        {/* {songVisibility ? (
           lyricsOnlyMode ? (
             <div id="lyricDiv">
               <LyricViewer songNumber={number} />
@@ -80,7 +82,7 @@ const HomePage: React.FC = () => {
               <SongViewer songNumber={number} />
             </div>
           )
-        ) : null}
+        ) : null} */}
       </IonContent>
     </IonPage>
   );
