@@ -21,7 +21,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           REPOSITORY_NAME: Church-Life-Apps/Church-Life-Apps.github.io
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.DEPLOY_WEBAPP_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
