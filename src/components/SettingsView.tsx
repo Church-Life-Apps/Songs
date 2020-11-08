@@ -13,7 +13,7 @@ const SettingsView: React.FC = () => {
     <IonContent>
       {/* To add another settings item, add another IonItem with an IonLabel. */}
       {/* TODO: Add Font Size as an option. */}
-      {chosenSetting == '' ? (
+      {chosenSetting === '' ? (
         <IonList>
           <IonItem id="settingsTitle">
             <IonLabel>Settings</IonLabel>
@@ -24,9 +24,9 @@ const SettingsView: React.FC = () => {
         </IonList>
       ) : null}
 
-      {chosenSetting == 'feedback' ? <FeedbackForm /> : null}
+      {chosenSetting === 'feedback' ? <FeedbackForm /> : null}
 
-      {chosenSetting != '' ? (
+      {chosenSetting !== '' ? (
         <IonButton color="light" expand="full" id="backToSettingsButton" onClick={() => setChosenSetting('')}>
           Return to Settings
         </IonButton>

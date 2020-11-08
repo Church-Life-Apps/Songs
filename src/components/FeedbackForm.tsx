@@ -65,7 +65,7 @@ const FeedbackScreen: React.FC = () => {
       from_name: fromWhom,
       message: message,
     };
-    if (message == '' || fromWhom == '') {
+    if (message === '' || fromWhom === '') {
       setFeedbackResponseText('Please tell us your name and feedback message!');
     } else {
       emailjs.send(SERVICE_ID, EMAIL_TEMPLATE, templateParams).then(

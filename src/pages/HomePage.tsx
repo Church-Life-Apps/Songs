@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
               {!lyricsOnlyMode ? 'image mode' : 'lyric mode'}
 
             </IonButton>
-            <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)}></img>
+            <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)} alt="Settings Button"></img>
           </IonButtons>
 
           <IonTitle>Hymnal App</IonTitle>
