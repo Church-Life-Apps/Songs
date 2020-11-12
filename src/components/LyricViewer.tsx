@@ -12,7 +12,7 @@ interface LyricViewProps {
 const LyricViewer: React.FC<LyricViewProps> = (props) => {
   var data;
   try {
-    data = require(`../../resources/Songs_&_Hymns_Of_Life/metadata/${props.songNumber}.json`);
+    data = require(`../resources/Songs_&_Hymns_Of_Life/metadata/${props.songNumber}.json`);
   } catch {
     return <h1 className="center">No Song Found</h1>;
   }

@@ -17,6 +17,9 @@ import SettingsView from '../components/SettingsView';
 import SongViewer from '../components/SongViewer';
 import './HomePage.css';
 import settingsIcon from '../assets/icons/settings_icon.jpg';
+import SearchView from '../components/SearchView';
+import { render } from '@testing-library/react';
+import { forceUpdate } from 'ionicons/dist/types/stencil-public-runtime';
 
 /**
  * Home Page Component.
@@ -25,10 +28,14 @@ import settingsIcon from '../assets/icons/settings_icon.jpg';
  * When the variable changes, the places where it's being used are automatically re-rendered.
  */
 const HomePage: React.FC = () => {
-  const [number, setNumber] = useState<number>(1);
-  const [songVisibility, setSongVisibility] = useState<boolean>(false);
+  const [songNumber, setSongNumber] = useState<number>(0);
+  const [visibleViewer, setVisibleViewer] = useState<string>("search");
   const [lyricsOnlyMode, setLyricsOnlyMode] = useState<boolean>(false);
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
+
+  // const searchView = SearchView({});
+  // const lyricViewer = LyricViewer({songNumber: 0});
+  // const songViewer = SongViewer({songNumber: 0});
 
   return (
     <IonPage>
@@ -58,7 +65,7 @@ const HomePage: React.FC = () => {
         </IonModal>
 
         {/* Search Bar */}
-        <IonItem>
+        {/* <IonItem>
           <IonLabel position="floating">Enter Number</IonLabel>
           <IonInput
             type="number"
@@ -66,11 +73,11 @@ const HomePage: React.FC = () => {
             placeholder="Enter Number"
             onIonChange={(e) => setNumber(parseInt(e.detail.value!, 10))}
           ></IonInput>
-        </IonItem>
-        <IonButton onClick={(e) => setSongVisibility(!songVisibility)}>Show or Hide Song</IonButton>
+        </IonItem> */}
+        {/* <IonButton onClick={(e) => setVisibleViewer(!visibleViewer)}>Show or Hide Song</IonButton> */}
 
-        {/* Song will hide and show depending on the songVisibility boolean which is changed by the button click*/}
-        {songVisibility ? (
+        {/* Song will hide and show depending on the visibleViewer boolean which is changed by the button click*/}
+        {/* {visibleViewer ? (
           lyricsOnlyMode ? (
             <div id="lyricDiv">
               <LyricViewer songNumber={number} />
@@ -80,10 +87,27 @@ const HomePage: React.FC = () => {
               <SongViewer songNumber={number} />
             </div>
           )
-        ) : null}
+        ) : null} */}
+        {GetViewer(visibleViewer, songNumber, lyricsOnlyMode)}
+
       </IonContent>
     </IonPage>
   );
+
+  function GetViewer(viewer: string, songNumber: number, lyricsOnlymode: boolean)
+  {
+    switch(viewer)
+    {
+      case "search":
+        return <SearchView setSongNumber={setSongNumber} setVisibleViewer={setVisibleViewer} lyricsOnlyMode={lyricsOnlyMode}/>
+
+      case "songs":
+        return <SongViewer songNumber={songNumber} />
+
+      case "lyrics":
+        return <LyricViewer songNumber={songNumber}/>
+    }
+  }
 };
 
 export default HomePage;

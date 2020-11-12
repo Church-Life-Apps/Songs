@@ -1,5 +1,6 @@
 import React from 'react';
 import { IonApp, IonContent } from '@ionic/react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -20,15 +21,18 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import HomePage from './pages/HomePage';
+import SearchView from './components/SearchView';
+import SongViewer from './components/SongViewer';
+import LyricViewer from './components/LyricViewer';
+import SettingsView from './components/SettingsView';
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonContent>
-      {/* Ion Content goes here */}
-
-      <HomePage />
-    </IonContent>
-  </IonApp>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={HomePage} exact/>
+        <Route path="/song" component={SongViewer} />
+      </Switch>
+    </BrowserRouter>
 );
 
 export default App;
