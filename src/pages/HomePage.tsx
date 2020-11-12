@@ -17,7 +17,7 @@ import SettingsView from '../components/SettingsView';
 import SongViewer from '../components/SongViewer';
 import './HomePage.css';
 import settingsIcon from '../assets/icons/settings_icon.jpg';
-
+// made a change
 /**
  * Home Page Component.
  *
