@@ -77,8 +77,9 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
     let matches: Map<number, number> = new Map();
 
     songs.forEach((song: Song) => {
+      let authorWords = new Set(song.author.toLowerCase().split(" "));
       let titleWords = new Set(song.title.toLowerCase().split(" "));
-      let matchCount: number = (new Set([...searchTerms].filter((i: string) => titleWords.has(i)))).size;
+      let matchCount: number = (new Set([...searchTerms].filter((i: string) => titleWords.has(i) || authorWords.has(i)))).size;
       matches.set(song.songNumber, matchCount)
     })
 

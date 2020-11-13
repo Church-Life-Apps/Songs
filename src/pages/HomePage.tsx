@@ -9,15 +9,17 @@ import {
   IonButtons,
   IonModal,
   IonSearchbar,
+  IonLabel,
+  IonIcon,
 } from '@ionic/react';
-import React, { useState } from 'react';
-import LyricView from '../components/LyricView';
-import SettingsView from '../components/SettingsView';
-import MusicView from '../components/MusicView';
 import './HomePage.css';
-import settingsIcon from '../assets/icons/settings_icon.jpg';
-import SearchView from '../components/SearchView';
+import { arrowBackCircleOutline, settingsOutline } from 'ionicons/icons';
 import { PageViewMode, SongViewMode } from '../utils/SongUtils';
+import LyricView from '../components/LyricView';
+import MusicView from '../components/MusicView';
+import React, { useState } from 'react';
+import SearchView from '../components/SearchView';
+import SettingsView from '../components/SettingsView';
 
 /**
  * Home Page Component.
@@ -46,12 +48,19 @@ const HomePage: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           {/* [eric] we can probably come up with a better name, right? */}
-          <IonTitle>Hymnal App</IonTitle> 
+          <IonTitle>Hymnal App</IonTitle>
+
+          <IonButtons slot="start">
+            {GetBackButton()}
+          </IonButtons> 
 
           <IonButtons slot="primary">
             {/* TODO: Put this Image/Lyric mode button into settings page. 
             This might require some react magic to get state from a child component */}
             {GetViewerModeButton()}
+            <IonButton onClick={() => setShowSettingsModal(true)}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -68,17 +77,8 @@ const HomePage: React.FC = () => {
         {GetSearchBar()}
         
         <IonContent>{GetViewer()}</IonContent>
-
       </IonContent>
 
-      <IonToolbar>
-        <IonButtons slot="start">
-          {GetBackButton()}
-        </IonButtons>
-        <IonButtons slot="primary">
-          <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)} alt="Settings Button"></img>
-        </IonButtons>
-      </IonToolbar>
     </IonPage>
   );
 
@@ -132,7 +132,7 @@ const HomePage: React.FC = () => {
   {
     if (pageViewMode === PageViewMode.Song)
     {
-      return <IonButton onClick={(e) => ChangeViewerMode()}>{SongViewMode[songViewMode] + " View"}</IonButton>
+      return <IonButton onClick={() => ChangeViewerMode()}>{SongViewMode[songViewMode] + " View"}</IonButton>
     }
   }
 
@@ -140,7 +140,7 @@ const HomePage: React.FC = () => {
   {
     if (pageViewMode === PageViewMode.Song)
     {
-      return <IonButton onClick={(e) => setPageViewMode(PageViewMode.Search)}>Back</IonButton>
+      return <IonButton onClick={() => setPageViewMode(PageViewMode.Search)}><IonIcon icon={arrowBackCircleOutline}></IonIcon></IonButton>
     }    
   }
 };

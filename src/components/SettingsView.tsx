@@ -19,7 +19,7 @@ const SettingsView: React.FC = () => {
             <IonLabel>Settings</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel onClick={() => setChosenSetting('feedback')}>Submit Feedback</IonLabel>
+            <IonButton onClick={() => setChosenSetting('feedback')}>Submit Feedback</IonButton>
           </IonItem>
         </IonList>
       ) : null}
