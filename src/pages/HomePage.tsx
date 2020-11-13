@@ -2,24 +2,22 @@ import {
   IonContent,
   IonPage,
   IonItem,
-  IonInput,
   IonButton,
   IonHeader,
   IonTitle,
   IonToolbar,
   IonButtons,
   IonModal,
-  IonLabel,
+  IonSearchbar,
 } from '@ionic/react';
 import React, { useState } from 'react';
-import LyricViewer from '../components/LyricViewer';
+import LyricView from '../components/LyricView';
 import SettingsView from '../components/SettingsView';
-import SongViewer from '../components/SongViewer';
+import MusicView from '../components/MusicView';
 import './HomePage.css';
 import settingsIcon from '../assets/icons/settings_icon.jpg';
 import SearchView from '../components/SearchView';
-import { render } from '@testing-library/react';
-import { forceUpdate } from 'ionicons/dist/types/stencil-public-runtime';
+import { PageViewMode, SongViewMode } from '../utils/SongUtils';
 
 /**
  * Home Page Component.
@@ -28,30 +26,33 @@ import { forceUpdate } from 'ionicons/dist/types/stencil-public-runtime';
  * When the variable changes, the places where it's being used are automatically re-rendered.
  */
 const HomePage: React.FC = () => {
+  // the song number selected by the user
   const [songNumber, setSongNumber] = useState<number>(0);
-  const [visibleViewer, setVisibleViewer] = useState<string>("search");
-  const [lyricsOnlyMode, setLyricsOnlyMode] = useState<boolean>(false);
-  const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
 
-  // const searchView = SearchView({});
-  // const lyricViewer = LyricViewer({songNumber: 0});
-  // const songViewer = SongViewer({songNumber: 0});
+  // the search string inputted by the user
+  const [searchString, setSearchString] = useState<string>();
+
+  // search view or song view
+  const [pageViewMode, setPageViewMode] = useState<PageViewMode>(PageViewMode.Search);
+
+  // when in song view, use music view or lyrics view
+  const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
+
+  // whether or not to show settings modal
+  const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          {/* [eric] we can probably come up with a better name, right? */}
+          <IonTitle>Hymnal App</IonTitle> 
+
           <IonButtons slot="primary">
             {/* TODO: Put this Image/Lyric mode button into settings page. 
             This might require some react magic to get state from a child component */}
-            <IonButton onClick={(e) => setLyricsOnlyMode(!lyricsOnlyMode)}>
-              {!lyricsOnlyMode ? 'image mode' : 'lyric mode'}
-
-            </IonButton>
-            <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)} alt="Settings Button"></img>
+            {GetViewerModeButton()}
           </IonButtons>
-
-          <IonTitle>Hymnal App</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -64,49 +65,83 @@ const HomePage: React.FC = () => {
           </IonButton>
         </IonModal>
 
-        {/* Search Bar */}
-        {/* <IonItem>
-          <IonLabel position="floating">Enter Number</IonLabel>
-          <IonInput
-            type="number"
-            value={number}
-            placeholder="Enter Number"
-            onIonChange={(e) => setNumber(parseInt(e.detail.value!, 10))}
-          ></IonInput>
-        </IonItem> */}
-        {/* <IonButton onClick={(e) => setVisibleViewer(!visibleViewer)}>Show or Hide Song</IonButton> */}
-
-        {/* Song will hide and show depending on the visibleViewer boolean which is changed by the button click*/}
-        {/* {visibleViewer ? (
-          lyricsOnlyMode ? (
-            <div id="lyricDiv">
-              <LyricViewer songNumber={number} />
-            </div>
-          ) : (
-            <div id="songDiv">
-              <SongViewer songNumber={number} />
-            </div>
-          )
-        ) : null} */}
-        {GetViewer(visibleViewer, songNumber, lyricsOnlyMode)}
+        {GetSearchBar()}
+        
+        <IonContent>{GetViewer()}</IonContent>
 
       </IonContent>
+
+      <IonToolbar>
+        <IonButtons slot="start">
+          {GetBackButton()}
+        </IonButtons>
+        <IonButtons slot="primary">
+          <img id="settingsButton" src={settingsIcon} onClick={() => setShowSettingsModal(true)} alt="Settings Button"></img>
+        </IonButtons>
+      </IonToolbar>
     </IonPage>
   );
 
-  function GetViewer(viewer: string, songNumber: number, lyricsOnlymode: boolean)
+  function GetSearchBar()
   {
-    switch(viewer)
+    if (pageViewMode !== PageViewMode.Song)
     {
-      case "search":
-        return <SearchView setSongNumber={setSongNumber} setVisibleViewer={setVisibleViewer} lyricsOnlyMode={lyricsOnlyMode}/>
-
-      case "songs":
-        return <SongViewer songNumber={songNumber} />
-
-      case "lyrics":
-        return <LyricViewer songNumber={songNumber}/>
+      return (
+        <IonItem>
+          <IonSearchbar
+            type="search"
+            value={searchString}
+            placeholder="Search for a song"
+            onIonChange={(e) => setSearchString(e.detail.value!.toString())}
+          ></IonSearchbar>
+        </IonItem>
+      );       
     }
+  }
+
+  function GetViewer()
+  {
+    if (pageViewMode === PageViewMode.Search)
+    {
+      return <SearchView searchString={searchString} setSongNumber={setSongNumber} setPageViewMode={setPageViewMode}/>
+    }
+
+    if (songViewMode === SongViewMode.Music)
+    {
+      return <MusicView songNumber={songNumber} />
+    }
+    else
+    {
+      return <LyricView songNumber={songNumber}/>
+    }
+  }
+
+  function ChangeViewerMode()
+  {
+    if (songViewMode === SongViewMode.Music)
+    {
+      setSongViewMode(SongViewMode.Lyrics);
+    }
+    else
+    {
+      setSongViewMode(SongViewMode.Music);
+    }
+  }
+
+  function GetViewerModeButton()
+  {
+    if (pageViewMode === PageViewMode.Song)
+    {
+      return <IonButton onClick={(e) => ChangeViewerMode()}>{SongViewMode[songViewMode] + " View"}</IonButton>
+    }
+  }
+
+  function GetBackButton()
+  {
+    if (pageViewMode === PageViewMode.Song)
+    {
+      return <IonButton onClick={(e) => setPageViewMode(PageViewMode.Search)}>Back</IonButton>
+    }    
   }
 };
 

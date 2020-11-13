@@ -18,3 +18,13 @@ export function makeThreeDigits(num: number) {
     return num;
   }
 }
+
+export enum PageViewMode {
+  Search,
+  Song
+}
+
+export enum SongViewMode {
+  Music,
+  Lyrics
+}

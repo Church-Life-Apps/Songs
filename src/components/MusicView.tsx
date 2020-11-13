@@ -11,14 +11,14 @@ const alt = 'No Song Found';
 const songsWithTwoTunes = [156, 216, 278, 478];
 
 // Props are kind of like the parameters for the constructor of this class.
-interface SongViewProps {
+interface MusicViewProps {
   songNumber: number;
 }
 
 /**
  * Song Viewer React Functional Component.
  */
-const SongViewer: React.FC<SongViewProps> = (props) => {
+const MusicView: React.FC<MusicViewProps> = (props) => {
   const [secondTune, setSecondTune] = useState<boolean>(false);
 
   let songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
@@ -43,4 +43,4 @@ const SongViewer: React.FC<SongViewProps> = (props) => {
   );
 };
 
-export default SongViewer;
+export default MusicView;

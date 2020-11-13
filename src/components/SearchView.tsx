@@ -1,15 +1,14 @@
-import { IonContent, IonPage, IonItem, IonLabel, IonList, IonSearchbar } from '@ionic/react';
-import { render } from '@testing-library/react';
-import { forceUpdate } from 'ionicons/dist/types/stencil-public-runtime';
-import React, { useState } from 'react';
+import { IonContent, IonPage, IonItem, IonLabel, IonList, IonCard, IonCardTitle, IonCardContent, IonCardSubtitle } from '@ionic/react';
+import React from 'react';
+import { PageViewMode } from '../utils/SongUtils';
 import './Components.css';
 
 
 interface SearchViewProps
 {
+  searchString: any
   setSongNumber: (_: number) => void
-  setVisibleViewer: (_: string) => void
-  lyricsOnlyMode: boolean
+  setPageViewMode: (_: PageViewMode) => void
 }
 
 interface Song
@@ -23,8 +22,7 @@ interface Song
  * Search View.
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
-  const [searchString, setSearchString] = useState<string>();
-
+  
   let songs;
 
   try 
@@ -39,27 +37,22 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   }
 
   return (
-    <IonPage>
-      <IonContent>
-
-        <IonSearchbar
-          type="search"
-          value={searchString}
-          placeholder="Search for a song"
-          onIonChange={(e) => setSearchString(e.detail.value!.toString())}
-        ></IonSearchbar>
-
-        <IonList id="searchList">
-          {FilterSongsList(searchString, songs.songs)}
-        </IonList>
-      </IonContent>
-    </IonPage>
+    <IonList id="searchList">
+      {FilterSongsList(props.searchString, songs.songs)}
+    </IonList>
   );
 
   function FilterSongsList(searchString: any, songs: Song[])
   {
     let GenerateIonItem = (song: Song) => {
-      return <IonItem key={song.songNumber}><IonLabel onClick={(e) => UpdateParentState(song.songNumber)}>{song.songNumber}. {song.title} ({song.author})</IonLabel></IonItem>;
+      return (
+        <IonCard
+          key={song.songNumber}
+          onClick={() => UpdateParentState(song.songNumber)}>
+            <IonCardTitle>{song.songNumber}. {song.title}</IonCardTitle>
+            <IonCardSubtitle>{song.author}</IonCardSubtitle>
+        </IonCard>
+      );
     };
 
     if (searchString === undefined || typeof(searchString) !== "string" || searchString.trim() === "" )
@@ -101,14 +94,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   function UpdateParentState(songNumber: number)
   {
     props.setSongNumber(songNumber);
-    if (props.lyricsOnlyMode)
-    {
-      props.setVisibleViewer("lyrics");
-    }
-    else
-    {
-      props.setVisibleViewer("songs");
-    }
+    props.setPageViewMode(PageViewMode.Song);
   }
 };
 

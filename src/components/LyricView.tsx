@@ -9,7 +9,7 @@ interface LyricViewProps {
 /**
  * Lyric Viewer React Functional Component.
  */
-const LyricViewer: React.FC<LyricViewProps> = (props) => {
+const LyricView: React.FC<LyricViewProps> = (props) => {
   var data;
   try {
     data = require(`../resources/Songs_&_Hymns_Of_Life/metadata/${props.songNumber}.json`);
@@ -46,4 +46,4 @@ const LyricViewer: React.FC<LyricViewProps> = (props) => {
   }
 };
 
-export default LyricViewer;
+export default LyricView;
