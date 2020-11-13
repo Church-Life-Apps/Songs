@@ -9,7 +9,6 @@ import {
   IonButtons,
   IonModal,
   IonSearchbar,
-  IonLabel,
   IonIcon,
 } from '@ionic/react';
 import './HomePage.css';

@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonItem, IonLabel, IonList, IonCard, IonCardTitle, IonCardContent, IonCardSubtitle } from '@ionic/react';
+import { IonList, IonCard, IonCardTitle, IonCardSubtitle } from '@ionic/react';
 import React from 'react';
 import { PageViewMode } from '../utils/SongUtils';
 import './Components.css';
