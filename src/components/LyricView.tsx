@@ -24,10 +24,7 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
       <IonItem>
         <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
       </IonItem>
-
-      <footer id="lyricViewFooter">
-        Author: {data["author"] === "" ? "Unknown" : data["author"]}
-      </footer>
+      
     </div>
   );
 

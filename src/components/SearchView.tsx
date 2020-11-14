@@ -19,15 +19,8 @@ interface Song {
  * Search View.
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
-  let songs;
-
-  try {
-    songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
-    console.log(songs.songs);
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
+  let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
+  console.log(songs.songs);
 
   return (
     <IonList id="searchList">
