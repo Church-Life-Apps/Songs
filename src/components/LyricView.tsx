@@ -1,6 +1,6 @@
-import { IonItem, IonLabel } from '@ionic/react';
-import React from 'react';
-import './Components.css';
+import { IonItem, IonLabel } from "@ionic/react";
+import React from "react";
+import "./Components.css";
 
 interface LyricViewProps {
   songNumber: number;
@@ -9,23 +9,22 @@ interface LyricViewProps {
 /**
  * Lyric Viewer React Functional Component.
  */
-const LyricViewer: React.FC<LyricViewProps> = (props) => {
+const LyricView: React.FC<LyricViewProps> = (props) => {
   var data;
   try {
-    data = require(`../../resources/Songs_&_Hymns_Of_Life/metadata/${props.songNumber}.json`);
+    data = require(`../resources/Songs_&_Hymns_Of_Life/metadata/${props.songNumber}.json`);
   } catch {
     return <h1 className="center">No Song Found</h1>;
   }
   let lyrics = getLyrics(data);
   return (
     <div>
-      <h2 className="center">{data['title']}</h2>
+      <h2 className="center">{data["title"]}</h2>
 
       <IonItem>
         <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
       </IonItem>
-
-      <footer id="lyricViewFooter">Author: {data['author'] === '' ? 'Unknown' : data['author']}</footer>
+      
     </div>
   );
 
@@ -33,11 +32,11 @@ const LyricViewer: React.FC<LyricViewProps> = (props) => {
    * Parses all verse of the song to a string.
    */
   function getLyrics(data: any) {
-    let verses = Object.keys(data['lyrics']);
+    let verses = Object.keys(data["lyrics"]);
     var lyrics = ``;
     verses.forEach((versenumber) => {
       lyrics += `\n${versenumber}: `;
-      data['lyrics'][versenumber].forEach((line: String) => {
+      data["lyrics"][versenumber].forEach((line: String) => {
         lyrics += `\t${line}\n`;
       });
     });
@@ -46,4 +45,4 @@ const LyricViewer: React.FC<LyricViewProps> = (props) => {
   }
 };
 
-export default LyricViewer;
+export default LyricView;
