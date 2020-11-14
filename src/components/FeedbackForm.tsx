@@ -1,8 +1,15 @@
-import { IonButton, IonInput, IonItem, IonLabel, IonModal, IonTextarea } from '@ionic/react';
-import React, { useState } from 'react';
-import './Components.css';
-import emailjs from 'emailjs-com';
-import { decrypt } from '../utils/SecurityUtils';
+import {
+  IonButton,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonModal,
+  IonTextarea,
+} from "@ionic/react";
+import React, { useState } from "react";
+import "./Components.css";
+import emailjs from "emailjs-com";
+import { decrypt } from "../utils/SecurityUtils";
 
 /**
  * Feedback Screen.
@@ -11,15 +18,18 @@ import { decrypt } from '../utils/SecurityUtils';
  * This class will send actual emails when people have feedback.
  */
 const FeedbackScreen: React.FC = () => {
-  const ENCRYPTED_USER_ID = 'U2FsdGVkX19ijiVnA6XtmJ4wa/RL9NngWwn4uKfq6gO+4ZI/V1F/RCYL4REfk0tZ';
-  const PRIVATE_KEY = 'jesus private key';
-  const SERVICE_ID = 'hymnal_app_service_id';
-  const EMAIL_TEMPLATE = 'template_z4z7bhi';
+  const ENCRYPTED_USER_ID =
+    "U2FsdGVkX19ijiVnA6XtmJ4wa/RL9NngWwn4uKfq6gO+4ZI/V1F/RCYL4REfk0tZ";
+  const PRIVATE_KEY = "jesus private key";
+  const SERVICE_ID = "hymnal_app_service_id";
+  const EMAIL_TEMPLATE = "template_z4z7bhi";
 
-  const [fromWhom, setFromWhom] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [feedbackResponseText, setFeedbackResponseText] = useState<string>('');
-  const [feedbackResponseModal, setShowFeedbackResponseModal] = useState<boolean>(false);
+  const [fromWhom, setFromWhom] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [feedbackResponseText, setFeedbackResponseText] = useState<string>("");
+  const [feedbackResponseModal, setShowFeedbackResponseModal] = useState<
+    boolean
+  >(false);
 
   emailjs.init(decrypt(ENCRYPTED_USER_ID, PRIVATE_KEY));
 
@@ -48,9 +58,16 @@ const FeedbackScreen: React.FC = () => {
         Submit Feedback
       </IonButton>
 
-      <IonModal id="feedbackResponseModal" isOpen={feedbackResponseModal} onDidDismiss={() => clearResponseModal()}>
+      <IonModal
+        id="feedbackResponseModal"
+        isOpen={feedbackResponseModal}
+        onDidDismiss={() => clearResponseModal()}
+      >
         <h1 className="center">{feedbackResponseText}</h1>
-        <IonButton id="feedbackResponseOKButton" onClick={() => clearResponseModal()}>
+        <IonButton
+          id="feedbackResponseOKButton"
+          onClick={() => clearResponseModal()}
+        >
           OK
         </IonButton>
       </IonModal>
@@ -65,17 +82,21 @@ const FeedbackScreen: React.FC = () => {
       from_name: fromWhom,
       message: message,
     };
-    if (message === '' || fromWhom === '') {
-      setFeedbackResponseText('Please tell us your name and feedback message!');
+    if (message === "" || fromWhom === "") {
+      setFeedbackResponseText("Please tell us your name and feedback message!");
     } else {
       emailjs.send(SERVICE_ID, EMAIL_TEMPLATE, templateParams).then(
         function (response) {
-          console.log('Email sent successfully.', response.status, response.text);
-          setFeedbackResponseText('Feedback Submitted Sucessfully, Thanks!');
+          console.log(
+            "Email sent successfully.",
+            response.status,
+            response.text
+          );
+          setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
         },
         function (error) {
           setFeedbackResponseText(`Error Submitting Feedback: ${error}`);
-          console.log('Error sending email: ', error);
+          console.log("Error sending email: ", error);
         }
       );
       clearForm();
@@ -85,13 +106,13 @@ const FeedbackScreen: React.FC = () => {
 
   // Clears form fields.
   function clearForm() {
-    setFromWhom('');
-    setMessage('');
+    setFromWhom("");
+    setMessage("");
   }
 
   // Clears and hides Response modal.
   function clearResponseModal() {
-    setFeedbackResponseText('');
+    setFeedbackResponseText("");
     setShowFeedbackResponseModal(false);
   }
 };

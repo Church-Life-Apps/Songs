@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import './Components.css';
-import { makeThreeDigits } from '../utils/SongUtils';
-import { IonToggle } from '@ionic/react';
+import React, { useState } from "react";
+import "./Components.css";
+import { makeThreeDigits } from "../utils/SongUtils";
+import { IonToggle } from "@ionic/react";
 
-const baseUrl = 'https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/';
-const hymnalPart = 'SongsAndHymnsOfLife/SHL_'; // This part can change when red book is added
-const imageSuffix = '.png';
-const alt = 'No Song Found';
+const baseUrl =
+  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
+const hymnalPart = "SongsAndHymnsOfLife/SHL_"; // This part can change when red book is added
+const imageSuffix = ".png";
+const alt = "No Song Found";
 
 const songsWithTwoTunes = [156, 216, 278, 478];
 
@@ -23,9 +24,14 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
 
   let songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
 
-  let secondTuneSuffix = songHasTwoTunes && secondTune ? '-B' : '';
+  let secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
-  let url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+  let url =
+    baseUrl +
+    hymnalPart +
+    makeThreeDigits(props.songNumber) +
+    secondTuneSuffix +
+    imageSuffix;
 
   // TODO: Add Pinch and Zoom to image.
   return (
@@ -33,7 +39,10 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       {/* Second Tune Toggler  */}
       {songHasTwoTunes ? (
         <div id="songTogglerDiv">
-          <IonToggle checked={secondTune} onIonChange={(e) => setSecondTune(!secondTune)}></IonToggle>
+          <IonToggle
+            checked={secondTune}
+            onIonChange={(e) => setSecondTune(!secondTune)}
+          ></IonToggle>
         </div>
       ) : null}
 

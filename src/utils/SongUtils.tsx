@@ -21,10 +21,10 @@ export function makeThreeDigits(num: number) {
 
 export enum PageViewMode {
   Search,
-  Song
+  Song,
 }
 
 export enum SongViewMode {
   Music,
-  Lyrics
+  Lyrics,
 }

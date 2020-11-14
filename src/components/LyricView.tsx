@@ -1,6 +1,6 @@
-import { IonItem, IonLabel } from '@ionic/react';
-import React from 'react';
-import './Components.css';
+import { IonItem, IonLabel } from "@ionic/react";
+import React from "react";
+import "./Components.css";
 
 interface LyricViewProps {
   songNumber: number;
@@ -19,13 +19,15 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
   let lyrics = getLyrics(data);
   return (
     <div>
-      <h2 className="center">{data['title']}</h2>
+      <h2 className="center">{data["title"]}</h2>
 
       <IonItem>
         <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
       </IonItem>
 
-      <footer id="lyricViewFooter">Author: {data['author'] === '' ? 'Unknown' : data['author']}</footer>
+      <footer id="lyricViewFooter">
+        Author: {data["author"] === "" ? "Unknown" : data["author"]}
+      </footer>
     </div>
   );
 
@@ -33,11 +35,11 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
    * Parses all verse of the song to a string.
    */
   function getLyrics(data: any) {
-    let verses = Object.keys(data['lyrics']);
+    let verses = Object.keys(data["lyrics"]);
     var lyrics = ``;
     verses.forEach((versenumber) => {
       lyrics += `\n${versenumber}: `;
-      data['lyrics'][versenumber].forEach((line: String) => {
+      data["lyrics"][versenumber].forEach((line: String) => {
         lyrics += `\t${line}\n`;
       });
     });
