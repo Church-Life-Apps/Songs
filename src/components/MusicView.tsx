@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 const baseUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
@@ -47,7 +49,9 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       ) : null}
 
       {/* image */}
-      <img src={url} alt={alt} />
+      <Zoom>
+        <img src={url} alt={alt} />
+      </Zoom>
     </div>
   );
 };
