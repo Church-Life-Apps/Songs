@@ -20,7 +20,7 @@ interface Song {
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
   let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
-  console.log(songs.songs);
+  // console.log(songs.songs);
 
   return (
     <IonList id="searchList">

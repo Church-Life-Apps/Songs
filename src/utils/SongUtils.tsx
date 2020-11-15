@@ -9,13 +9,13 @@
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.
  */
-export function makeThreeDigits(num: number) {
+export function makeThreeDigits(num: number): string {
   if (num < 10) {
     return `00${num}`;
   } else if (num < 100) {
     return `0${num}`;
   } else {
-    return num;
+    return `${num}`;
   }
 }
 
