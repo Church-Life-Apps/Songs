@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
@@ -47,7 +48,11 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       ) : null}
 
       {/* image */}
-      <img src={url} alt={alt} />
+      <TransformWrapper>
+        <TransformComponent>
+          <img src={url} alt={alt} />
+        </TransformComponent>
+      </TransformWrapper>
     </div>
   );
 };
