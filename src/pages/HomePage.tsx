@@ -34,14 +34,10 @@ const HomePage: React.FC = () => {
   const [searchString, setSearchString] = useState<string>();
 
   // search view or song view
-  const [pageViewMode, setPageViewMode] = useState<PageViewMode>(
-    PageViewMode.Search
-  );
+  const [pageViewMode, setPageViewMode] = useState<PageViewMode>(PageViewMode.Search);
 
   // when in song view, use music view or lyrics view
-  const [songViewMode, setSongViewMode] = useState<SongViewMode>(
-    SongViewMode.Music
-  );
+  const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
 
   // whether or not to show settings modal
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
@@ -68,16 +64,9 @@ const HomePage: React.FC = () => {
 
       <IonContent>
         {/* Settings Menu Popup  */}
-        <IonModal
-          id="settingsModal"
-          isOpen={showSettingsModal}
-          onDidDismiss={() => setShowSettingsModal(false)}
-        >
+        <IonModal id="settingsModal" isOpen={showSettingsModal} onDidDismiss={() => setShowSettingsModal(false)}>
           <SettingsView />
-          <IonButton
-            id="returnToHymnalButton"
-            onClick={() => setShowSettingsModal(false)}
-          >
+          <IonButton id="returnToHymnalButton" onClick={() => setShowSettingsModal(false)}>
             Back to Hymnal
           </IonButton>
         </IonModal>
@@ -106,13 +95,7 @@ const HomePage: React.FC = () => {
 
   function GetViewer() {
     if (pageViewMode === PageViewMode.Search) {
-      return (
-        <SearchView
-          searchString={searchString}
-          setSongNumber={setSongNumber}
-          setPageViewMode={setPageViewMode}
-        />
-      );
+      return <SearchView searchString={searchString} setSongNumber={setSongNumber} setPageViewMode={setPageViewMode} />;
     }
 
     if (songViewMode === SongViewMode.Music) {
@@ -132,11 +115,7 @@ const HomePage: React.FC = () => {
 
   function GetViewerModeButton() {
     if (pageViewMode === PageViewMode.Song) {
-      return (
-        <IonButton onClick={() => ChangeViewerMode()}>
-          {SongViewMode[songViewMode] + " View"}
-        </IonButton>
-      );
+      return <IonButton onClick={() => ChangeViewerMode()}>{SongViewMode[songViewMode] + " View"}</IonButton>;
     }
   }
 
