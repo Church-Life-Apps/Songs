@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const baseUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
 const hymnalPart = "SongsAndHymnsOfLife/SHL_"; // This part can change when red book is added
