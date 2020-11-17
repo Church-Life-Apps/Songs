@@ -33,18 +33,20 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
 
   // TODO: Add Pinch and Zoom to image.
   return (
-    <div style={{ maxWidth: width }} id="musicViewDiv">
+    <div>
       {/* Second Tune Toggler  */}
-      {songHasTwoTunes ? (
+      {songHasTwoTunes && (
         <div id="songTogglerDiv">
           <IonToggle checked={secondTune} onIonChange={(e) => setSecondTune(!secondTune)}></IonToggle>
         </div>
-      ) : null}
+      )}
 
       {/* image */}
       {/* <TransformWrapper>
         <TransformComponent> */}
       <img
+        style={{ maxWidth: width }}
+        id="musicViewDiv"
         onDoubleClick={() => {
           if (zoomed) {
             setWidth(widthPixels);

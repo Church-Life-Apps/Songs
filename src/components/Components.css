@@ -15,9 +15,7 @@ ion-toggle {
 
 #songTogglerDiv {
   text-align: right;
-
-  margin-top: -40px;
-  margin-right: 20px;
+  margin-bottom: -40px;
 }
 
 #musicViewDiv {
