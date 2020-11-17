@@ -20,6 +20,12 @@ ion-toggle {
   margin-right: 20px;
 }
 
+#musicViewDiv {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Settings Pages */
 #feedbackResponseModal {
   padding: 15px;
