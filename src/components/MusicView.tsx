@@ -45,7 +45,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
           <IonToggle
             checked={secondTune}
             onIonChange={(e) => setSecondTune(!secondTune)}
-          ></IonToggle>
+          />
         </div>
       )}
 
