@@ -18,7 +18,7 @@ export function formatDate(timeInMillis: number): string {
   return date.toUTCString();
 }
 
-/** 
+/**
  * Returns how long ago a timestamp was from now, or how far into the future it is.
  */
 export function describeTime(timeInMillis: number): string {
@@ -29,30 +29,30 @@ export function describeTime(timeInMillis: number): string {
     howLongAgo = howLongAgo * -1;
   }
   let number = 0;
-  let unit = '';
+  let unit = "";
   if (howLongAgo > MILLIS_PER_DAY) {
     number = Math.round(howLongAgo / MILLIS_PER_DAY);
-    unit = 'days';
+    unit = "days";
     if (number === 1) {
-      unit = 'day';
+      unit = "day";
     }
   } else if (howLongAgo > MILLIS_PER_HOUR) {
     number = Math.round(howLongAgo / MILLIS_PER_HOUR);
-    unit = 'hours';
+    unit = "hours";
     if (number === 1) {
-      unit = 'hour';
+      unit = "hour";
     }
   } else if (howLongAgo > MILLIS_PER_MINUTE) {
     number = Math.round(howLongAgo / MILLIS_PER_MINUTE);
-    unit = 'minutes';
+    unit = "minutes";
     if (number === 1) {
-      unit = 'minute';
+      unit = "minute";
     }
   } else {
     number = Math.round(howLongAgo / MILLIS_PER_SECOND);
-    unit = 'seconds';
+    unit = "seconds";
     if (number === 1) {
-      unit = 'second';
+      unit = "second";
     }
   }
   if (past) {

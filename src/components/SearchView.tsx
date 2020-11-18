@@ -17,7 +17,7 @@ interface Song {
  * Search View.
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
-  const { bookId } = useParams();
+  const { bookId } = useParams<{ bookId: string }>();
   let history = useHistory();
   let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
 
@@ -32,7 +32,9 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       return (
         <IonCard
           key={song.songNumber}
-          onClick={() => {history.push(`/${bookId}/${song.songNumber}`)}}
+          onClick={() => {
+            history.push(`/${bookId}/${song.songNumber}`);
+          }}
         >
           <IonCardTitle>
             {song.songNumber}. {song.title}

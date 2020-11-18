@@ -1,10 +1,6 @@
-import {
-  IonContent,
-  IonPage,
-  IonHeader,
-} from "@ionic/react";
+import { IonContent, IonPage, IonHeader } from "@ionic/react";
 import NavigationBar from "../components/NavigationBar";
-import React, { } from "react";
+import React from "react";
 import { Redirect } from "react-router";
 
 /**
@@ -22,9 +18,7 @@ const HomePage: React.FC = () => {
 
       <IonContent>
         {/* Redirect to book page until we add more book or make this page functional */}
-        <Redirect to="SongsOfLife" />
-
-        <IonContent></IonContent>
+        <Redirect to="shl" />
       </IonContent>
     </IonPage>
   );
