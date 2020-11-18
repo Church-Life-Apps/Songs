@@ -24,7 +24,6 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
       <IonItem>
         <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
       </IonItem>
-      
     </div>
   );
 

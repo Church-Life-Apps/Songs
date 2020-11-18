@@ -20,11 +20,15 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import HomePage from "./pages/HomePage";
+import BookPage from "./pages/BookPage";
+import SongPage from "./pages/SongPage";
 
 const App: React.FC = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/" component={HomePage} exact />
+      <Route path="/:bookId" component={BookPage} exact />
+      <Route path="/:bookId/:songId" component={SongPage} exact />
     </Switch>
   </BrowserRouter>
 );

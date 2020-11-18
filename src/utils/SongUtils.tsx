@@ -19,11 +19,6 @@ export function makeThreeDigits(num: number): string {
   }
 }
 
-export enum PageViewMode {
-  Search,
-  Song,
-}
-
 export enum SongViewMode {
   Music,
   Lyrics,

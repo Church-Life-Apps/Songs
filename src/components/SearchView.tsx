@@ -1,12 +1,10 @@
 import { IonList, IonCard, IonCardTitle, IonCardSubtitle } from "@ionic/react";
 import React from "react";
-import { PageViewMode } from "../utils/SongUtils";
+import { useParams, useHistory } from "react-router-dom";
 import "./Components.css";
 
 interface SearchViewProps {
   searchString: any;
-  setSongNumber: (_: number) => void;
-  setPageViewMode: (_: PageViewMode) => void;
 }
 
 interface Song {
@@ -19,8 +17,9 @@ interface Song {
  * Search View.
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
+  const { bookId } = useParams<{ bookId: string }>();
+  let history = useHistory();
   let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
-  // console.log(songs.songs);
 
   return (
     <IonList id="searchList">
@@ -33,7 +32,9 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       return (
         <IonCard
           key={song.songNumber}
-          onClick={() => UpdateParentState(song.songNumber)}
+          onClick={() => {
+            history.push(`/${bookId}/${song.songNumber}`);
+          }}
         >
           <IonCardTitle>
             {song.songNumber}. {song.title}
@@ -85,11 +86,6 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
     console.log(matchesSorted);
 
     return matchesSorted.map((s) => GenerateIonItem(songs[s[0] - 1]));
-  }
-
-  function UpdateParentState(songNumber: number) {
-    props.setSongNumber(songNumber);
-    props.setPageViewMode(PageViewMode.Song);
   }
 };
 

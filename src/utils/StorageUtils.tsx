@@ -1,4 +1,4 @@
-import { Plugins } from '@capacitor/core';
+import { Plugins } from "@capacitor/core";
 
 /**
  * Utilities for storing Simple Key-Value pair data locally.
@@ -7,8 +7,8 @@ import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
 
-export const YES = 'yes';
-export const NO = 'no';
+export const YES = "yes";
+export const NO = "no";
 
 /**
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.
@@ -29,7 +29,7 @@ export async function storeItem(key: string, value: string) {
 export async function getItem(key: string): Promise<string> {
   let value = (await Storage.get({ key: key })).value;
   if (value === null) {
-    return '';
+    return "";
   }
   return value;
 }
@@ -38,6 +38,6 @@ export async function getItem(key: string): Promise<string> {
  * Clears all values from the storage cache.
  */
 export function clearCache(): void {
-  console.log('Clearing Local Cache.');
+  console.log("Clearing Local Cache.");
   Storage.clear();
 }
