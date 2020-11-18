@@ -1,13 +1,10 @@
 import {
   IonContent,
   IonPage,
-  IonButton,
   IonHeader,
-  IonModal,
 } from "@ionic/react";
 import NavigationBar from "../components/NavigationBar";
-import React, { useState } from "react";
-import SettingsView from "../components/SettingsView";
+import React, { } from "react";
 import { Redirect } from "react-router";
 
 /**
@@ -17,9 +14,6 @@ import { Redirect } from "react-router";
  * When the variable changes, the places where it's being used are automatically re-rendered.
  */
 const HomePage: React.FC = () => {
-  // whether or not to show settings modal
-  const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
-
   return (
     <IonPage>
       <IonHeader>
