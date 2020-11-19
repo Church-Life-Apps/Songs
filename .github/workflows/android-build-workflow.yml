@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate the Android App Bundle	
         working-directory: ./android/
-        run: ./gradlew assembleDebug
+        run: ./gradlew --no-daemon assembleDebug
 
       - name: Upload APK	
         uses: actions/upload-artifact@v1	
