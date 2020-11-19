@@ -58,9 +58,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Debug Release ${{ github.ref }}
-          draft: true
+          tag_name: debug-apk-${{ github.sha }}
+          release_name: Debug Release ${{ github.sha }}
+          draft: false
           prerelease: true
 
       - name: Upload Release Asset
