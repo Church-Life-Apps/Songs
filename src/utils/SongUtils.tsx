@@ -6,8 +6,6 @@
  * import { makeThreeDigits } from '../utils/SongUtils'
  */
 
-import { stringify } from "querystring";
-
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.
  */

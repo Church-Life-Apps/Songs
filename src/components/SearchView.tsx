@@ -3,10 +3,7 @@ import {
   IonCard,
   IonCardTitle,
   IonCardSubtitle,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
 } from "@ionic/react";
-import { search } from "ionicons/icons";
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { removePunctuation } from "../utils/SongUtils";
