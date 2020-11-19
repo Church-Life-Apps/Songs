@@ -33,13 +33,11 @@ jobs:
         run: npm install	
 
       - name: Build Android APK	
-        run: |
-          npm run build
-          npx cap copy android
+        run: ionic capacitor sync android
 
       - name: Generate the Android App Bundle	
-        working-directory: ./android/	
-        run: ./gradlew bundle	
+        working-directory: ./android/
+        run: ./gradlew build
 
       - name: Upload APK	
         uses: actions/upload-artifact@v1	
