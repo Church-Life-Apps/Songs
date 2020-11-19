@@ -59,7 +59,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   function SongMatchesSearch(song: Song, searchString: any): boolean {
     if (
       searchString === undefined ||
-      typeof search !== "string" ||
+      typeof searchString !== "string" ||
       searchString.trim() === ""
     ) {
       return true;
