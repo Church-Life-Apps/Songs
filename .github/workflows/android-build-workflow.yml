@@ -58,8 +58,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: debug-apk-${{ github.sha }}
-          release_name: Debug Release ${{ github.sha }}
+          tag_name: debug-apk-${{ github.run_id }}
+          release_name: Debug Release ${{ github.run_id }}
           draft: false
           prerelease: true
 
