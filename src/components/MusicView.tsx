@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
+import { isBrowser } from "../utils/PlatformUtils";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
@@ -20,7 +21,7 @@ interface MusicViewProps {
  * Song Viewer React Functional Component.
  */
 const MusicView: React.FC<MusicViewProps> = (props) => {
-  const widthPixels = 700;
+  const widthPixels = isBrowser() ? window.innerWidth / 2 : window.innerWidth;
   const [secondTune, setSecondTune] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(widthPixels);
   const [zoomed, setZoomed] = useState<boolean>(false);
@@ -53,7 +54,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       {/* <TransformWrapper>
         <TransformComponent> */}
       <img
-        style={{ maxWidth: width }}
+        style={{ width: width }}
         id="musicViewDiv"
         onDoubleClick={() => {
           if (zoomed) {
