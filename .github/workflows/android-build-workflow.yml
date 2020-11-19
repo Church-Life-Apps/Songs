@@ -1,4 +1,4 @@
-name: Build Android	Debug APK
+name: Build and Release	Debug Android APK
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:	
   build:	
-    name: Build APK
+    name: Build and Release Debug APK
     runs-on: ubuntu-latest	
     steps:	
       - name: Checkout source	
@@ -35,7 +35,7 @@ jobs:
       - name: Install app dependencies	
         run: npm install	
 
-      - name: Build Android APK	
+      - name: Build app	
         run: ionic capacitor sync android
 
       - name: Grant execute permission for gradlew
@@ -46,13 +46,13 @@ jobs:
         working-directory: ./android/
         run: ./gradlew --no-daemon assembleDebug --info
 
-      - name: Upload APK	
+      - name: Upload APK as artifact # This redundantly uploads the apk on the github action.
         uses: actions/upload-artifact@v1	
         with:	
           name: hymnal-app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
       
-      - name: Create Android Debug Release
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
