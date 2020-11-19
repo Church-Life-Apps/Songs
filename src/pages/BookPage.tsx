@@ -28,11 +28,9 @@ const BookPage: React.FC = () => {
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
 
-      <IonContent>
-        {RenderSearchBar()}
+      {RenderSearchBar()}
 
-        <IonContent>{RenderSongList()}</IonContent>
-      </IonContent>
+      <IonContent>{RenderSongList()}</IonContent>
     </IonPage>
   );
 
