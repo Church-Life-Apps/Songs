@@ -23,8 +23,8 @@ jobs:
         with:	
           node-version: 13.x	
 
-      - name: Install Android SDK
-        run: sudo apt update && sudo apt install android-sdk
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
       - name: Install Capacitor
         run: npm install -g @capacitor/core @capacitor/cli
