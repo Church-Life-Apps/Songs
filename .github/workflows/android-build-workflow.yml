@@ -60,7 +60,7 @@ jobs:
         with:
           tag_name: debug-apk-${{ github.run_id }}
           release_name: Debug Release ${{ github.run_id }}
-          draft: false
+          draft: true
           prerelease: true
 
       - name: Upload Release Asset
