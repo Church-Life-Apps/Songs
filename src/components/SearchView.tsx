@@ -1,6 +1,12 @@
-import { IonList, IonCard, IonCardTitle, IonCardSubtitle } from "@ionic/react";
+import {
+  IonList,
+  IonCard,
+  IonCardTitle,
+  IonCardSubtitle,
+} from "@ionic/react";
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { removePunctuation } from "../utils/SongUtils";
 import "./Components.css";
 
 interface SearchViewProps {
@@ -20,72 +26,60 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   const { bookId } = useParams<{ bookId: string }>();
   let history = useHistory();
   let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
+  let songCards = GetSongsList(songs.songs);
 
-  return (
-    <IonList id="searchList">
-      {FilterSongsList(props.searchString, songs.songs)}
-    </IonList>
-  );
+  return <IonList>{songCards}</IonList>;
 
-  function FilterSongsList(searchString: any, songs: Song[]) {
+  // generate all the songs as IonCards. This should only be called once and saved.
+  function GetSongsList(songs: Song[]) {
     let GenerateIonItem = (song: Song) => {
       return (
-        <IonCard
-          key={song.songNumber}
-          onClick={() => {
-            history.push(`/${bookId}/${song.songNumber}`);
-          }}
-        >
-          <IonCardTitle>
-            {song.songNumber}. {song.title}
-          </IonCardTitle>
-          <IonCardSubtitle>{song.author}</IonCardSubtitle>
-        </IonCard>
+        SongMatchesSearch(song, props.searchString) && (
+          <IonCard
+            key={song.songNumber}
+            onClick={() => {
+              history.push(`/${bookId}/${song.songNumber}`);
+            }}
+          >
+            <IonCardTitle>
+              {song.songNumber}. {song.title}
+            </IonCardTitle>
+            <IonCardSubtitle>{song.author}</IonCardSubtitle>
+          </IonCard>
+        )
       );
     };
 
+    return songs.map(GenerateIonItem);
+  }
+
+  function SongMatchesSearch(song: Song, searchString: any): boolean {
     if (
       searchString === undefined ||
       typeof searchString !== "string" ||
       searchString.trim() === ""
     ) {
-      return songs.map(GenerateIonItem);
+      return true;
     }
 
-    searchString = searchString.trim().toLowerCase();
+    searchString = removePunctuation(searchString.trim().toLowerCase());
     let searchNumber = Number(searchString);
 
     if (!isNaN(searchNumber)) {
-      if (searchNumber - 1 >= songs.length) {
-        return;
-      }
-      return GenerateIonItem(songs[searchNumber - 1]);
+      return searchNumber === song.songNumber;
     }
 
+    let title = removePunctuation(song.title.toLowerCase());
+    let author = removePunctuation(song.author.toLowerCase());
+
     let searchTerms: string[] = searchString.split(" ");
+    for (let s of searchTerms) {
+      if (!title.includes(s) && !author.includes(s)) {
+        return false;
+      }
+    }
 
-    let matches: Map<number, number> = new Map();
-
-    songs.forEach((song: Song) => {
-      let authorWords = new Set(song.author.toLowerCase().split(" "));
-      let titleWords = new Set(song.title.toLowerCase().split(" "));
-      let matchCount: number = new Set(
-        [...searchTerms].filter(
-          (i: string) => titleWords.has(i) || authorWords.has(i)
-        )
-      ).size;
-      matches.set(song.songNumber, matchCount);
-    });
-
-    console.log(searchString);
-
-    let matchesSorted = Array.from(matches.entries())
-      .sort((a, b) => b[1] - a[1])
-      .filter((s) => s[1] > 0);
-
-    console.log(matchesSorted);
-
-    return matchesSorted.map((s) => GenerateIonItem(songs[s[0] - 1]));
+    return true;
   }
 };
 

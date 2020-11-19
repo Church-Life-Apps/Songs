@@ -7,7 +7,7 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Components.css";
-import { arrowBackCircleOutline, settingsOutline } from "ionicons/icons";
+import { homeOutline, settingsOutline } from "ionicons/icons";
 import React, { useState } from "react";
 import SettingsView from "../components/SettingsView";
 
@@ -61,7 +61,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
     return (
       <IonButton onClick={props.backButtonOnClick}>
-        <IonIcon icon={arrowBackCircleOutline} />
+        <IonIcon icon={homeOutline} />
       </IonButton>
     );
   }

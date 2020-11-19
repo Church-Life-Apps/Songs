@@ -19,6 +19,10 @@ export function makeThreeDigits(num: number): string {
   }
 }
 
+export function removePunctuation(s: string): string {
+  return s.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
+}
+
 export enum SongViewMode {
   Music,
   Lyrics,

@@ -22,35 +22,28 @@ const BookPage: React.FC = () => {
 
   let history = useHistory();
 
+  let searchView = <SearchView searchString={searchString} />;
+  let searchBar = RenderSearchBar();
+
   return (
     <IonPage>
       <IonHeader>
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
-
-      <IonContent>
-        {RenderSearchBar()}
-
-        <IonContent>{RenderSongList()}</IonContent>
-      </IonContent>
+      <IonItem>{searchBar}</IonItem>
+      <IonContent>{searchView}</IonContent>
     </IonPage>
   );
 
   function RenderSearchBar() {
     return (
-      <IonItem>
-        <IonSearchbar
-          type="search"
-          value={searchString}
-          placeholder="Search for a song"
-          onIonChange={(e) => setSearchString(e.detail.value!.toString())}
-        ></IonSearchbar>
-      </IonItem>
+      <IonSearchbar
+        type="search"
+        value={searchString}
+        placeholder="Search for a song"
+        onIonChange={(e) => setSearchString(e.detail.value!.toString())}
+      ></IonSearchbar>
     );
-  }
-
-  function RenderSongList() {
-    return <SearchView searchString={searchString} />;
   }
 };
 
