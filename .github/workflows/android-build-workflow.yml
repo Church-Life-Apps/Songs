@@ -1,4 +1,4 @@
-name: Build Android	
+name: Build Android	Debug APK
 
 on:
   push:
@@ -40,10 +40,10 @@ jobs:
 
       - name: Generate the Android App Bundle	
         working-directory: ./android/
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
 
       - name: Upload APK	
         uses: actions/upload-artifact@v1	
         with:	
-          name: hymnal-app
+          name: hymnal-app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk	
