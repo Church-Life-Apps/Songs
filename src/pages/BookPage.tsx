@@ -21,9 +21,8 @@ const BookPage: React.FC = () => {
   const [searchString, setSearchString] = useState<string>();
 
   let history = useHistory();
-
-  let searchView = <SearchView searchString={searchString} />;
-  let searchBar = RenderSearchBar();
+  let searchBar = GetSearchBar();
+  let searchView = GetSearchView();
 
   return (
     <IonPage>
@@ -31,11 +30,13 @@ const BookPage: React.FC = () => {
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
       <IonItem>{searchBar}</IonItem>
-      <IonContent>{searchView}</IonContent>
+
+      {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
+      <IonContent key={searchString}>{searchView}</IonContent>
     </IonPage>
   );
 
-  function RenderSearchBar() {
+  function GetSearchBar() {
     return (
       <IonSearchbar
         type="search"
@@ -44,6 +45,10 @@ const BookPage: React.FC = () => {
         onIonChange={(e) => setSearchString(e.detail.value!.toString())}
       ></IonSearchbar>
     );
+  }
+
+  function GetSearchView() {
+    return <SearchView key={searchString} searchString={searchString} />;
   }
 };
 
