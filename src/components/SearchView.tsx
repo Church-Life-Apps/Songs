@@ -3,11 +3,14 @@ import {
   IonCard,
   IonCardTitle,
   IonCardSubtitle,
+  IonLabel,
+  IonItem,
 } from "@ionic/react";
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { removePunctuation } from "../utils/SongUtils";
 import "./Components.css";
+import songs from "../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json";
 
 interface SearchViewProps {
   searchString: any;
@@ -25,55 +28,76 @@ interface Song {
 const SearchView: React.FC<SearchViewProps> = (props) => {
   const { bookId } = useParams<{ bookId: string }>();
   let history = useHistory();
-  let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
-  let songCards = GetSongsList(songs.songs);
 
-  return <IonList>{songCards}</IonList>;
+  let searchParam = GetSearchParam();
+  let searchIsEmpty = searchParam === undefined;
+  let searchIsNumber = typeof searchParam === "number";
 
-  // generate all the songs as IonCards. This should only be called once and saved.
-  function GetSongsList(songs: Song[]) {
-    let GenerateIonItem = (song: Song) => {
-      return (
-        SongMatchesSearch(song, props.searchString) && (
-          <IonCard
-            key={song.songNumber}
-            onClick={() => {
-              history.push(`/${bookId}/${song.songNumber}`);
-            }}
-          >
-            <IonCardTitle>
-              {song.songNumber}. {song.title}
-            </IonCardTitle>
-            <IonCardSubtitle>{song.author}</IonCardSubtitle>
-          </IonCard>
-        )
-      );
-    };
-
-    return songs.map(GenerateIonItem);
+  let songCards: JSX.Element[];
+  if (searchIsEmpty) {
+    songCards = [];
+  } else if (searchIsNumber) {
+    songCards = [GenerateSongCard(songs.songs[(searchParam as number) - 1])];
+  } else {
+    songCards = songs.songs
+      .filter((s) => SongMatchesSearch(s, searchParam))
+      .map((s) => GenerateSongCard(s) as JSX.Element);
   }
 
-  function SongMatchesSearch(song: Song, searchString: any): boolean {
+  return songCards.length > 0 ? (
+    <IonList>{songCards}</IonList>
+  ) : (
+    <IonItem>
+      <IonLabel>No results found</IonLabel>
+    </IonItem>
+  );
+
+  function GetSearchParam() {
     if (
-      searchString === undefined ||
-      typeof searchString !== "string" ||
-      searchString.trim() === ""
+      props.searchString === undefined ||
+      typeof props.searchString !== "string" ||
+      props.searchString.trim() === ""
     ) {
-      return true;
+      return undefined;
     }
 
-    searchString = removePunctuation(searchString.trim().toLowerCase());
+    let searchString = removePunctuation(
+      props.searchString.trim().toLowerCase()
+    );
     let searchNumber = Number(searchString);
 
-    if (!isNaN(searchNumber)) {
-      return searchNumber === song.songNumber;
+    if (
+      !isNaN(searchNumber) &&
+      searchNumber > 0 &&
+      searchNumber <= songs.songs.length
+    ) {
+      return searchNumber;
     }
 
+    return searchString.split(" ");
+  }
+
+  function GenerateSongCard(song: Song) {
+    return (
+      <IonCard
+        key={song.songNumber}
+        onClick={() => {
+          history.push(`/${bookId}/${song.songNumber}`);
+        }}
+      >
+        <IonCardTitle>
+          {song.songNumber}. {song.title}
+        </IonCardTitle>
+        <IonCardSubtitle>{song.author}</IonCardSubtitle>
+      </IonCard>
+    );
+  }
+
+  function SongMatchesSearch(song: Song, searchParam: any): boolean {
     let title = removePunctuation(song.title.toLowerCase());
     let author = removePunctuation(song.author.toLowerCase());
 
-    let searchTerms: string[] = searchString.split(" ");
-    for (let s of searchTerms) {
+    for (let s of searchParam) {
       if (!title.includes(s) && !author.includes(s)) {
         return false;
       }
