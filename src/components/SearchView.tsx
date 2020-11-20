@@ -34,9 +34,10 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
 
   let history = useHistory();
   let searchParam = GetSearchParam();
+  let searchIsNumber = typeof searchParam === "number";
 
-  if (typeof searchParam === "number") {
-    setSongCards([GenerateSongCard(songs.songs[(searchParam as number) - 1])]);
+  if (searchIsNumber) {
+    songCards.push(GenerateSongCard(songs.songs[(searchParam as number) - 1]));
   } else {
     if (songCards.length === 0) {
       LoadSongs(songCardsIterator, 20, searchParam as string[]);
@@ -46,7 +47,10 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   return songCards.length > 0 ? (
     <div>
       <IonList>{songCards}</IonList>
-      <IonInfiniteScroll onIonInfinite={LoadMoreSongs}>
+      <IonInfiniteScroll
+        onIonInfinite={LoadMoreSongs}
+        disabled={searchIsNumber}
+      >
         <IonInfiniteScrollContent
           loadingSpinner="bubbles"
           loadingText="Loading more songs..."
