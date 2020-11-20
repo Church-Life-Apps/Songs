@@ -7,7 +7,13 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Components.css";
-import { homeOutline, settingsOutline } from "ionicons/icons";
+import {
+  documentTextOutline,
+  homeOutline,
+  musicalNotesOutline,
+  settingsOutline,
+  swapHorizontalOutline,
+} from "ionicons/icons";
 import React, { useState } from "react";
 import SettingsView from "../components/SettingsView";
 
@@ -73,7 +79,9 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
     return (
       <IonButton onClick={props.toggleSongModeOnClick}>
-        {"Change Song Mode"}
+        <IonIcon icon={musicalNotesOutline} />
+        <IonIcon icon={swapHorizontalOutline} />
+        <IonIcon icon={documentTextOutline} />
       </IonButton>
     );
   }

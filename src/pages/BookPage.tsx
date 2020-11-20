@@ -21,7 +21,7 @@ const BookPage: React.FC = () => {
   const [searchString, setSearchString] = useState<string>();
 
   let history = useHistory();
-  
+
   let searchView = <SearchView searchString={searchString} />;
   let searchBar = RenderSearchBar();
 
