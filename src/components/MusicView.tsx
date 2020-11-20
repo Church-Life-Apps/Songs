@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { isBrowser } from "../utils/PlatformUtils";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
@@ -21,7 +21,10 @@ interface MusicViewProps {
  * Song Viewer React Functional Component.
  */
 const MusicView: React.FC<MusicViewProps> = (props) => {
+  const widthPixels = isBrowser() ? window.innerWidth / 2 : window.innerWidth;
   const [secondTune, setSecondTune] = useState<boolean>(false);
+  const [width, setWidth] = useState<number>(widthPixels);
+  const [zoomed, setZoomed] = useState<boolean>(false);
 
   let songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
 
@@ -38,21 +41,32 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
   return (
     <div>
       {/* Second Tune Toggler  */}
-      {songHasTwoTunes ? (
+      {songHasTwoTunes && (
         <div id="songTogglerDiv">
           <IonToggle
             checked={secondTune}
             onIonChange={(e) => setSecondTune(!secondTune)}
-          ></IonToggle>
+          />
         </div>
-      ) : null}
+      )}
 
       {/* image */}
-      <TransformWrapper>
-        <TransformComponent>
-          <img src={url} alt={alt} />
-        </TransformComponent>
-      </TransformWrapper>
+      {/* <TransformWrapper>
+        <TransformComponent> */}
+      <img
+        style={{ width: width }}
+        id="musicViewDiv"
+        onDoubleClick={() => {
+          if (zoomed) {
+            setWidth(widthPixels);
+          } else setWidth(widthPixels * 2);
+          setZoomed(!zoomed);
+        }}
+        src={url}
+        alt={alt}
+      />
+      {/* </TransformComponent>
+      </TransformWrapper> */}
     </div>
   );
 };

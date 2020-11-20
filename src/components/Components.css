@@ -15,9 +15,13 @@ ion-toggle {
 
 #songTogglerDiv {
   text-align: right;
+  margin-bottom: -40px;
+}
 
-  margin-top: -40px;
-  margin-right: 20px;
+#musicViewDiv {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Settings Pages */
@@ -56,4 +60,20 @@ ion-modal {
 
 #lyricViewFooter {
   margin: 20px;
+}
+
+#settingsModal {
+  padding: 15px;
+  background-color: transparent;
+}
+
+#settingsButton {
+  width: 18px;
+  margin: 10px;
+}
+
+#returnToHymnalButton {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 20px;
 }

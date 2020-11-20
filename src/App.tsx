@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React from "react";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -18,20 +18,19 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
-import HomePage from './pages/HomePage';
-import { Database } from './database/Database';
+import "./theme/variables.css";
+import HomePage from "./pages/HomePage";
+import BookPage from "./pages/BookPage";
+import SongPage from "./pages/SongPage";
 
-const App: React.FC = () => {
-  Database.getInstance();
-
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" component={HomePage} exact />
-      </Switch>
-    </BrowserRouter>
-  );
-};
+const App: React.FC = () => (
+  <HashRouter>
+    <Switch>
+      <Route path="/" component={HomePage} exact />
+      <Route path="/:bookId" component={BookPage} exact />
+      <Route path="/:bookId/:songId" component={SongPage} exact />
+    </Switch>
+  </HashRouter>
+);
 
 export default App;

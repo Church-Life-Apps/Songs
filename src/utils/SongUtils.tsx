@@ -19,9 +19,8 @@ export function makeThreeDigits(num: number): string {
   }
 }
 
-export enum PageViewMode {
-  Search,
-  Song,
+export function removePunctuation(s: string): string {
+  return s.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
 }
 
 export enum SongViewMode {
