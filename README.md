@@ -1,6 +1,7 @@
 # Songs
 An Ionic web, Android and iOS app for the SHL and SFG songbooks
 
+The web app is hosted here: https://church-life-apps.github.io/
 
 # Android
 To run the app on Android app follow these steps:
