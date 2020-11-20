@@ -26,10 +26,6 @@ interface Song {
  * Search View.
  */
 const SearchView: React.FC<SearchViewProps> = (props) => {
-<<<<<<< HEAD
-  let songs = require("../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json");
-  // console.log(songs.songs);
-=======
   const { bookId } = useParams<{ bookId: string }>();
   let history = useHistory();
 
@@ -47,7 +43,6 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       .filter((s) => SongMatchesSearch(s, searchParam))
       .map((s) => GenerateSongCard(s) as JSX.Element);
   }
->>>>>>> master
 
   return songCards.length > 0 ? (
     <IonList>{songCards}</IonList>
