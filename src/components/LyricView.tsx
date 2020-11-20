@@ -1,4 +1,11 @@
-import { IonItem, IonLabel } from "@ionic/react";
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonItem,
+  IonLabel,
+} from "@ionic/react";
 import React from "react";
 import "./Components.css";
 
@@ -17,14 +24,14 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
     return <h1 className="center">No Song Found</h1>;
   }
   let lyrics = getLyrics(data);
-  return (
-    <div>
-      <h2 className="center">{data["title"]}</h2>
 
-      <IonItem>
-        <IonLabel id="lyricTextBox">{lyrics}</IonLabel>
-      </IonItem>
-    </div>
+  return (
+    <IonCard>
+      <IonCardHeader>
+        <IonCardTitle>{data["title"]}</IonCardTitle>
+      </IonCardHeader>
+      <IonCardContent>{lyrics}</IonCardContent>
+    </IonCard>
   );
 
   /**
@@ -32,15 +39,33 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
    */
   function getLyrics(data: any) {
     let verses = Object.keys(data["lyrics"]);
-    var lyrics = ``;
+    var lyrics: JSX.Element[] = [];
+    let key = 0;
     verses.forEach((versenumber) => {
-      lyrics += `\n${versenumber}: `;
-      data["lyrics"][versenumber].forEach((line: String) => {
-        lyrics += `\t${line}\n`;
+      lyrics.push(<IonLabel key={key}>{getVerseText(versenumber)}</IonLabel>);
+      key++;
+      data["lyrics"][versenumber].forEach((line: string) => {
+        lyrics.push(
+          <IonItem key={key} lines="none">
+            <IonLabel className="ion-text-wrap">
+              {line}
+            </IonLabel>
+          </IonItem>
+        );
+        key++;
       });
     });
-    lyrics = lyrics.trimStart();
+
     return lyrics;
+  }
+
+  function getVerseText(verse: string) {
+    return verse
+      .toLowerCase()
+      .replace("v", "Verse ")
+      .replace("c", "Chorus ")
+      .replace("b", "Bridge ")
+      .replace("p", "Pre-Chorus ");
   }
 };
 
