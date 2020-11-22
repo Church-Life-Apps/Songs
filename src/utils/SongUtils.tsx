@@ -1,5 +1,7 @@
+import songs from "../resources/songs.json";
+
 /**
- * Helper Functions for Song Related things.
+ * Helpers for Song Related things.
  *
  * Write the helper function here, and then use them by importing it by relative path like:
  *
@@ -20,10 +22,21 @@ export function makeThreeDigits(num: number): string {
 }
 
 export function removePunctuation(s: string): string {
-  return s.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
+  return s.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, "");
 }
 
 export enum SongViewMode {
   Music,
   Lyrics,
+}
+
+// hard coded until we get more song books.
+export const BlackBookSongs = songs["Songs and Hymns of Life"];
+
+// TODO: use json schema
+export interface Song {
+  title: string;
+  author: string;
+  songNumber: number;
+  lyrics: any;
 }
