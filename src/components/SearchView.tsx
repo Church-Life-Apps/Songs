@@ -10,18 +10,13 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { removePunctuation } from "../utils/SongUtils";
+import { removePunctuation, Song } from "../utils/SongUtils";
 import "./Components.css";
-import songs from "../resources/Songs_&_Hymns_Of_Life/BlackBookSongList.json";
+
 
 interface SearchViewProps {
-  searchString: any;
-}
-
-interface Song {
-  title: string;
-  author: string;
-  songNumber: number;
+  searchString: string;
+  songs: Song[];
 }
 
 /**
@@ -30,14 +25,14 @@ interface Song {
 const SearchView: React.FC<SearchViewProps> = (props) => {
   const { bookId } = useParams<{ bookId: string }>();
   const [songCards, setSongCards] = useState<JSX.Element[]>([]);
-  const [songCardsIterator] = useState(songs.songs.entries());
+  const [songCardsIterator] = useState(props.songs.entries());
 
   let history = useHistory();
   let searchParam = GetSearchParam();
   let searchIsNumber = typeof searchParam === "number";
 
   if (searchIsNumber) {
-    songCards.push(GenerateSongCard(songs.songs[(searchParam as number) - 1]));
+    songCards.push(GenerateSongCard(props.songs[(searchParam as number) - 1]));
   } else {
     if (songCards.length === 0) {
       LoadSongs(songCardsIterator, 20, searchParam as string[]);
@@ -100,7 +95,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       typeof props.searchString !== "string" ||
       props.searchString.trim() === ""
     ) {
-      return undefined;
+      return [];
     }
 
     let searchString = removePunctuation(
@@ -111,7 +106,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
     if (
       !isNaN(searchNumber) &&
       searchNumber > 0 &&
-      searchNumber <= songs.songs.length
+      searchNumber <= props.songs.length
     ) {
       return searchNumber;
     }
