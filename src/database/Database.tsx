@@ -1,4 +1,5 @@
 import { SQLiteObject, SQLite, SQLiteDatabaseConfig } from "@ionic-native/sqlite";
+import { create } from "domain";
 import { isCordova } from "../utils/PlatformUtils";
 import { getItem, storeItem, YES } from "../utils/StorageUtils";
 import { populateDatabase } from "./SongsTable";
@@ -36,6 +37,8 @@ export class Database {
           // After creating songs table, populate it with values if not populated yet.
           getItem(DATABASE_INITIALIZED).then((response) => {
             if (response !== YES) {
+              createIndexes();
+
               console.log("Database not initialized yet, Initializing.");
               populateDatabase();
               storeItem(DATABASE_INITIALIZED, YES);
@@ -61,19 +64,40 @@ export class Database {
     }
     return Database.instance;
   }
+
+  private method createIndexes() {
+    
+
+  }
+
 }
 
 /**
  * Songs Table Constants and CREATE query.
  */
 export const SONG_NUMBER = "song_number";
+export const BOOK_ID = "book_id"
 export const NUM_HITS = "num_hits";
 export const LAST_USED = "last_used";
 export const FAVORITED = "favorited";
+export const AUTHOR = "author";
+export const TITLE = "title";
+export const LYRICS = "lyrics";
+
+const indexes = [NUM_HITS, LAST_USED, FAVORITED];
 
 const CREATE_SONGS_TABLE = `CREATE TABLE IF NOT EXISTS ${SONGS_TABLE}(
-    ${SONG_NUMBER} int primary key,
+    ${SONG_NUMBER} int,
+    ${BOOK_ID} int,
     ${NUM_HITS} int,
     ${LAST_USED} datetime,
-    ${FAVORITED} boolean
+    ${FAVORITED} boolean,
+    ${AUTHOR} text,
+    ${TITLE} text,
+    ${LYRICS} text
+    primary key (${SONG_NUMBER}, ${BOOK_ID})
 );`;
+
+function getCreateIndexQuery(column: string): string {
+  return `CREATE INDEX ${column}_index IF NOT EXISTS ON ${SONGS_TABLE}(${column});`
+}
