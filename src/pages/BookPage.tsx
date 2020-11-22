@@ -9,6 +9,7 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useState } from "react";
 import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
+import { BlackBookSongs } from "../utils/SongUtils";
 
 /**
  * Book Page Component.
@@ -18,7 +19,7 @@ import { useHistory } from "react-router-dom";
  */
 const BookPage: React.FC = () => {
   // the search string inputted by the user
-  const [searchString, setSearchString] = useState<string>();
+  const [searchString, setSearchString] = useState<string>("");
 
   let history = useHistory();
   let searchBar = GetSearchBar();
@@ -48,7 +49,7 @@ const BookPage: React.FC = () => {
   }
 
   function GetSearchView() {
-    return <SearchView key={searchString} searchString={searchString} />;
+    return <SearchView key={searchString} searchString={searchString} songs={BlackBookSongs}/>;
   }
 };
 
