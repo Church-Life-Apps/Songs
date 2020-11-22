@@ -22,6 +22,7 @@ for i in range(1, 533 + 1):
     del songData["notes"]
     del songData["guitar"]
     del songData["key"]
+    del songData["ccli"]
     data[bookName].append(songData)
 
 
