@@ -24,7 +24,9 @@ const BookPage: React.FC = () => {
   const [songs, setSongs] = useState<Song[]>([]);
 
   useEffect(() => {
-    getShlSongs().then(setSongs);
+    getShlSongs()
+      .then((song) => (song ? song : []))
+      .then(setSongs);
   }, []);
 
   let history = useHistory();
@@ -46,7 +48,7 @@ const BookPage: React.FC = () => {
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent key={searchString}>
         <SearchView
-          key={searchString + songs?.length}
+          key={searchString + songs.length}
           searchString={searchString}
           songs={songs}
         />
