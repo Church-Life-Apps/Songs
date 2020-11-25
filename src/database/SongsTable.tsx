@@ -81,6 +81,8 @@ export function populateDatabase() {
   for (let i = 1; i < 533; ++i) {
     insertSong(i);
   }
+
+
   // let query = `BEGIN TRANSACTION; \n`;
   // for (let i = 1; i <= 10; i++) {
   //   query += `INSERT INTO ${SONGS_TABLE} VALUES (${i}, 0, ${time}, false); \n`;

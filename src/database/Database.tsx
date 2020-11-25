@@ -1,5 +1,6 @@
 import { SQLiteObject, SQLite, SQLiteDatabaseConfig } from "@ionic-native/sqlite";
 import { create } from "domain";
+import { DbSong } from "../models/DbSong";
 import { isCordova } from "../utils/PlatformUtils";
 import { getItem, storeItem, YES } from "../utils/StorageUtils";
 import { populateDatabase } from "./SongsTable";
@@ -37,7 +38,7 @@ export class Database {
           // After creating songs table, populate it with values if not populated yet.
           getItem(DATABASE_INITIALIZED).then((response) => {
             if (response !== YES) {
-              createIndexes();
+              this.createIndexes(db);
 
               console.log("Database not initialized yet, Initializing.");
               populateDatabase();
@@ -47,11 +48,11 @@ export class Database {
         });
       });
     } else {
-      // Setting up DB for browser.
-      // var dbs = openDatabase({ name: 'UserDatabase.db' });
-      // let db = window.openDatabase(SQL_DB_NAME, '1.0', 'DEV', 5 * 1024 * 1024);
-      // this.dbInstance = browserDBInstance(db);
     }
+    // Setting up DB for browser.
+    // var dbs = openDatabase({ name: 'UserDatabase.db' });
+    // let db = window.openDatabase(SQL_DB_NAME, '1.0', 'DEV', 5 * 1024 * 1024);
+    // this.dbInstance = browserDBInstance(db);
   }
 
   get getSongsTable() {
@@ -65,18 +66,22 @@ export class Database {
     return Database.instance;
   }
 
-  private method createIndexes() {
-    
-
+  createIndexes(sql: SQLiteObject) {
+    try {
+      indexes.forEach((column) => {
+        sql.executeSql(getCreateIndexQuery(column));
+      });
+    } catch (e) {
+      console.log("Error creating indexes for songs table.");
+    }
   }
-
 }
 
 /**
  * Songs Table Constants and CREATE query.
  */
 export const SONG_NUMBER = "song_number";
-export const BOOK_ID = "book_id"
+export const BOOK_ID = "book_id";
 export const NUM_HITS = "num_hits";
 export const LAST_USED = "last_used";
 export const FAVORITED = "favorited";
@@ -99,5 +104,5 @@ const CREATE_SONGS_TABLE = `CREATE TABLE IF NOT EXISTS ${SONGS_TABLE}(
 );`;
 
 function getCreateIndexQuery(column: string): string {
-  return `CREATE INDEX ${column}_index IF NOT EXISTS ON ${SONGS_TABLE}(${column});`
+  return `CREATE INDEX ${column}_index IF NOT EXISTS ON ${SONGS_TABLE}(${column});`;
 }
