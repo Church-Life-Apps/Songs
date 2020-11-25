@@ -30,7 +30,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   let history = useHistory();
   let searchParam = GetSearchParam();
   let searchIsNumber = typeof searchParam === "number";
-
+  
   if (searchIsNumber) {
     songCards.push(GenerateSongCard(props.songs[(searchParam as number) - 1]));
   } else {

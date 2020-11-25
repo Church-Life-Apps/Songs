@@ -5,8 +5,8 @@ import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
 
 const baseUrl =
-  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/";
-const hymnalPart = "SongsAndHymnsOfLife/SHL_"; // This part can change when red book is added
+  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
+const hymnalPart = "shl/SHL_"; // This part can change when red book is added
 const imageSuffix = ".png";
 const alt = "No Song Found";
 

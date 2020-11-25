@@ -6,10 +6,11 @@ import {
   IonSearchbar,
 } from "@ionic/react";
 import NavigationBar from "../components/NavigationBar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
-import { BlackBookSongs } from "../utils/SongUtils";
+import { Song } from "../utils/SongUtils";
+import { getShlSongs } from "../utils/StorageUtils";
 
 /**
  * Book Page Component.
@@ -20,37 +21,40 @@ import { BlackBookSongs } from "../utils/SongUtils";
 const BookPage: React.FC = () => {
   // the search string inputted by the user
   const [searchString, setSearchString] = useState<string>("");
+  const [songs, setSongs] = useState<Song[]>([]);
+
+  useEffect(() => {
+    getShlSongs()
+      .then((song) => (song ? song : []))
+      .then(setSongs);
+  }, []);
 
   let history = useHistory();
-  let searchBar = GetSearchBar();
-  let searchView = GetSearchView();
 
   return (
     <IonPage>
       <IonHeader>
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
-      <IonItem>{searchBar}</IonItem>
+      <IonItem>
+        <IonSearchbar
+          type="search"
+          value={searchString}
+          placeholder="Search for a song"
+          onIonChange={(e) => setSearchString(e.detail.value!.toString())}
+        ></IonSearchbar>
+      </IonItem>
 
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
-      <IonContent key={searchString}>{searchView}</IonContent>
+      <IonContent key={searchString}>
+        <SearchView
+          key={searchString + songs.length}
+          searchString={searchString}
+          songs={songs}
+        />
+      </IonContent>
     </IonPage>
   );
-
-  function GetSearchBar() {
-    return (
-      <IonSearchbar
-        type="search"
-        value={searchString}
-        placeholder="Search for a song"
-        onIonChange={(e) => setSearchString(e.detail.value!.toString())}
-      ></IonSearchbar>
-    );
-  }
-
-  function GetSearchView() {
-    return <SearchView key={searchString} searchString={searchString} songs={BlackBookSongs}/>;
-  }
 };
 
 export default BookPage;
