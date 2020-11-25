@@ -13,7 +13,6 @@ import { useParams, useHistory } from "react-router-dom";
 import { removePunctuation, Song } from "../utils/SongUtils";
 import "./Components.css";
 
-
 interface SearchViewProps {
   searchString: string;
   songs: Song[];
@@ -30,7 +29,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   let history = useHistory();
   let searchParam = GetSearchParam();
   let searchIsNumber = typeof searchParam === "number";
-  
+
   if (searchIsNumber) {
     songCards.push(GenerateSongCard(props.songs[(searchParam as number) - 1]));
   } else {
@@ -52,11 +51,11 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
         ></IonInfiniteScrollContent>
       </IonInfiniteScroll>
     </div>
-  ) : (
+  ) : props.searchString !== "" ? (
     <IonItem>
       <IonLabel>No results found</IonLabel>
     </IonItem>
-  );
+  ) : null;
 
   function LoadMoreSongs(event: CustomEvent<void>) {
     let target = event.target as HTMLIonInfiniteScrollElement;
