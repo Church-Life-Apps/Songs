@@ -16,14 +16,12 @@ export const NO = "no";
 // Try to get the songs metadata from local cache storage. Otherwise, try to get it from online.
 export async function getShlSongs(): Promise<Song[]> {
   return getItem(shlKey)
-    .then((item) => {
+    .then(async (item) => {
       if (!item) {
-        fetch(shlJsonUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            storeItem(shlKey, JSON.stringify(data));
-            return data[shlName];
-          });
+        const response = await fetch(shlJsonUrl);
+        const body = await response.json();
+        storeItem(shlKey, JSON.stringify(body))
+        return body[shlName];
       } else {
         return JSON.parse(item)[shlName];
       }
