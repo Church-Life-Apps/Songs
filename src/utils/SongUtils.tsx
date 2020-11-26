@@ -38,7 +38,7 @@ export interface Song {
   title: string;
   author: string;
   songNumber: number;
-  
+
   // [Issue #74] This needs to be fixed and turned back on:
   lyrics: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
