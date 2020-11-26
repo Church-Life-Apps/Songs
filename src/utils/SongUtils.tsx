@@ -8,7 +8,8 @@
 
 export const shlName = "Songs and Hymns of Life";
 
-export const shlJsonUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json";
+export const shlJsonUrl =
+  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json";
 
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.

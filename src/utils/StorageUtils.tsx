@@ -20,7 +20,7 @@ export async function getShlSongs(): Promise<Song[]> {
       if (!item) {
         const response = await fetch(shlJsonUrl);
         const body = await response.json();
-        storeItem(shlKey, JSON.stringify(body))
+        storeItem(shlKey, JSON.stringify(body));
         return body[shlName];
       } else {
         return JSON.parse(item)[shlName];
