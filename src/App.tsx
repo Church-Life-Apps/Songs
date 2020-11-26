@@ -24,8 +24,10 @@ import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { PageView, initGA } from "./components/Tracking";
 
+const StreamID = "UA-183902236-1";
+
 try {
-  initGA("UA-183902236-1");
+  initGA(StreamID);
   PageView();
 } catch (e) {
   console.error(e);
