@@ -38,6 +38,7 @@ const BookPage: React.FC = () => {
       </IonHeader>
       <IonItem>
         <IonSearchbar
+          id="searchBar"
           type="search"
           value={searchString}
           placeholder="Search for a song"
