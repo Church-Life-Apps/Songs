@@ -64,10 +64,10 @@ jobs:
         run: npm install
 
       - name: Build
-        run: ionic build
+        run: npm run build
 
       - name: Test
-        run: ionic test
+        run: npm run test
 
   build-apk:
     name: Build Android APK
