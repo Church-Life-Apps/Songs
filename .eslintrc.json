@@ -4,25 +4,20 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 12,
-      "sourceType": "module"
-    },
-    "plugins": ["react", "@typescript-eslint"],
-    "rules": {
-      // [Issue #74] This needs to be fixed and turned back on:
-      "@typescript-eslint/no-explicit-any": "off"
+    }
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {},
+  "settings": {
+    "react": {
+      "version": "detect"
     }
   }
 }

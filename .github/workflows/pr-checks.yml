@@ -20,7 +20,7 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v3.1
         with:
-          prettier_options: --write **/*.{js,tsx,md,css,scss,html,json}
+          prettier_options: --write **/*.{tsx,js,ts,md,css,scss,html,json,yml}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,6 +32,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -40,10 +43,7 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint: true
+        run: npx eslint -c .eslintrc.json src/**/*.{tsx,js,ts}
 
 
   build-and-test:
