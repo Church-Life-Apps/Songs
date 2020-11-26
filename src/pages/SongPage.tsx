@@ -16,7 +16,7 @@ import { Event } from "../components/Tracking";
  */
 const SongPage: React.FC = () => {
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
-  let history = useHistory();
+  const history = useHistory();
 
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);

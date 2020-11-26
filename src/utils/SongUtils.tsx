@@ -38,5 +38,5 @@ export interface Song {
   title: string;
   author: string;
   songNumber: number;
-  lyrics: any;
+  lyrics: Record<string, unknown>;
 }

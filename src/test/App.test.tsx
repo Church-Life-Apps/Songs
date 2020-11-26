@@ -52,7 +52,7 @@ describe("App", () => {
   });
 
   it("searching is case and order insensitive", async () => {
-    let newPage = async () => {
+    const newPage = async () => {
       page = await browser.newPage();
       await page.goto(baseUrl);
     };
@@ -79,7 +79,7 @@ describe("App", () => {
   it("selecting song displays song page music view", async () => {
     await page.waitForSelector(selectors.searchViewIonCardTitle);
 
-    let navigation = page.waitForNavigation({ waitUntil: "networkidle0" });
+    const navigation = page.waitForNavigation({ waitUntil: "networkidle0" });
 
     await page.click(selectors.searchViewIonCard + ":nth-child(6)");
 
@@ -87,7 +87,7 @@ describe("App", () => {
 
     expect(page.url()).toEqual(baseUrl + "/#/shl/6");
 
-    let musicViewSrc = await page.$eval(selectors.musicView, (e) => e.getAttribute("src"));
+    const musicViewSrc = await page.$eval(selectors.musicView, (e) => e.getAttribute("src"));
     expect(musicViewSrc).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
@@ -96,21 +96,21 @@ describe("App", () => {
   it("song page lyric view works correctly", async () => {
     await page.waitForSelector(selectors.searchViewIonCardTitle);
 
-    let ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
     await ionCards[5].click();
 
     await page.waitForSelector(selectors.musicView);
     await page.waitForSelector(selectors.songViewToggler);
 
-    let button = await page.$(selectors.songViewToggler);
+    const button = await page.$(selectors.songViewToggler);
     await button?.click();
 
     await page.waitForSelector(selectors.lyricViewIonCardTitle);
 
-    let cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
+    const cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
     expect(cardTitle).toEqual("Come, Thou Almighty King");
 
-    let lyricLines = await page.$$(selectors.lyricLine);
+    const lyricLines = await page.$$(selectors.lyricLine);
     expect(lyricLines.length).toEqual(27);
   });
 
@@ -159,7 +159,7 @@ async function verifySearchResults(page: Page, searchTerm: string, songResults: 
     hidden: true,
   });
 
-  let ionCards = await page.$$(selectors.searchViewIonCardTitle);
+  const ionCards = await page.$$(selectors.searchViewIonCardTitle);
   expect(ionCards.length).toEqual(songResults.length);
 
   for (let i = 0; i < ionCards.length; i++) {

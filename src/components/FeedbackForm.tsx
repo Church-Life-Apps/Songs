@@ -31,7 +31,7 @@ const FeedbackScreen: React.FC = () => {
           type="text"
           value={fromWhom}
           placeholder="Enter your name"
-          onIonChange={(e) => setFromWhom(e.detail.value!)}
+          onIonChange={(e) => setFromWhom(e.detail.value as string)}
         ></IonInput>
       </IonItem>
       <IonItem>
@@ -40,7 +40,7 @@ const FeedbackScreen: React.FC = () => {
           rows={7}
           value={message}
           placeholder="Enter feedback"
-          onIonChange={(e) => setMessage(e.detail.value!)}
+          onIonChange={(e) => setMessage(e.detail.value as string)}
         ></IonTextarea>
       </IonItem>
 
@@ -61,7 +61,7 @@ const FeedbackScreen: React.FC = () => {
    * Sends an email to the hymnal dev team when someone has feedback.
    */
   function sendEmail() {
-    var templateParams = {
+    const templateParams = {
       from_name: fromWhom,
       message: message,
     };
