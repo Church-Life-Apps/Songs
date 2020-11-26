@@ -1,27 +1,25 @@
 import ReactGA from "react-ga";
 
-
 export const initGA = (trackingID) => {
-    ReactGA.initialize(trackingID);
-}
+  ReactGA.initialize(trackingID);
+};
 
 export const PageView = () => {
-    ReactGA.pageview(window.location.pathname +
-        window.location.search);
-    console.log("Page viewed");
-}
+  ReactGA.pageview(window.location.pathname + window.location.search);
+  console.log("Page viewed");
+};
 
 /**
  * Event - Add custom tracking event.
- * @param {string} category 
- * @param {string} action 
- * @param {string} label 
+ * @param {string} category
+ * @param {string} action
+ * @param {string} label
  */
 export const Event = (category, action, label) => {
-    ReactGA.event({
-        category: category,
-        action: action,
-        label: label
-    });
-    console.log("Event triggered");
+  ReactGA.event({
+    category: category,
+    action: action,
+    label: label,
+  });
+  console.log("Event triggered");
 };

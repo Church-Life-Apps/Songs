@@ -22,18 +22,17 @@ import "./theme/variables.css";
 import HomePage from "./pages/HomePage";
 import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
-import { PageView, initGA } from './components/Tracking';
+import { PageView, initGA } from "./components/Tracking";
 
 try {
-    initGA('UA-183902236-1');
-    PageView();
-}
-catch (e) {
-    console.error(e);
+  initGA("UA-183902236-1");
+  PageView();
+} catch (e) {
+  console.error(e);
 }
 
 const App: React.FC = () => (
-    <HashRouter>
+  <HashRouter>
     <Switch>
       <Route path="/" component={HomePage} exact />
       <Route path="/:bookId" component={BookPage} exact />

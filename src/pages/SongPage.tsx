@@ -6,7 +6,7 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 //Import Event tracking
-import { Event } from '../components/Tracking';
+import { Event } from "../components/Tracking";
 
 /**
  * Song Page Component.
@@ -54,13 +54,12 @@ const SongPage: React.FC = () => {
       setSongViewMode(SongViewMode.Lyrics);
     } else {
       setSongViewMode(SongViewMode.Music);
-      }
-      try {
-          Event("INTERACTION", "Songmode is toggled", "SongMode_Toggle")
-      }
-      catch (e) {
-          console.error(e);
-      }
+    }
+    try {
+      Event("INTERACTION", "Songmode is toggled", "SongMode_Toggle");
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 
