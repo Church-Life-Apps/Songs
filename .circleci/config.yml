@@ -16,7 +16,7 @@ jobs:
           command: npm install
       - run:
           name: Install Browser for tests
-          command: sudo apt-get install chromium-browser
+          command: sudo apt-get install chromium
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
