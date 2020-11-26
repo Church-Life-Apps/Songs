@@ -94,8 +94,8 @@ jobs:
       - name: Install Capacitor
         run: npm install -g @capacitor/core @capacitor/cli
 
-      - name: Install Ionic	
-        run: npm install -g @ionic/cli	
+      - name: Install Ionic
+        run: npm install -g @ionic/cli
 
       - name: Install app dependencies
         run: npm install
