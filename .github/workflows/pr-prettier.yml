@@ -16,12 +16,11 @@ jobs:
         # Make sure the actual branch is checked out when running on pull requests
         ref: ${{ github.head_ref }}
         # This is important to fetch the changes to the previous commit
-        fetch-depth: 0
+        # fetch-depth: 0
 
     - name: Prettify code
       uses: creyD/prettier_action@v3.1
       with:
-        prettier_options: --print-width 120
-        same_commit: True
+        prettier_options: --write **/*.{js,tsx,md,css,scss,html,json}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
