@@ -32,6 +32,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -48,11 +51,14 @@ jobs:
 
   build-and-test:
     name: Build and Test
-    needs: [prettier, eslint]
+    needs: prettier
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -69,11 +75,14 @@ jobs:
 
   build-apk:
     name: Build Android APK
-    needs: [prettier, eslint]
+    needs: prettier
     runs-on: ubuntu-latest	
     steps:	
       - name: Checkout	
-        uses: actions/checkout@v2	
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
       - name: Setup java	
         uses: actions/setup-java@v1
