@@ -91,7 +91,7 @@ describe("App", () => {
     expect(musicViewSrc).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
-  }, 10000);
+  }, 20000);
 
   it("song page lyric view works correctly", async () => {
     await page.waitForSelector(selectors.searchViewIonCardTitle);
