@@ -8,6 +8,10 @@ import songs from "../resources/songs.json";
  * import { makeThreeDigits } from '../utils/SongUtils'
  */
 
+ export const shlName = "Songs and Hymns of Life";
+
+ export const shlJsonUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json";
+
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.
  */
@@ -30,9 +34,12 @@ export enum SongViewMode {
   Lyrics,
 }
 
+<<<<<<< HEAD
 // hard coded until we get more song books.
 export const BlackBookSongs = songs["Songs and Hymns of Life"];
 
+=======
+>>>>>>> master
 // TODO: use json schema
 export interface Song {
   title: string;
