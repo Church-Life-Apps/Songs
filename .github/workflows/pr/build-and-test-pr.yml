@@ -5,10 +5,9 @@ on:
     branches:
       - master
 
-
 jobs:
   build:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -18,12 +17,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 13.x
-
-      - name: Install Capacitor
-        run: npm install -g @capacitor/core @capacitor/cli
-
-      - name: Install Ionic
-        run: npm install -g @ionic/cli
 
       - name: Install app dependencies
         run: npm install
