@@ -7,14 +7,11 @@ const selectors = {
   searchBar: "#searchBar > div > input",
   appName: "#appName",
   searchViewIonCard: "#root > div > ion-content > div > ion-list > ion-card",
-  searchViewIonCardTitle:
-    "#root > div > ion-content > div > ion-list > ion-card > ion-card-title",
-  lyricViewIonCardTitle:
-    "#root > div > ion-content > ion-card > ion-card-header > ion-card-title",
+  searchViewIonCardTitle: "#root > div > ion-content > div > ion-list > ion-card > ion-card-title",
+  lyricViewIonCardTitle: "#root > div > ion-content > ion-card > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
-  lyricLine:
-    "#root > div > ion-content > ion-card > ion-card-content > ion-item",
+  lyricLine: "#root > div > ion-content > ion-card > ion-card-content > ion-item",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
 };
 
@@ -26,7 +23,7 @@ describe("App", () => {
     browser = await puppeteer.launch({
       // headless: false, // use this to open browser window for tests
       // slowMo: 200, // use this to slow down testing for debugging purposes
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
 
@@ -47,17 +44,11 @@ describe("App", () => {
   });
 
   it("searching title displays correct results", async () => {
-    await verifySearchResults(page, "follow", [
-      "271. Follow On!",
-      "274. How Shall I Follow Him I Serve?",
-    ]);
+    await verifySearchResults(page, "follow", ["271. Follow On!", "274. How Shall I Follow Him I Serve?"]);
   });
 
   it("searching author displays correct results", async () => {
-    await verifySearchResults(page, "chris tomlin", [
-      "121. How Great Is Our God",
-      "135. The Wonderful Cross",
-    ]);
+    await verifySearchResults(page, "chris tomlin", ["121. How Great Is Our God", "135. The Wonderful Cross"]);
   });
 
   it("searching is case and order insensitive", async () => {
@@ -83,7 +74,7 @@ describe("App", () => {
     await verifySearchResults(page, "gibberish", []);
 
     expect(await page.$eval(selectors.noResultsFoundLabel, (e) => e.innerHTML)).toEqual("No results found");
-  })
+  });
 
   it("selecting song displays song page music view", async () => {
     await page.waitForSelector(selectors.searchViewIonCardTitle);
@@ -96,13 +87,11 @@ describe("App", () => {
 
     expect(page.url()).toEqual(baseUrl + "/#/shl/6");
 
-    let musicViewSrc = await page.$eval(selectors.musicView, (e) =>
-      e.getAttribute("src")
-    );
+    let musicViewSrc = await page.$eval(selectors.musicView, (e) => e.getAttribute("src"));
     expect(musicViewSrc).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
-  }, 10000);
+  }, 20000);
 
   it("song page lyric view works correctly", async () => {
     await page.waitForSelector(selectors.searchViewIonCardTitle);
@@ -118,10 +107,7 @@ describe("App", () => {
 
     await page.waitForSelector(selectors.lyricViewIonCardTitle);
 
-    let cardTitle = await page.$eval(
-      selectors.lyricViewIonCardTitle,
-      (e) => e.innerHTML
-    );
+    let cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
     expect(cardTitle).toEqual("Come, Thou Almighty King");
 
     let lyricLines = await page.$$(selectors.lyricLine);
@@ -136,9 +122,7 @@ describe("App", () => {
 
     // scroll to bottom
     await ionCards[ionCards.length - 1].hover();
-    await page.waitForSelector(
-      selectors.searchViewIonCard + `:nth-child(${ionCards.length})`
-    );
+    await page.waitForSelector(selectors.searchViewIonCard + `:nth-child(${ionCards.length})`);
     ionCards = await page.$$(selectors.searchViewIonCard);
 
     while (ionCards.length < 533) {
@@ -147,9 +131,7 @@ describe("App", () => {
       await ionCards[ionCards.length - 10].hover();
       await ionCards[ionCards.length - 1].hover();
 
-      await page.waitForSelector(
-        selectors.searchViewIonCard + `:nth-child(${ionCards.length})`
-      );
+      await page.waitForSelector(selectors.searchViewIonCard + `:nth-child(${ionCards.length})`);
       ionCards = await page.$$(selectors.searchViewIonCard);
     }
 
@@ -162,15 +144,9 @@ describe("App", () => {
   });
 });
 
-async function verifySearchResults(
-  page: Page,
-  searchTerm: string,
-  songResults: string[]
-) {
+async function verifySearchResults(page: Page, searchTerm: string, songResults: string[]) {
   if (songResults !== null && songResults.length >= 20) {
-    throw exception(
-      "verifySearchResults only works if songResults < 20 items."
-    );
+    throw exception("verifySearchResults only works if songResults < 20 items.");
   }
 
   await page.waitForSelector(selectors.searchBar);
@@ -187,8 +163,6 @@ async function verifySearchResults(
   expect(ionCards.length).toEqual(songResults.length);
 
   for (let i = 0; i < ionCards.length; i++) {
-    expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(
-      songResults[i]
-    );
+    expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
   }
 }

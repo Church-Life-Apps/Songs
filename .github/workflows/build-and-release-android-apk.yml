@@ -1,4 +1,4 @@
-name: Build and Release	Debug Android APK
+name: Build and Release	Android Debug APK
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:	
-  build:	
-    name: Build and Release Debug APK
+  build-and-release:	
+    name: Build and Release
     runs-on: ubuntu-latest	
     steps:	
       - name: Checkout source	

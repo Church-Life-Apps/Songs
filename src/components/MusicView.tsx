@@ -4,8 +4,7 @@ import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
 
-const baseUrl =
-  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
+const baseUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
 const hymnalPart = "shl/SHL_"; // This part can change when red book is added
 const imageSuffix = ".png";
 const alt = "No Song Found";
@@ -30,12 +29,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
 
   let secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
-  let url =
-    baseUrl +
-    hymnalPart +
-    makeThreeDigits(props.songNumber) +
-    secondTuneSuffix +
-    imageSuffix;
+  let url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
 
   // TODO: Add Pinch and Zoom to image.
   return (
@@ -43,10 +37,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       {/* Second Tune Toggler  */}
       {songHasTwoTunes && (
         <div id="songToggler">
-          <IonToggle
-            checked={secondTune}
-            onIonChange={(e) => setSecondTune(!secondTune)}
-          />
+          <IonToggle checked={secondTune} onIonChange={(e) => setSecondTune(!secondTune)} />
         </div>
       )}
 

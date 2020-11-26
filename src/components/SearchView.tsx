@@ -41,10 +41,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   return songCards.length > 0 ? (
     <div>
       <IonList>{songCards}</IonList>
-      <IonInfiniteScroll
-        onIonInfinite={LoadMoreSongs}
-        disabled={searchIsNumber}
-      >
+      <IonInfiniteScroll onIonInfinite={LoadMoreSongs} disabled={searchIsNumber}>
         <IonInfiniteScrollContent
           loadingSpinner="bubbles"
           loadingText="Loading more songs..."
@@ -66,11 +63,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
     target.complete();
   }
 
-  function LoadSongs(
-    songIterator: IterableIterator<[number, Song]>,
-    count: number,
-    searchParam: string[]
-  ): boolean {
+  function LoadSongs(songIterator: IterableIterator<[number, Song]>, count: number, searchParam: string[]): boolean {
     while (count > 0) {
       let nextSong = songIterator.next();
       if (nextSong.done) {
@@ -97,16 +90,10 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       return [];
     }
 
-    let searchString = removePunctuation(
-      props.searchString.trim().toLowerCase()
-    );
+    let searchString = removePunctuation(props.searchString.trim().toLowerCase());
     let searchNumber = Number(searchString);
 
-    if (
-      !isNaN(searchNumber) &&
-      searchNumber > 0 &&
-      searchNumber <= props.songs.length
-    ) {
+    if (!isNaN(searchNumber) && searchNumber > 0 && searchNumber <= props.songs.length) {
       return searchNumber;
     }
 

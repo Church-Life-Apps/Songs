@@ -1,11 +1,4 @@
-import {
-  IonButton,
-  IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonModal,
-  IonIcon,
-} from "@ionic/react";
+import { IonButton, IonTitle, IonToolbar, IonButtons, IonModal, IonIcon } from "@ionic/react";
 import "./Components.css";
 import {
   documentTextOutline,
@@ -45,16 +38,9 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
       </IonButtons>
 
       {/* Settings Menu Popup  */}
-      <IonModal
-        id="settingsModal"
-        isOpen={showSettingsModal}
-        onDidDismiss={() => setShowSettingsModal(false)}
-      >
+      <IonModal id="settingsModal" isOpen={showSettingsModal} onDidDismiss={() => setShowSettingsModal(false)}>
         <SettingsView />
-        <IonButton
-          id="returnToHymnalButton"
-          onClick={() => setShowSettingsModal(false)}
-        >
+        <IonButton id="returnToHymnalButton" onClick={() => setShowSettingsModal(false)}>
           Back to Hymnal
         </IonButton>
       </IonModal>

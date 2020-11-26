@@ -1,11 +1,4 @@
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonItem,
-  IonLabel,
-} from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { Song } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
@@ -36,9 +29,7 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
       <IonCardHeader>
         <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
       </IonCardHeader>
-      <IonCardContent key={song?.lyrics}>
-        {song ? getLyrics(song) : song}
-      </IonCardContent>
+      <IonCardContent key={song?.lyrics}>{song ? getLyrics(song) : song}</IonCardContent>
     </IonCard>
   );
 
