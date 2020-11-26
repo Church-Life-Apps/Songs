@@ -23,5 +23,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        // This needs to be fixed and turned back on:
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }
