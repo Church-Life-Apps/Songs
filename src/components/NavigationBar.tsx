@@ -1,11 +1,4 @@
-import {
-  IonButton,
-  IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonModal,
-  IonIcon,
-} from "@ionic/react";
+import { IonButton, IonTitle, IonToolbar, IonButtons, IonModal, IonIcon } from "@ionic/react";
 import "./Components.css";
 import {
   documentTextOutline,
@@ -16,6 +9,7 @@ import {
 } from "ionicons/icons";
 import React, { useState } from "react";
 import SettingsView from "../components/SettingsView";
+import { AppName } from "../App";
 
 interface NavigationBarProps {
   backButtonOnClick?: () => void;
@@ -32,7 +26,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   return (
     <IonToolbar>
       {/* [eric] we can probably come up with a better name, right? */}
-      <IonTitle>Hymnal App</IonTitle>
+      <IonTitle id="appName">{AppName}</IonTitle>
       <IonButtons slot="start">{RenderBackButton()}</IonButtons>
       <IonButtons slot="primary">
         {RenderToggleSongModeButton()}
@@ -44,16 +38,9 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
       </IonButtons>
 
       {/* Settings Menu Popup  */}
-      <IonModal
-        id="settingsModal"
-        isOpen={showSettingsModal}
-        onDidDismiss={() => setShowSettingsModal(false)}
-      >
+      <IonModal id="settingsModal" isOpen={showSettingsModal} onDidDismiss={() => setShowSettingsModal(false)}>
         <SettingsView />
-        <IonButton
-          id="returnToHymnalButton"
-          onClick={() => setShowSettingsModal(false)}
-        >
+        <IonButton id="returnToHymnalButton" onClick={() => setShowSettingsModal(false)}>
           Back to Hymnal
         </IonButton>
       </IonModal>
@@ -78,7 +65,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     }
 
     return (
-      <IonButton onClick={props.toggleSongModeOnClick}>
+      <IonButton id="songViewToggler" onClick={props.toggleSongModeOnClick}>
         <IonIcon icon={musicalNotesOutline} />
         <IonIcon icon={swapHorizontalOutline} />
         <IonIcon icon={documentTextOutline} />

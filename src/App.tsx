@@ -23,6 +23,18 @@ import HomePage from "./pages/HomePage";
 import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { DbManager } from "./database/DbManager";
+import { PageView, initGA } from "./components/Tracking";
+
+const StreamID = "UA-183902236-1";
+
+try {
+  initGA(StreamID);
+  PageView();
+} catch (e) {
+  console.error(e);
+}
+
+export const AppName = "Hymnal App";
 
 const App: React.FC = () => {
   DbManager.getInstance();

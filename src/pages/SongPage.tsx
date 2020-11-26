@@ -5,6 +5,8 @@ import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+//Import Event tracking
+import { Event } from "../components/Tracking";
 
 /**
  * Song Page Component.
@@ -17,9 +19,7 @@ const SongPage: React.FC = () => {
   let history = useHistory();
 
   // when in song view, use music view or lyrics view
-  const [songViewMode, setSongViewMode] = useState<SongViewMode>(
-    SongViewMode.Music
-  );
+  const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
 
   return (
     <IonPage>
@@ -52,6 +52,11 @@ const SongPage: React.FC = () => {
       setSongViewMode(SongViewMode.Lyrics);
     } else {
       setSongViewMode(SongViewMode.Music);
+    }
+    try {
+      Event("INTERACTION", "Songmode is toggled", "SongMode_Toggle");
+    } catch (e) {
+      console.error(e);
     }
   }
 };

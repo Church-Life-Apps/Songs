@@ -1,10 +1,13 @@
-name: Build and Deploy
+name: Build and Deploy GitHub Pages
+
 on:
   push:
     branches:
       - master
+
 jobs:
   build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️

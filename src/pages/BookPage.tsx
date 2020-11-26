@@ -1,10 +1,4 @@
-import {
-  IonContent,
-  IonPage,
-  IonItem,
-  IonHeader,
-  IonSearchbar,
-} from "@ionic/react";
+import { IonContent, IonPage, IonItem, IonHeader, IonSearchbar } from "@ionic/react";
 import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import SearchView from "../components/SearchView";
@@ -39,6 +33,7 @@ const BookPage: React.FC = () => {
       </IonHeader>
       <IonItem>
         <IonSearchbar
+          id="searchBar"
           type="search"
           value={searchString}
           placeholder="Search for a song"
@@ -48,11 +43,7 @@ const BookPage: React.FC = () => {
       <DBTest songNumber={ Number (searchString) }/>
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent key={searchString}>
-        <SearchView
-          key={searchString + songs.length}
-          searchString={searchString}
-          songs={songs}
-        />
+        <SearchView key={searchString + songs.length} searchString={searchString} songs={songs} />
       </IonContent>
     </IonPage>
   );

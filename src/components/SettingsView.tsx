@@ -1,10 +1,4 @@
-import {
-  IonButton,
-  IonContent,
-  IonItem,
-  IonLabel,
-  IonList,
-} from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonLabel, IonList } from "@ionic/react";
 import React, { useState } from "react";
 import "./Components.css";
 import FeedbackForm from "./FeedbackForm";
@@ -25,9 +19,7 @@ const SettingsView: React.FC = () => {
             <IonLabel>Settings</IonLabel>
           </IonItem>
           <IonItem>
-            <IonButton onClick={() => setChosenSetting("feedback")}>
-              Submit Feedback
-            </IonButton>
+            <IonButton onClick={() => setChosenSetting("feedback")}>Submit Feedback</IonButton>
           </IonItem>
         </IonList>
       ) : null}
@@ -35,12 +27,7 @@ const SettingsView: React.FC = () => {
       {chosenSetting === "feedback" ? <FeedbackForm /> : null}
 
       {chosenSetting !== "" ? (
-        <IonButton
-          color="light"
-          expand="full"
-          id="backToSettingsButton"
-          onClick={() => setChosenSetting("")}
-        >
+        <IonButton color="light" expand="full" id="backToSettingsButton" onClick={() => setChosenSetting("")}>
           Return to Settings
         </IonButton>
       ) : null}
