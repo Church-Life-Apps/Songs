@@ -34,12 +34,6 @@ export enum SongViewMode {
   Lyrics,
 }
 
-<<<<<<< HEAD
-// hard coded until we get more song books.
-export const BlackBookSongs = songs["Songs and Hymns of Life"];
-
-=======
->>>>>>> master
 // TODO: use json schema
 export interface Song {
   title: string;

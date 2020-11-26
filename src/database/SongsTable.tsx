@@ -1,12 +1,12 @@
-import { DbSong } from '../models/DbSong';
-import { isCordova } from '../utils/PlatformUtils';
-import { Database, FAVORITED, LAST_USED, NUM_HITS, SONGS_TABLE, SONG_NUMBER } from './Database';
+import { DbSong } from "../models/DbSong";
+import { isCordova } from "../utils/PlatformUtils";
+import { DbManager, FAVORITED, LAST_USED, NUM_HITS, SONGS_TABLE, SONG_NUMBER } from "./DbManager";
 
 /**
  * Insert a song into the Songs Table with default values.
  */
 export function insertSong(songNumber: number): void {
-  const query = `INSERT INTO ${SONGS_TABLE} values(${songNumber}, 0, ${Date.now()}, false) ON CONFLICT DO NOTHING`;
+  const query = `INSERT INTO ${SONGS_TABLE} values(${songNumber}, 0, ${Date.now()}, false)`;
 
   runQuery(query, `Insert song number ${songNumber}`);
 }
@@ -34,37 +34,43 @@ export function updateSongFavorited(songNumber: number, favorited: boolean): voi
 /**
  * Retrieves the song from the DB for the requested song number.
  */
-export async function getSong(songNumber: string): Promise<DbSong | undefined> {
+export function getSong(songNumber: string, callback: (song: DbSong | null) => any): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
 
-  return runQuerySingle(query, `Getting song ${songNumber}`);
+  runQuerySingle(query, `Getting song ${songNumber}`, callback);
 }
 
 /**
  * Gets all songs from the database sorted by when they were last used.
  */
-export function getSongsSortedByLastUsed(): Promise<DbSong[]> {
+export function getSongsSortedByLastUsed(callback: (songs: DbSong[]) => any): void {
   const query = `SELECT * FROM ${SONGS_TABLE} ORDER BY ${LAST_USED} DESC`;
 
-  return runQuery(query, `Select songs ordered by last_used.`);
+  return runQuery(query, `Select songs ordered by last_used.`, callback);
 }
 
 /**
  * Gets all favorited songs from the database.
  */
-export function getFavoriteSongs(): Promise<DbSong[]> {
+export function getFavoriteSongs(callback: (songs: DbSong[]) => any): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${FAVORITED}=true ORDER BY ${NUM_HITS} DESC`;
 
-  return runQuery(query, `Select Favorited Songs`);
+  runQuery(query, `Select Favorited Songs`, callback);
 }
 
 /**
  * Lists all songs saved in the DB, default sorted by last_used.
  */
-export async function listSongs(): Promise<DbSong[]> {
-  const query = `SELECT * FROM ${SONGS_TABLE} ORDER BY ${SONG_NUMBER} ASC`;
+export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => any): void {
+  // let query = ""
+  //if (searchText === "") {
+   const query = `SELECT * FROM ${SONGS_TABLE} ORDER BY ${SONG_NUMBER} ASC`;
+  //}
 
-  return runQuery(query, 'List all songs');
+
+  // finish this - copy GetSearchParams in SearchView.tsx
+
+  runQuery(query, "List all songs", callback);
 }
 
 /**
@@ -73,15 +79,14 @@ export async function listSongs(): Promise<DbSong[]> {
 export function clearDatabase() {
   const query = `DELETE FROM ${SONGS_TABLE}`;
 
-  runQuery(query, 'Deleting all songs');
+  runQuery(query, "Deleting all songs");
 }
 
 export function populateDatabase() {
   // const time = Date.now()
-  for (let i = 1; i < 533; ++i) {
+  for (let i = 1; i < 10; ++i) {
     insertSong(i);
   }
-
 
   // let query = `BEGIN TRANSACTION; \n`;
   // for (let i = 1; i <= 10; i++) {
@@ -96,47 +101,60 @@ export function populateDatabase() {
  * Generic Query running function. Descriptor is solely for debugging purposes.
  * Returns a list of rows that were returned from the query response mapped into DbSong objects.
  */
-async function runQuery(query: string, descriptor: string): Promise<DbSong[]> {
-  if (!isCordova()) {
-    return Promise.resolve([]);
-  }
+function runQuery(query: string, descriptor: string, callback: (songs: DbSong[]) => any = () => {}): void {
   try {
-    let sql = Database.getInstance().getSongsTable;
+    let sql = DbManager.getInstance().getSongsTable;
     if (sql === undefined) {
       console.log(`Cannot run SQL ${descriptor} because DB is undefined.`);
-      return Promise.resolve([]);
+      callback([]);
+      return;
     }
     try {
-      let startTime = Date.now();
-      return sql.executeSql(query, []).then((response) => {
-        let songs: DbSong[] = [];
-        for (var i = 0; i < response.rows.length; i++) {
-          songs.push(mapToDbSong(response.rows.item(i)));
-        }
-        console.log(
-          `Returning ${response.rows.length} rows for query ${descriptor} after ${Date.now() - startTime} millis.`
-        );
-        return songs;
-      });
+      let st = Date.now();
+
+      if (!isCordova()) {
+        sql.transaction((transaction) => {
+          transaction.executeSql(
+            query,
+            [],
+            (_transaction: any, response: any) => {
+              const songs = mapToSongList(response);
+              console.log(`Returning ${response.rows.length} rows on ${descriptor} after ${Date.now() - st} millis.`);
+              callback(songs);
+            },
+            (_transaction: any, error: any) => {
+              console.log(`WebSQL query error: ${descriptor}, ${error.message}.`);
+              callback([]);
+            }
+          );
+        });
+      } else {
+        sql.executeSql(query, []).then((response) => {
+          const songs = mapToSongList(response);
+          console.log(`Returning ${response.rows.length} rows on ${descriptor} after ${Date.now() - st} millis.`);
+          callback(songs);
+        });
+      }
     } catch (e) {
       console.log(`SQL query error: ${descriptor}, ${e}.`);
-      return Promise.resolve([]);
+      callback([]);
     }
   } catch (e) {
     console.log(`DB Error: ${descriptor}, ${e}.`);
-    return Promise.resolve([]);
+    callback([]);
   }
 }
 
 /**
  * Wrapper for running a query where only 1 return value is expected.
  */
-async function runQuerySingle(query: string, descriptor: string): Promise<DbSong | undefined> {
-  return runQuery(query, descriptor).then((results) => {
-    if (results.length >= 1) {
-      return results[0];
+function runQuerySingle(query: string, descriptor: string, callback: (song: DbSong | null) => any): void {
+  runQuery(query, descriptor, (songs: DbSong[]) => {
+    if (songs.length >= 1) {
+      callback(songs[0]);
+    } else {
+      callback(null);
     }
-    return undefined;
   });
 }
 
@@ -144,6 +162,15 @@ async function runQuerySingle(query: string, descriptor: string): Promise<DbSong
 /**
  * Maps a resulting row from the songs table to a DbSong Object.
  */
+
+function mapToSongList(rs: any): DbSong[] {
+  let songs: DbSong[] = [];
+  for (var i = 0; i < rs.rows.length; i++) {
+    songs.push(mapToDbSong(rs.rows.item(i)));
+  }
+  return songs;
+}
+
 function mapToDbSong(resultSet: any): DbSong {
   return new DbSong(resultSet[SONG_NUMBER], resultSet[NUM_HITS], resultSet[LAST_USED], resultSet[FAVORITED]);
 }

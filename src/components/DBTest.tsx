@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import './Components.css';
-import { makeThreeDigits } from '../utils/SongUtils';
-import { IonButton, IonItem, IonLabel, IonList, IonToggle } from '@ionic/react';
-import { Plugins } from '@capacitor/core';
-import { clearCache, getItem, storeItem } from '../utils/StorageUtils';
-import { logPromiseTime } from '../utils/DebuggingUtils';
-import { clearDatabase, insertSong, listSongs, populateDatabase } from '../database/SongsTable';
-import { DbSong } from '../models/DbSong';
-import { logPlatforms } from '../utils/PlatformUtils';
+import React, { useState } from "react";
+import "./Components.css";
+import { makeThreeDigits } from "../utils/SongUtils";
+import { IonButton, IonItem, IonLabel, IonList, IonToggle } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
+import { clearCache, getItem, storeItem } from "../utils/StorageUtils";
+import { logPromiseTime } from "../utils/DebuggingUtils";
+import { clearDatabase, insertSong, listSongsBySearchText, populateDatabase } from "../database/SongsTable";
+import { DbSong } from "../models/DbSong";
+import { logPlatforms } from "../utils/PlatformUtils";
 
 const songsWithTwoTunes = [156, 216, 278, 478];
 
@@ -20,19 +20,19 @@ interface SongViewProps2 {
  * Song Viewer React Functional Component.
  */
 const DBTest: React.FC<SongViewProps2> = (props) => {
-  const [data, setData] = useState<string>('beginning data');
+  const [data, setData] = useState<string>("beginning data");
   const [songsList, setSongsList] = useState<DbSong[]>([]);
 
   if (props.songNumber === 99) {
     clearCache();
-    clearDatabase()
+    clearDatabase();
   }
 
   logPlatforms();
 
   let s = new DbSong(13, 12, Date.now(), true);
 
-  console.log('s = ' + s);
+  console.log("s = " + s);
 
   // TODO: Add Pinch and Zoom to image.
   return (
@@ -63,31 +63,17 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            clearDatabase()
+            clearDatabase();
           }}
         >
           DELETE all songs
         </IonButton>
       </IonItem>
 
-
       <IonItem>
         <IonButton
           onClick={() => {
-            listSongs().then((songs) => {
-              setSongsList(songs);
-              console.log(
-                'songs = ' +
-                  songs.map((it) => {
-                    return '' + it.songNumber;
-                  })
-              );
-              let n = 'NUMS = ';
-              for (var i = 0; i < songs.length; ++i) {
-                n += songs[i].songNumber + ', ';
-              }
-              setData(n);
-            });
+            listSongsBySearchText("glory", populateSongs)
           }}
         >
           list songs
@@ -100,5 +86,20 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       {/* <img src={`data:image/png;base64,${bytes}`} alt={alt} /> */}
     </div>
   );
+
+  function populateSongs(songs: DbSong[]): void {
+    console.log("returned songs = " + songs);
+    // console.log(
+    //   'songs = ' +
+    //     songs.map((it) => {
+    //       return '' + it.songNumber;
+    //     })
+    // );
+    let n = "NUMS = ";
+    for (var i = 0; i < songs.length; ++i) {
+      n += songs[i].songNumber + ", ";
+    }
+    setData(n);
+  }
 };
 export default DBTest;

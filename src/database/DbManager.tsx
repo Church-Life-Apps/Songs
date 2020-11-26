@@ -5,8 +5,9 @@ import { isCordova } from "../utils/PlatformUtils";
 import { getItem, storeItem, YES } from "../utils/StorageUtils";
 import { populateDatabase } from "./SongsTable";
 
-const SCHEMA = "hymnal";
-export const SONGS_TABLE = "songs_test_4";
+const SCHEMA = "hymnal_test_4";
+export const SONGS_TABLE = "songs_test_6";
+const VERSION = "1.0";
 
 const SQL_DB_NAME = `${SCHEMA}.${SONGS_TABLE}`;
 const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
@@ -16,14 +17,15 @@ const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
 
 export const DATABASE_INITIALIZED = "databaseInitialized";
 export const LYRICS_ONLY_MODE = "lyricsOnlyMode";
+declare var window: any;
 
 /**
  * Overall Database stuff.
  * This class defines all the tables and instantiates them as a singleton database object when the app starts up.
  */
-export class Database {
-  private static instance: Database;
-  private songsTable: SQLiteObject | undefined;
+export class DbManager {
+  private static instance: DbManager;
+  private songsTable: SQLiteObject |undefined;
 
   /**
    * Constructs the SQLiteObject used to make queries.
@@ -32,6 +34,7 @@ export class Database {
    */
   private constructor() {
     if (isCordova()) {
+      // Mobile app, use SQLite.
       SQLite.create(SONGS_TABLE_CONFIG).then((db) => {
         this.songsTable = db;
         db.executeSql(CREATE_SONGS_TABLE, []).then(() => {
@@ -48,22 +51,29 @@ export class Database {
         });
       });
     } else {
+      // Not Mobile app, so use WebSQL to generate the SQLiteObject used for queries.
+      try {
+        let db = window.openDatabase(SCHEMA, VERSION, SQL_DB_NAME, 5 * 1024 * 1024);
+        db.changeVersion("", VERSION, (transaction: any) => {
+          transaction.executeSql(CREATE_SONGS_TABLE);
+        });
+        console.log(`Successfully opened WebSQL database schema: ${SCHEMA} and created table: ${SONGS_TABLE}`);
+        this.songsTable = db;
+      } catch (e) {
+        console.log("Errored creating the WebSQL database." + e + e.message);
+      }
     }
-    // Setting up DB for browser.
-    // var dbs = openDatabase({ name: 'UserDatabase.db' });
-    // let db = window.openDatabase(SQL_DB_NAME, '1.0', 'DEV', 5 * 1024 * 1024);
-    // this.dbInstance = browserDBInstance(db);
   }
 
   get getSongsTable() {
     return this.songsTable;
   }
 
-  static getInstance(): Database {
-    if (!Database.instance) {
-      Database.instance = new Database();
+  static getInstance(): DbManager {
+    if (!DbManager.instance) {
+      DbManager.instance = new DbManager();
     }
-    return Database.instance;
+    return DbManager.instance;
   }
 
   createIndexes(sql: SQLiteObject) {
@@ -92,16 +102,23 @@ export const LYRICS = "lyrics";
 const indexes = [NUM_HITS, LAST_USED, FAVORITED];
 
 const CREATE_SONGS_TABLE = `CREATE TABLE IF NOT EXISTS ${SONGS_TABLE}(
-    ${SONG_NUMBER} int,
-    ${BOOK_ID} int,
+    ${SONG_NUMBER} int primary key,
     ${NUM_HITS} int,
     ${LAST_USED} datetime,
-    ${FAVORITED} boolean,
-    ${AUTHOR} text,
-    ${TITLE} text,
-    ${LYRICS} text
-    primary key (${SONG_NUMBER}, ${BOOK_ID})
-);`;
+    ${FAVORITED} boolean
+    );`;
+
+// const CREATE_SONGS_TABLE = `CREATE TABLE IF NOT EXISTS ${SONGS_TABLE}(
+//   ${SONG_NUMBER} int,
+//   ${BOOK_ID} int,
+//   ${NUM_HITS} int,
+//   ${LAST_USED} datetime,
+//   ${FAVORITED} boolean,
+//   ${AUTHOR} text,
+//   ${TITLE} text,
+//   ${LYRICS} text
+//   primary key (${SONG_NUMBER}, ${BOOK_ID})
+// );`;
 
 function getCreateIndexQuery(column: string): string {
   return `CREATE INDEX ${column}_index IF NOT EXISTS ON ${SONGS_TABLE}(${column});`;

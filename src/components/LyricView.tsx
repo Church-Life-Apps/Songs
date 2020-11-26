@@ -6,14 +6,9 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
-<<<<<<< HEAD
-import React from "react";
-import { BlackBookSongs, Song } from "../utils/SongUtils";
-=======
 import React, { useEffect, useState } from "react";
 import { Song } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
->>>>>>> master
 import "./Components.css";
 
 interface LyricViewProps {
@@ -24,15 +19,6 @@ interface LyricViewProps {
  * Lyric Viewer React Functional Component.
  */
 const LyricView: React.FC<LyricViewProps> = (props) => {
-<<<<<<< HEAD
-  if (props.songNumber > BlackBookSongs.length) {
-    return <IonItem lines="none">No song found.</IonItem>;
-  }
-
-  let song: Song = BlackBookSongs[props.songNumber - 1];
-
-  let lyrics = getLyrics(BlackBookSongs[props.songNumber - 1]);
-=======
   const [song, setSong] = useState<Song>();
 
   useEffect(() => {
@@ -44,16 +30,11 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
         return <IonItem lines="none">No song found.</IonItem>;
       });
   }, [props.songNumber]);
->>>>>>> master
 
   return (
     <IonCard>
       <IonCardHeader>
-<<<<<<< HEAD
-        <IonCardTitle>{song.title}</IonCardTitle>
-=======
         <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
->>>>>>> master
       </IonCardHeader>
       <IonCardContent key={song?.lyrics}>
         {song ? getLyrics(song) : song}

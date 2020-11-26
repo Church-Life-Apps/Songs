@@ -9,12 +9,9 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
-<<<<<<< HEAD
-import { BlackBookSongs } from "../utils/SongUtils";
-=======
 import { Song } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
->>>>>>> master
+import DBTest from "../components/DBTest";
 
 /**
  * Book Page Component.
@@ -25,8 +22,6 @@ import { getShlSongs } from "../utils/StorageUtils";
 const BookPage: React.FC = () => {
   // the search string inputted by the user
   const [searchString, setSearchString] = useState<string>("");
-<<<<<<< HEAD
-=======
   const [songs, setSongs] = useState<Song[]>([]);
 
   useEffect(() => {
@@ -34,7 +29,6 @@ const BookPage: React.FC = () => {
       .then((song) => (song ? song : []))
       .then(setSongs);
   }, []);
->>>>>>> master
 
   let history = useHistory();
 
@@ -51,7 +45,7 @@ const BookPage: React.FC = () => {
           onIonChange={(e) => setSearchString(e.detail.value!.toString())}
         ></IonSearchbar>
       </IonItem>
-
+      <DBTest songNumber={ Number (searchString) }/>
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent key={searchString}>
         <SearchView
@@ -62,24 +56,6 @@ const BookPage: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-<<<<<<< HEAD
-
-  function GetSearchBar() {
-    return (
-      <IonSearchbar
-        type="search"
-        value={searchString}
-        placeholder="Search for a song"
-        onIonChange={(e) => setSearchString(e.detail.value!.toString())}
-      ></IonSearchbar>
-    );
-  }
-
-  function GetSearchView() {
-    return <SearchView key={searchString} searchString={searchString} songs={BlackBookSongs}/>;
-  }
-=======
->>>>>>> master
 };
 
 export default BookPage;

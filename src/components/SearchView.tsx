@@ -13,10 +13,6 @@ import { useParams, useHistory } from "react-router-dom";
 import { removePunctuation, Song } from "../utils/SongUtils";
 import "./Components.css";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 interface SearchViewProps {
   searchString: string;
   songs: Song[];
