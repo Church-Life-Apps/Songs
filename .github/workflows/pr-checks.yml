@@ -44,7 +44,7 @@ jobs:
 
       - name: Run ESLint
         working-directory: ./src/
-        run: npx eslint **/*.{tsx,js,ts}
+        run: npx eslint **/*.{tsx,js,ts} --no-error-on-unmatched-pattern
 
   build-and-test:
     name: Build and Test
