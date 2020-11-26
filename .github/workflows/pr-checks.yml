@@ -27,6 +27,7 @@ jobs:
 
   eslint:
     name: ESLint
+    needs: prettier
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
