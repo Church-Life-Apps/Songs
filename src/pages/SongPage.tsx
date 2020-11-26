@@ -19,9 +19,7 @@ const SongPage: React.FC = () => {
   let history = useHistory();
 
   // when in song view, use music view or lyrics view
-  const [songViewMode, setSongViewMode] = useState<SongViewMode>(
-    SongViewMode.Music
-  );
+  const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
 
   return (
     <IonPage>

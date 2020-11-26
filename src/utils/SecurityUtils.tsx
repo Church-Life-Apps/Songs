@@ -15,7 +15,5 @@ export function encrypt(normalText: String, privateKey: String) {
  * Uses AES to decrypt some text with the given private key.
  */
 export function decrypt(encryptedtext: String, privateKey: String) {
-  return CryptoJS.AES.decrypt(encryptedtext, privateKey).toString(
-    CryptoJS.enc.Utf8
-  );
+  return CryptoJS.AES.decrypt(encryptedtext, privateKey).toString(CryptoJS.enc.Utf8);
 }

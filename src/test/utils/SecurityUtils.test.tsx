@@ -2,7 +2,7 @@ import { decrypt, encrypt } from "../../utils/SecurityUtils";
 
 describe("Security Utils Tests", () => {
   it("Encrypt and Decrypt Test", () => {
-    let text = JSON.stringify({data: "hello world"});
+    let text = JSON.stringify({ data: "hello world" });
     let privateKey = "key1";
 
     let encrypted = encrypt(text, privateKey);
