@@ -13,12 +13,12 @@ ion-toggle {
   --handle-background-checked: #1f96f8;
 }
 
-#songTogglerDiv {
+#songToggler {
   text-align: right;
   margin-bottom: -40px;
 }
 
-#musicViewDiv {
+#musicView {
   display: block;
   margin-left: auto;
   margin-right: auto;
