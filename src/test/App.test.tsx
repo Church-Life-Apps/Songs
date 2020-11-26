@@ -24,7 +24,7 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false, // use this to open browser window for tests
+      // headless: false, // use this to open browser window for tests
       // slowMo: 200, // use this to slow down testing for debugging purposes
     });
   });
