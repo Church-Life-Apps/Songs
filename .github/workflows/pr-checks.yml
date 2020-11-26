@@ -32,9 +32,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -51,7 +48,7 @@ jobs:
 
   build-and-test:
     name: Build and Test
-    needs: prettier
+    needs: [prettier, eslint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -67,15 +64,15 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm build
+        run: ionic build
 
       - name: Test
-        run: npm test
+        run: ionic test
 
 
   build-apk:
     name: Build Android APK
-    needs: prettier
+    needs: [prettier, eslint, build-and-test]
     runs-on: ubuntu-latest	
     steps:	
       - name: Checkout	
@@ -94,12 +91,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-
-      - name: Install Capacitor
-        run: npm install -g @capacitor/core @capacitor/cli
-
-      - name: Install Ionic	
-        run: npm install -g @ionic/cli	
 
       - name: Install app dependencies	
         run: npm install	
