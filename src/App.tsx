@@ -33,6 +33,8 @@ try {
   console.error(e);
 }
 
+export const AppName = "Hymnal App";
+
 const App: React.FC = () => (
   <HashRouter>
     <Switch>

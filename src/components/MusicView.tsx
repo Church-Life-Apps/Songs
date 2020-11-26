@@ -42,7 +42,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
     <div>
       {/* Second Tune Toggler  */}
       {songHasTwoTunes && (
-        <div id="songTogglerDiv">
+        <div id="songToggler">
           <IonToggle
             checked={secondTune}
             onIonChange={(e) => setSecondTune(!secondTune)}
@@ -55,7 +55,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
         <TransformComponent> */}
       <img
         style={{ width: width }}
-        id="musicViewDiv"
+        id="musicView"
         onDoubleClick={() => {
           if (zoomed) {
             setWidth(widthPixels);
