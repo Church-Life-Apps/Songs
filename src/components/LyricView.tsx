@@ -43,7 +43,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     verses.forEach((versenumber) => {
       lyrics.push(<IonLabel key={key}>{getVerseText(versenumber)}</IonLabel>);
       key++;
-      (song.lyrics[versenumber]).forEach((line: string) => {
+      song.lyrics[versenumber].forEach((line: string) => {
         lyrics.push(
           <IonItem key={key} lines="none">
             <IonLabel className="ion-text-wrap">{line}</IonLabel>
