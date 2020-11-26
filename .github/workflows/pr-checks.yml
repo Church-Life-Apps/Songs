@@ -44,7 +44,8 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: npx eslint -c .eslintrc.json src/**/*.{tsx,js,ts}
+        working-directory: ./src/
+        run: npx eslint **/*.{tsx,js,ts}
 
 
   build-and-test:
