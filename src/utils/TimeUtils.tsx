@@ -23,7 +23,7 @@ export function formatDate(timeInMillis: number): string {
  */
 export function describeTime(timeInMillis: number): string {
   if (timeInMillis === 0) {
-    return ""
+    return "";
   }
   let howLongAgo = Date.now() - timeInMillis;
   let past = true;

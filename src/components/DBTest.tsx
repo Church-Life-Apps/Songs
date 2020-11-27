@@ -43,7 +43,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-             updateSongFavorited(props.songNumber, true);
+            updateSongFavorited(props.songNumber, true);
           }}
         >
           favorite song
@@ -73,7 +73,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            listSongsBySearchText("watchman", populateSongs)
+            listSongsBySearchText("watchman", populateSongs);
           }}
         >
           list songs

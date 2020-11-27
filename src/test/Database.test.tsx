@@ -1,12 +1,12 @@
-import { isCordova } from '../utils/PlatformUtils';
+import { isCordova } from "../utils/PlatformUtils";
 
-describe('Database and Songs Table tests', () => {
+describe("Database and Songs Table tests", () => {
   afterEach(() => {
     jest.restoreAllMocks();
     jest.resetAllMocks();
   });
 
-  it('DB Tables are created properly', () => {
+  it("DB Tables are created properly", () => {
     // expect(isCordova()).toBe(true);
 
     expect(1 + 1).toBe(2);
