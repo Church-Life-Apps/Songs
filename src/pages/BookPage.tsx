@@ -5,7 +5,6 @@ import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
 import { Song } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
-import DBTest from "../components/DBTest";
 
 /**
  * Book Page Component.
@@ -40,7 +39,6 @@ const BookPage: React.FC = () => {
           onIonChange={(e) => setSearchString(e.detail.value!.toString())}
         ></IonSearchbar>
       </IonItem>
-      <DBTest songNumber={Number(searchString)} />
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent key={searchString}>
         <SearchView key={searchString + songs.length} searchString={searchString} songs={songs} />

@@ -15,6 +15,17 @@ import {
   TITLE,
 } from "./DbManager";
 
+
+/**
+ * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
+ */
+export function getSong(songNumber: number, callback: (song: DbSong | null) => any): void {
+  updateSongHits(songNumber);
+
+  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
+  runQuerySingle(query, `Getting song ${songNumber}`, callback);
+}
+
 /**
  * Updates the favorited field for the provided song number.
  */
@@ -25,21 +36,10 @@ export function updateSongFavorited(songNumber: number, favorited: boolean): voi
 }
 
 /**
- * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
- */
-export function getSong(songNumber: number, callback: (song: DbSong | null) => any): void {
-  updateSongHits(songNumber);
-
-  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
-
-  runQuerySingle(query, `Getting song ${songNumber}`, callback);
-}
-
-/**
  * Gets all songs from the database sorted by when they were last used.
  */
 export function getSongsSortedByLastUsed(callback: (songs: DbSong[]) => any): void {
-  const query = `SELECT * FROM ${SONGS_TABLE} ORDER BY ${LAST_USED} DESC`;
+  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${LAST_USED} > 0 ORDER BY ${LAST_USED} DESC`;
 
   return runQueryWithCallback(query, `Select songs ordered by last_used.`, callback);
 }
@@ -57,7 +57,7 @@ export function getFavoriteSongs(callback: (songs: DbSong[]) => any): void {
  * Lists all songs in the DB that match the text.
  *
  * This is really naive right now and does not sort by accuracy.
- * TODO: Use full text search and return rows ordered by hit accuracy.
+ * TODO (Brandon): Use full text search and return rows ordered by hit accuracy.
  */
 export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => any): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${AUTHOR} LIKE '%${searchText}%' 
@@ -88,6 +88,7 @@ function clearDatabase(): void {
 
 /**
  * Given a list of Songs, populate the database with that song list and book id.
+ * For both mobile/browser, Keep all queries under 1 transaction. Multiple transactions are more expensive.
  */
 export function populateDatabase(songs: Song[], bookId: number): void {
   let songsTable = DbManager.getInstance().getSongsTable;
@@ -162,7 +163,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
   try {
     let startTime = Date.now();
     if (!isCordova()) {
-      // websql
+      // Not Mobile:
       const sql = songsTable as Database;
       sql.readTransaction((transaction) => {
         transaction.executeSql(
@@ -180,7 +181,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
         );
       });
     } else {
-      // mobile
+      // Mobile:
       const sql = songsTable as SQLiteObject;
       sql.executeSql(query, []).then((response) => {
         const songs = mapToSongList(response);
@@ -205,7 +206,7 @@ function runQuery(query: string, descriptor: string): void {
   try {
     let startTime = Date.now();
     if (!isCordova()) {
-      // websql
+      // Not Mobile:
       const sql = songsTable as Database;
       sql.transaction((transaction) => {
         transaction.executeSql(
@@ -221,7 +222,7 @@ function runQuery(query: string, descriptor: string): void {
         );
       });
     } else {
-      // mobile
+      // Mobile:
       const sql = songsTable as SQLiteObject;
       sql.executeSql(query, []).then((response) => {
         console.log(`Successfully ran query ${descriptor} in ${Date.now() - startTime} millis.`);

@@ -2,8 +2,8 @@ import { SQLiteObject, SQLite, SQLiteDatabaseConfig } from "@ionic-native/sqlite
 import { isCordova } from "../utils/PlatformUtils";
 
 const VERSION = "1.0";
-const SCHEMA = `hymnal_test_1`;
-export const SONGS_TABLE = `songs_test_1`;
+const SCHEMA = `hymnal_1`;
+export const SONGS_TABLE = `songs_1`;
 
 const SQL_DB_NAME = `${SCHEMA}.${SONGS_TABLE}`;
 const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
