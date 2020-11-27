@@ -1,5 +1,3 @@
-import songs from "../resources/songs.json";
-
 /**
  * Helpers for Song Related things.
  *

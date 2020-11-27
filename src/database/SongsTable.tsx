@@ -1,5 +1,4 @@
 import { SQLiteObject } from "@ionic-native/sqlite";
-import { search } from "ionicons/icons";
 import { DbSong } from "../models/DbSong";
 import { isCordova } from "../utils/PlatformUtils";
 import { Song } from "../utils/SongUtils";
@@ -15,17 +14,6 @@ import {
   SONG_NUMBER,
   TITLE,
 } from "./DbManager";
-
-/**
- * Insert a song into the Songs Table with default values.
- */
-export function insertSong(songNumber: number, bookId: number, author: string, title: string, lyrics: string): void {
-  const query = `INSERT INTO ${SONGS_TABLE} values(${songNumber}, ${bookId}, 0, 0, false, '${formatStringForSql(
-    author
-  )}', '${formatStringForSql(title)}', '${formatStringForSql(lyrics)}')`;
-
-  runQuery(query, `Insert song number ${songNumber}`);
-}
 
 /**
  * Updates the favorited field for the provided song number.
@@ -98,6 +86,9 @@ function clearDatabase(): void {
   runQuery(query, "Deleting all songs");
 }
 
+/**
+ * Given a list of Songs, populate the database with that song list and book id.
+ */
 export function populateDatabase(songs: Song[], bookId: number): void {
   let songsTable = DbManager.getInstance().getSongsTable;
   if (songsTable === undefined) {
@@ -148,7 +139,7 @@ export function populateDatabase(songs: Song[], bookId: number): void {
 function getInsertSongQuery(song: Song, bookId: number): string {
   return `INSERT INTO ${SONGS_TABLE} values(${song.songNumber}, ${bookId}, 0, 0, false, '${formatStringForSql(
     song.author
-  )}', '${formatStringForSql(song.title)}', '${formatStringForSql(song.lyrics)}')`;
+  )}', '${formatStringForSql(song.title)}', '${formatStringForSql(JSON.stringify(song.lyrics))}')`;
 }
 
 /**

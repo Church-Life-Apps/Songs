@@ -5,7 +5,7 @@ import { IonButton, IonItem, IonLabel, IonList, IonToggle } from "@ionic/react";
 import { Plugins } from "@capacitor/core";
 import { clearCache, getItem, storeItem } from "../utils/StorageUtils";
 import { logPromiseTime } from "../utils/DebuggingUtils";
-import { insertSong, listSongsBySearchText, populateDatabase, updateSongFavorited } from "../database/SongsTable";
+import { listSongsBySearchText, populateDatabase, updateSongFavorited } from "../database/SongsTable";
 import { DbSong } from "../models/DbSong";
 import { logPlatforms } from "../utils/PlatformUtils";
 
@@ -25,7 +25,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
 
   if (props.songNumber === 99) {
     clearCache();
-    clearDatabase();
+    // clearDatabase();
   }
 
   logPlatforms();

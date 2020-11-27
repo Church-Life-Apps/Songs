@@ -16,16 +16,8 @@ export class DbSong {
   ) {}
 
   public toString = (): string => {
-    return `Song ${this.songNumber}, numHits: ${this.numHits}, lastUsed: ${describeTime(this.lastUsed)}, favorited: ${
-      this.favorited
-    }.`;
+    return `Song ${this.songNumber} in book ${this.bookId}: ${this.title} by ${this.author}. numHits: ${
+      this.numHits
+    }, lastUsed: ${describeTime(this.lastUsed)}, favorited: ${this.favorited}.`;
   };
 }
-// ${SONG_NUMBER} int,
-// ${BOOK_ID} int,
-// ${NUM_HITS} int,
-// ${LAST_USED} datetime,
-// ${FAVORITED} boolean,
-// ${AUTHOR} text,
-// ${TITLE} text,
-// ${LYRICS} text
