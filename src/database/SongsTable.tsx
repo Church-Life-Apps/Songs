@@ -18,7 +18,7 @@ import {
 /**
  * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
  */
-export function getSong(songNumber: number, callback: (song: DbSong | null) => any): void {
+export function getSong(songNumber: number, callback: (song: DbSong | null) => void): void {
   updateSongHits(songNumber);
 
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
@@ -37,16 +37,16 @@ export function updateSongFavorited(songNumber: number, favorited: boolean): voi
 /**
  * Gets all songs from the database sorted by when they were last used.
  */
-export function getSongsSortedByLastUsed(callback: (songs: DbSong[]) => any): void {
+export function getSongsSortedByLastUsed(callback: (songs: DbSong[]) => void): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${LAST_USED} > 0 ORDER BY ${LAST_USED} DESC`;
 
-  return runQueryWithCallback(query, `Select songs ordered by last_used.`, callback);
+  runQueryWithCallback(query, `Select songs ordered by last_used.`, callback);
 }
 
 /**
  * Gets all favorited songs from the database.
  */
-export function getFavoriteSongs(callback: (songs: DbSong[]) => any): void {
+export function getFavoriteSongs(callback: (songs: DbSong[]) => void): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${FAVORITED}=true ORDER BY ${NUM_HITS} DESC`;
 
   runQueryWithCallback(query, `Select Favorited Songs`, callback);
@@ -58,7 +58,7 @@ export function getFavoriteSongs(callback: (songs: DbSong[]) => any): void {
  * This is really naive right now and does not sort by accuracy.
  * TODO (Brandon): Use full text search and return rows ordered by hit accuracy.
  */
-export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => any): void {
+export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => void): void {
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${AUTHOR} LIKE '%${searchText}%' 
   OR ${TITLE} LIKE '%${searchText}%' 
   OR ${LYRICS} LIKE '%${searchText}%'`;
@@ -80,7 +80,7 @@ function updateSongHits(songNumber: number): void {
 /**
  * Deletes all rows from the database. DANGEROUS!
  */
-function clearDatabase(): void {
+export function clearDatabase(): void {
   const query = `DELETE FROM ${SONGS_TABLE}`;
   runQuery(query, "Deleting all songs");
 }
@@ -90,19 +90,19 @@ function clearDatabase(): void {
  * For both mobile/browser, Keep all queries under 1 transaction. Multiple transactions are more expensive.
  */
 export function populateDatabase(songs: Song[], bookId: number): void {
-  let songsTable = DbManager.getInstance().getSongsTable;
+  const songsTable = DbManager.getInstance().getSongsTable;
   if (songsTable === undefined) {
     console.log(`Cannot populate DB it is undefined.`);
     return;
   }
   try {
-    let startTime = Date.now();
+    const startTime = Date.now();
     if (!isCordova()) {
       // Not Mobile.
       const sql = songsTable as Database;
       sql.transaction(
         (transaction) => {
-          for (var i = 0; i < songs.length; ++i) {
+          for (let i = 0; i < songs.length; ++i) {
             const song = songs[i];
             const query = getInsertSongQuery(song, bookId);
             transaction.executeSql(query);
@@ -118,8 +118,8 @@ export function populateDatabase(songs: Song[], bookId: number): void {
     } else {
       // Mobile.
       const sql = songsTable as SQLiteObject;
-      let queries: string[] = [];
-      for (var i = 0; i < songs.length; ++i) {
+      const queries: string[] = [];
+      for (let i = 0; i < songs.length; ++i) {
         const song = songs[i];
         const query = getInsertSongQuery(song, bookId);
         queries.push(query);
@@ -152,15 +152,15 @@ function getInsertSongQuery(song: Song, bookId: number): string {
  *
  * This function itself does not return anything.
  */
-function runQueryWithCallback(query: string, descriptor: string, callback: (songs: DbSong[]) => any = () => {}): void {
-  let songsTable = DbManager.getInstance().getSongsTable;
+function runQueryWithCallback(query: string, descriptor: string, callback: (songs: DbSong[]) => void): void {
+  const songsTable = DbManager.getInstance().getSongsTable;
   if (songsTable === undefined) {
     console.log(`Cannot run SQL ${descriptor} because DB is undefined.`);
     callback([]);
     return;
   }
   try {
-    let startTime = Date.now();
+    const startTime = Date.now();
     if (!isCordova()) {
       // Not Mobile:
       const sql = songsTable as Database;
@@ -168,7 +168,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
         transaction.executeSql(
           query,
           [],
-          (_transaction: any, response: any) => {
+          (_transaction, response) => {
             const songs = mapToSongList(response);
             console.log(`Returning ${response.rows.length} rows on ${descriptor} in ${Date.now() - startTime} millis.`);
             callback(songs);
@@ -197,13 +197,13 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
  * Runs a SQL Query where no return value is expected.
  */
 function runQuery(query: string, descriptor: string): void {
-  let songsTable = DbManager.getInstance().getSongsTable;
+  const songsTable = DbManager.getInstance().getSongsTable;
   if (songsTable === undefined) {
     console.log(`Cannot run SQL ${descriptor} because DB is undefined.`);
     return;
   }
   try {
-    let startTime = Date.now();
+    const startTime = Date.now();
     if (!isCordova()) {
       // Not Mobile:
       const sql = songsTable as Database;
@@ -211,7 +211,7 @@ function runQuery(query: string, descriptor: string): void {
         transaction.executeSql(
           query,
           [],
-          (_transaction, _response) => {
+          () => {
             console.log(`Successfully ran query ${descriptor} in ${Date.now() - startTime} millis.`);
           },
           (_transaction, error) => {
@@ -223,7 +223,7 @@ function runQuery(query: string, descriptor: string): void {
     } else {
       // Mobile:
       const sql = songsTable as SQLiteObject;
-      sql.executeSql(query, []).then((response) => {
+      sql.executeSql(query, []).then(() => {
         console.log(`Successfully ran query ${descriptor} in ${Date.now() - startTime} millis.`);
       });
     }
@@ -235,7 +235,7 @@ function runQuery(query: string, descriptor: string): void {
 /**
  * Wrapper for running a query where only 1 return value is expected.
  */
-function runQuerySingle(query: string, descriptor: string, callback: (song: DbSong | null) => any): void {
+function runQuerySingle(query: string, descriptor: string, callback: (song: DbSong | null) => void): void {
   runQueryWithCallback(query, descriptor, (songs: DbSong[]) => {
     if (songs.length >= 1) {
       callback(songs[0]);
@@ -256,9 +256,9 @@ function formatStringForSql(value: string): string {
 /**
  * Maps a list of rows from the DB to a list of DbSongs.
  */
-function mapToSongList(rows: any): DbSong[] {
-  let songs: DbSong[] = [];
-  for (var i = 0; i < rows.rows.length; i++) {
+function mapToSongList(rows: SQLResultSet): DbSong[] {
+  const songs: DbSong[] = [];
+  for (let i = 0; i < rows.rows.length; i++) {
     songs.push(mapToDbSong(rows.rows.item(i)));
   }
   return songs;
@@ -267,15 +267,15 @@ function mapToSongList(rows: any): DbSong[] {
 /**
  * Maps a DB Row from the songs table to a DbSong Object.
  */
-function mapToDbSong(row: any): DbSong {
+function mapToDbSong(row: { [x: string]: string | number | boolean }): DbSong {
   return new DbSong(
-    row[SONG_NUMBER],
-    row[BOOK_ID],
-    row[NUM_HITS],
-    row[LAST_USED],
-    row[FAVORITED],
-    row[AUTHOR],
-    row[TITLE],
-    row[LYRICS]
+    row[SONG_NUMBER] as number,
+    row[BOOK_ID] as number,
+    row[NUM_HITS] as number,
+    row[LAST_USED] as number,
+    row[FAVORITED] as boolean,
+    row[AUTHOR] as string,
+    row[TITLE] as string,
+    row[LYRICS] as string
   );
 }
