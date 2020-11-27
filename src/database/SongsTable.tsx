@@ -1,4 +1,5 @@
 import { SQLiteObject } from "@ionic-native/sqlite";
+import { search } from "ionicons/icons";
 import { DbSong } from "../models/DbSong";
 import { isCordova } from "../utils/PlatformUtils";
 import { Song } from "../utils/SongUtils";
@@ -18,31 +19,12 @@ import {
 /**
  * Insert a song into the Songs Table with default values.
  */
-export function insertSong(songNumber: number, bookId: number, author: string, title2: string, lyrics: string): void {
-  //const author = author2.replaceAll("\\", "'")
-  const title = title2.replace(/'/g, "''")
-  const author2 = author.replace(/'/g, "''")
-  const lyric2 = lyrics.replace(/'/g, "''")
-  console.log("number " + songNumber + ", title = " + title2 + ", title after = " + title);
-
-  //const author = author2.replaceAll("\\", "'")
-
-  const query2 = `INSERT INTO ${SONGS_TABLE} VALUES(?, ?, ?, ?)`
-
-  const query = `INSERT INTO ${SONGS_TABLE} values(${songNumber}, ${bookId}, 0, 0, false, '${author2}', '${title}', '${lyric2}')`;
+export function insertSong(songNumber: number, bookId: number, author: string, title: string, lyrics: string): void {
+  const query = `INSERT INTO ${SONGS_TABLE} values(${songNumber}, ${bookId}, 0, 0, false, '${formatStringForSql(
+    author
+  )}', '${formatStringForSql(title)}', '${formatStringForSql(lyrics)}')`;
 
   runQuery(query, `Insert song number ${songNumber}`);
-}
-
-/**
- * Increments the num_hits by 1 and updates last_used time to now for the song number provided.
- */
-export function updateSongHits(songNumber: number): void {
-  const query =
-    `UPDATE ${SONGS_TABLE} SET ${NUM_HITS}=${NUM_HITS} + 1 ` +
-    `AND ${LAST_USED}=${Date.now()} WHERE ${SONG_NUMBER}=${songNumber}`;
-
-  runQuery(query, `Update hits for song ${songNumber}.`);
 }
 
 /**
@@ -55,9 +37,11 @@ export function updateSongFavorited(songNumber: number, favorited: boolean): voi
 }
 
 /**
- * Retrieves the song from the DB for the requested song number.
+ * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
  */
-export function getSong(songNumber: string, callback: (song: DbSong | null) => any): void {
+export function getSong(songNumber: number, callback: (song: DbSong | null) => any): void {
+  updateSongHits(songNumber);
+
   const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
 
   runQuerySingle(query, `Getting song ${songNumber}`, callback);
@@ -82,43 +66,89 @@ export function getFavoriteSongs(callback: (songs: DbSong[]) => any): void {
 }
 
 /**
- * Lists all songs saved in the DB, default sorted by last_used.
+ * Lists all songs in the DB that match the text.
+ *
+ * This is really naive right now and does not sort by accuracy.
+ * TODO: Use full text search and return rows ordered by hit accuracy.
  */
 export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => any): void {
-  // let query = ""
-  //if (searchText === "") {
-  const query = `SELECT * FROM ${SONGS_TABLE} ORDER BY ${SONG_NUMBER} ASC`;
-  //}
+  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${AUTHOR} LIKE '%${searchText}%' 
+  OR ${TITLE} LIKE '%${searchText}%' 
+  OR ${LYRICS} LIKE '%${searchText}%'`;
 
-  // finish this - copy GetSearchParams in SearchView.tsx
-
-  runQueryWithCallback(query, "List all songs", callback);
+  runQueryWithCallback(query, `List songs by search text: "${searchText}"`, callback);
 }
 
 /**
- * Deletes all rows from the database.
+ * Increments the num_hits by 1 and updates last_used time to now for the song number provided.
  */
-export function clearDatabase() {
-  const query = `DELETE FROM ${SONGS_TABLE}`;
+function updateSongHits(songNumber: number): void {
+  const query =
+    `UPDATE ${SONGS_TABLE} SET ${NUM_HITS}=${NUM_HITS} + 1 ` +
+    `AND ${LAST_USED}=${Date.now()} WHERE ${SONG_NUMBER}=${songNumber}`;
 
-  runQueryWithCallback(query, "Deleting all songs");
+  runQuery(query, `Update hits for song ${songNumber}.`);
 }
 
-export function populateDatabase(songs: Song[], bookId: number) {
-  // const time = Date.now()
+/**
+ * Deletes all rows from the database. DANGEROUS!
+ */
+function clearDatabase(): void {
+  const query = `DELETE FROM ${SONGS_TABLE}`;
+  runQuery(query, "Deleting all songs");
+}
 
-  for (var i = 0; i < songs.length; ++i) {
-    const song = songs[i];
-    insertSong(song.songNumber, bookId, song.author, song.title, JSON.stringify(song.lyrics));
+export function populateDatabase(songs: Song[], bookId: number): void {
+  let songsTable = DbManager.getInstance().getSongsTable;
+  if (songsTable === undefined) {
+    console.log(`Cannot populate DB it is undefined.`);
+    return;
   }
+  try {
+    let startTime = Date.now();
+    if (!isCordova()) {
+      // Not Mobile.
+      const sql = songsTable as Database;
+      sql.transaction(
+        (transaction) => {
+          for (var i = 0; i < songs.length; ++i) {
+            const song = songs[i];
+            const query = getInsertSongQuery(song, bookId);
+            transaction.executeSql(query);
+          }
+        },
+        (error) => {
+          console.log(`Error Populating Database: ${error.message}.`);
+        },
+        () => {
+          console.log(`Successfully populated DB in ${Date.now() - startTime} millis.`);
+        }
+      );
+    } else {
+      // Mobile.
+      const sql = songsTable as SQLiteObject;
+      let queries: string[] = [];
+      for (var i = 0; i < songs.length; ++i) {
+        const song = songs[i];
+        const query = getInsertSongQuery(song, bookId);
+        queries.push(query);
+      }
+      sql.sqlBatch(queries).then(() => {
+        console.log(`Successfully Populated DB in ${Date.now() - startTime} millis.`);
+      });
+    }
+  } catch (e) {
+    console.log(`SQL query error: Could not Populate Database, ${e}, ${e.message}.`);
+  }
+}
 
-  // let query = `BEGIN TRANSACTION; \n`;
-  // for (let i = 1; i <= 10; i++) {
-  //   query += `INSERT INTO ${SONGS_TABLE} VALUES (${i}, 0, ${time}, false); \n`;
-  // }
-  // query += `COMMIT;`;
-  // console.log(`inserting all songs into the DB with query: ${query}`);
-  // runQuery(query, 'Inserting all songs into DB');
+/**
+ * Gets the query to insert a song based on the song object and bookId.
+ */
+function getInsertSongQuery(song: Song, bookId: number): string {
+  return `INSERT INTO ${SONGS_TABLE} values(${song.songNumber}, ${bookId}, 0, 0, false, '${formatStringForSql(
+    song.author
+  )}', '${formatStringForSql(song.title)}', '${formatStringForSql(song.lyrics)}')`;
 }
 
 /**
@@ -222,6 +252,14 @@ function runQuerySingle(query: string, descriptor: string, callback: (song: DbSo
       callback(null);
     }
   });
+}
+
+/**
+ * Formats a string with single quotes to using escape characters for SQL input.
+ * The returned string must be surrounded by double quotes in the sql query.
+ */
+function formatStringForSql(value: string): string {
+  return value.replace(/'/g, "''");
 }
 
 /**

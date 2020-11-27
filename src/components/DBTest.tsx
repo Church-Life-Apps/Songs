@@ -5,7 +5,7 @@ import { IonButton, IonItem, IonLabel, IonList, IonToggle } from "@ionic/react";
 import { Plugins } from "@capacitor/core";
 import { clearCache, getItem, storeItem } from "../utils/StorageUtils";
 import { logPromiseTime } from "../utils/DebuggingUtils";
-import { clearDatabase, insertSong, listSongsBySearchText, populateDatabase } from "../database/SongsTable";
+import { insertSong, listSongsBySearchText, populateDatabase, updateSongFavorited } from "../database/SongsTable";
 import { DbSong } from "../models/DbSong";
 import { logPlatforms } from "../utils/PlatformUtils";
 
@@ -43,10 +43,10 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            // insertSong(props.songNumber);
+             updateSongFavorited(props.songNumber, true);
           }}
         >
-          add song
+          favorite song
         </IonButton>
       </IonItem>
 
@@ -63,7 +63,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            clearDatabase();
+            // clearDatabase();
           }}
         >
           DELETE all songs
@@ -73,7 +73,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            listSongsBySearchText("", populateSongs)
+            listSongsBySearchText("watchman", populateSongs)
           }}
         >
           list songs
