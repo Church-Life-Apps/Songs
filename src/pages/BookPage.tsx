@@ -23,7 +23,7 @@ const BookPage: React.FC = () => {
       .then(setSongs);
   }, []);
 
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <IonPage>
@@ -36,7 +36,7 @@ const BookPage: React.FC = () => {
           type="search"
           value={searchString}
           placeholder="Search for a song"
-          onIonChange={(e) => setSearchString(e.detail.value!.toString())}
+          onIonChange={(e) => setSearchString(e.detail.value as string)}
         ></IonSearchbar>
       </IonItem>
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}

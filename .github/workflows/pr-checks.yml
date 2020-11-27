@@ -11,60 +11,82 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        # Make sure the actual branch is checked out when running on pull requests
-        ref: ${{ github.head_ref }}
-        # This is important to fetch the changes to the previous commit
-        # fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PRETTIER_TOKEN }}
 
-    - name: Prettify code
-      uses: creyD/prettier_action@v3.1
-      with:
-        prettier_options: --write **/*.{js,tsx,md,css,scss,html,json}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prettify code
+        uses: creyD/prettier_action@v3.1
+        with:
+          prettier_options: --write **/*.{tsx,js,ts,md,css,scss,html,json,yml}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  build-and-test:
-    name: Build and Test
+  eslint:
+    name: ESLint
     needs: prettier
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout
         uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
-        with:
-          node-version: 13.x
 
-      - name: Install app dependencies
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Run ESLint
+        working-directory: ./src/
+        run: npx eslint **/*.{tsx,js,ts} --no-error-on-unmatched-pattern
+
+  build-and-test:
+    name: Build and Test
+    needs: [prettier, eslint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+
+      - name: Install Node.js dependencies
         run: npm install
 
       - name: Build
-        run: npm build
+        run: npm run build
 
       - name: Test
-        run: npm test
+        run: npm run test
 
   build-apk:
     name: Build Android APK
-    needs: prettier
-    runs-on: ubuntu-latest	
-    steps:	
-      - name: Checkout source	
-        uses: actions/checkout@v2	
+    needs: [prettier, eslint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
 
-      - name: Setup java	
-        uses: actions/setup-java@v1	
-        with:	
-          java-version: 1.8	
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
-      - name: Setup Node.js	
-        uses: actions/setup-node@v1	
-        with:	
-          node-version: 13.x	
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
@@ -72,29 +94,29 @@ jobs:
       - name: Install Capacitor
         run: npm install -g @capacitor/core @capacitor/cli
 
-      - name: Install Ionic	
-        run: npm install -g @ionic/cli	
+      - name: Install Ionic
+        run: npm install -g @ionic/cli
 
-      - name: Install app dependencies	
-        run: npm install	
+      - name: Install app dependencies
+        run: npm install
 
-      - name: Build app	
+      - name: Build app
         run: ionic capacitor sync android
 
       - name: Grant execute permission for gradlew
         working-directory: ./android/
         run: chmod +x gradlew
 
-      - name: Generate the Android APK	
+      - name: Generate the Android APK
         working-directory: ./android/
         run: ./gradlew --no-daemon assembleDebug --info
 
       - name: Upload APK as artifact
-        uses: actions/upload-artifact@v1	
-        with:	
+        uses: actions/upload-artifact@v1
+        with:
           name: hymnal-app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          
+
       - name: Add Comment on PR
         uses: mshick/add-pr-comment@v1
         with:

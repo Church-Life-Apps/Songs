@@ -14,7 +14,7 @@ export const MILLIS_PER_YEAR = 365 * MILLIS_PER_DAY;
  * Turns a timestamp from milliseconds to a formatted Date.
  */
 export function formatDate(timeInMillis: number): string {
-  var date = new Date(timeInMillis);
+  const date = new Date(timeInMillis);
   return date.toUTCString();
 }
 
