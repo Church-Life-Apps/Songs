@@ -19,17 +19,17 @@ interface MusicViewProps {
 /**
  * Song Viewer React Functional Component.
  */
-const MusicView: React.FC<MusicViewProps> = (props) => {
+const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const widthPixels = isBrowser() ? window.innerWidth / 2 : window.innerWidth;
   const [secondTune, setSecondTune] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(widthPixels);
   const [zoomed, setZoomed] = useState<boolean>(false);
 
-  let songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
+  const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
 
-  let secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
+  const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
-  let url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+  const url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
 
   // TODO: Add Pinch and Zoom to image.
   return (
@@ -37,7 +37,7 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
       {/* Second Tune Toggler  */}
       {songHasTwoTunes && (
         <div id="songToggler">
-          <IonToggle checked={secondTune} onIonChange={(e) => setSecondTune(!secondTune)} />
+          <IonToggle checked={secondTune} onIonChange={() => setSecondTune(!secondTune)} />
         </div>
       )}
 

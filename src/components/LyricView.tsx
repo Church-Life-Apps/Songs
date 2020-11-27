@@ -11,7 +11,7 @@ interface LyricViewProps {
 /**
  * Lyric Viewer React Functional Component.
  */
-const LyricView: React.FC<LyricViewProps> = (props) => {
+const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const [song, setSong] = useState<Song>();
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
    * Parses all verse of the song to a string.
    */
   function getLyrics(song: Song) {
-    let verses = Object.keys(song.lyrics);
-    var lyrics: JSX.Element[] = [];
+    const verses = Object.keys(song.lyrics);
+    const lyrics: JSX.Element[] = [];
     let key = 0;
     verses.forEach((versenumber) => {
       lyrics.push(<IonLabel key={key}>{getVerseText(versenumber)}</IonLabel>);

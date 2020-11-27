@@ -5,22 +5,22 @@ on:
     branches:
       - master
 
-jobs:	
-  build-and-release:	
+jobs:
+  build-and-release:
     name: Build and Release
-    runs-on: ubuntu-latest	
-    steps:	
-      - name: Checkout source	
-        uses: actions/checkout@v2	
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
 
       - name: Setup java
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
-      - name: Setup Node.js	
-        uses: actions/setup-node@v1	
-        with:	
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
           node-version: 13.x
 
       - name: Setup Android SDK
@@ -29,11 +29,11 @@ jobs:
       - name: Install Capacitor
         run: npm install -g @capacitor/core @capacitor/cli
 
-      - name: Install Ionic	
-        run: npm install -g @ionic/cli	
+      - name: Install Ionic
+        run: npm install -g @ionic/cli
 
-      - name: Install app dependencies	
-        run: npm install	
+      - name: Install app dependencies
+        run: npm install
 
       - name: Build app
         run: ionic capacitor sync android

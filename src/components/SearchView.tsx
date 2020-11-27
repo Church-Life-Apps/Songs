@@ -21,14 +21,14 @@ interface SearchViewProps {
 /**
  * Search View.
  */
-const SearchView: React.FC<SearchViewProps> = (props) => {
+const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
   const { bookId } = useParams<{ bookId: string }>();
   const [songCards, setSongCards] = useState<JSX.Element[]>([]);
   const [songCardsIterator] = useState(props.songs.entries());
 
-  let history = useHistory();
-  let searchParam = GetSearchParam();
-  let searchIsNumber = typeof searchParam === "number";
+  const history = useHistory();
+  const searchParam = GetSearchParam();
+  const searchIsNumber = typeof searchParam === "number";
 
   if (searchIsNumber) {
     songCards.push(GenerateSongCard(props.songs[(searchParam as number) - 1]));
@@ -55,7 +55,7 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
   ) : null;
 
   function LoadMoreSongs(event: CustomEvent<void>) {
-    let target = event.target as HTMLIonInfiniteScrollElement;
+    const target = event.target as HTMLIonInfiniteScrollElement;
     if (!LoadSongs(songCardsIterator, 10, searchParam as string[])) {
       target.disabled = true;
     }
@@ -65,12 +65,12 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
 
   function LoadSongs(songIterator: IterableIterator<[number, Song]>, count: number, searchParam: string[]): boolean {
     while (count > 0) {
-      let nextSong = songIterator.next();
+      const nextSong = songIterator.next();
       if (nextSong.done) {
         return false;
       }
 
-      let song = nextSong.value[1];
+      const song = nextSong.value[1];
 
       if (SongMatchesSearch(song, searchParam)) {
         songCards.push(GenerateSongCard(song));
@@ -90,8 +90,8 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       return [];
     }
 
-    let searchString = removePunctuation(props.searchString.trim().toLowerCase());
-    let searchNumber = Number(searchString);
+    const searchString = removePunctuation(props.searchString.trim().toLowerCase());
+    const searchNumber = Number(searchString);
 
     if (!isNaN(searchNumber) && searchNumber > 0 && searchNumber <= props.songs.length) {
       return searchNumber;
@@ -121,10 +121,10 @@ const SearchView: React.FC<SearchViewProps> = (props) => {
       return true;
     }
 
-    let title = removePunctuation(song.title.toLowerCase());
-    let author = removePunctuation(song.author.toLowerCase());
+    const title = removePunctuation(song.title.toLowerCase());
+    const author = removePunctuation(song.author.toLowerCase());
 
-    for (let s of searchParam) {
+    for (const s of searchParam) {
       if (!title.includes(s) && !author.includes(s)) {
         return false;
       }
