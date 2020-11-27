@@ -71,7 +71,7 @@ jobs:
 
   build-apk:
     name: Build Android APK
-    needs: [prettier, eslint, build-and-test]
+    needs: [prettier, eslint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
