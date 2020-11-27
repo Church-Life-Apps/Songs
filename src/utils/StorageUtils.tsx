@@ -1,4 +1,5 @@
 import { Plugins } from "@capacitor/core";
+import { populateDatabase } from "../database/SongsTable";
 import { shlJsonUrl, shlName, Song } from "./SongUtils";
 
 /**
@@ -21,6 +22,7 @@ export async function getShlSongs(): Promise<Song[]> {
         const response = await fetch(shlJsonUrl);
         const body = await response.json();
         storeItem(shlKey, JSON.stringify(body));
+        populateDatabase(body[shlName], 1)
         return body[shlName];
       } else {
         return JSON.parse(item)[shlName];

@@ -30,7 +30,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
 
   logPlatforms();
 
-  let s = new DbSong(13, 12, Date.now(), true);
+  let s = new DbSong(13, 1, 12, Date.now(), true, "watchman nee", "let me love", "let me love and not");
 
   console.log("s = " + s);
 
@@ -43,7 +43,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            insertSong(props.songNumber);
+            // insertSong(props.songNumber);
           }}
         >
           add song
@@ -53,7 +53,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            populateDatabase();
+            // populateDatabase();
           }}
         >
           add all songs
@@ -73,7 +73,7 @@ const DBTest: React.FC<SongViewProps2> = (props) => {
       <IonItem>
         <IonButton
           onClick={() => {
-            listSongsBySearchText("glory", populateSongs)
+            listSongsBySearchText("", populateSongs)
           }}
         >
           list songs
