@@ -15,7 +15,6 @@ import {
   TITLE,
 } from "./DbManager";
 
-
 /**
  * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
  */
