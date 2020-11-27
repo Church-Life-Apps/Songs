@@ -13,7 +13,7 @@ const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
 
 export const DATABASE_INITIALIZED = "databaseInitialized";
 export const LYRICS_ONLY_MODE = "lyricsOnlyMode";
-declare const window: { openDatabase: (arg0: string, arg1: string, arg2: string, arg3: number) => Database; };
+declare const window: { openDatabase: (arg0: string, arg1: string, arg2: string, arg3: number) => Database };
 
 /**
  * Overall Database stuff.
