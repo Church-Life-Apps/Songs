@@ -23,7 +23,6 @@ import HomePage from "./pages/HomePage";
 import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { DbManager } from "./database/DbManager";
-
 import { initGA, PageView } from "./tracking/GoogleAnalytics";
 
 try {

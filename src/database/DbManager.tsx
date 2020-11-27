@@ -1,4 +1,4 @@
-import { SQLiteObject, SQLite, SQLiteDatabaseConfig } from "@ionic-native/sqlite";
+import { SQLiteDatabaseConfig, SQLiteObject, SQLite } from "@ionic-native/sqlite";
 import { isCordova } from "../utils/PlatformUtils";
 
 const VERSION = "1.0";
@@ -13,7 +13,7 @@ const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
 
 export const DATABASE_INITIALIZED = "databaseInitialized";
 export const LYRICS_ONLY_MODE = "lyricsOnlyMode";
-declare var window: any;
+declare const window: { openDatabase: (arg0: string, arg1: string, arg2: string, arg3: number) => Database; };
 
 /**
  * Overall Database stuff.
@@ -44,7 +44,7 @@ export class DbManager {
     } else {
       // Not Mobile app, so use WebSQL to generate the SQLiteObject used for queries.
       try {
-        let db: Database = window.openDatabase(SCHEMA, VERSION, SQL_DB_NAME, 5 * 1024 * 1024);
+        const db: Database = window.openDatabase(SCHEMA, VERSION, SQL_DB_NAME, 5 * 1024 * 1024);
         db.changeVersion(
           VERSION,
           VERSION,
@@ -65,7 +65,7 @@ export class DbManager {
     }
   }
 
-  get getSongsTable() {
+  get getSongsTable(): SQLiteObject | Database | undefined {
     return this.songsTable;
   }
 
