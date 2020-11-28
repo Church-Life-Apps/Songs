@@ -39,7 +39,6 @@ const BookPage: React.FC = () => {
           onIonChange={(e) => setSearchString(e.detail.value as string)}
         ></IonSearchbar>
       </IonItem>
-
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent key={searchString}>
         <SearchView key={searchString + songs.length} searchString={searchString} songs={songs} />

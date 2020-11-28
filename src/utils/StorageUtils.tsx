@@ -21,6 +21,8 @@ export async function getShlSongs(): Promise<Song[]> {
         const response = await fetch(shlJsonUrl);
         const body = await response.json();
         storeItem(shlKey, JSON.stringify(body));
+        // TODO (Brandon): Use Database instead of JSON.
+        // populateDatabase(body[shlName], 1);
         return body[shlName];
       } else {
         return JSON.parse(item)[shlName];

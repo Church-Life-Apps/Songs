@@ -22,6 +22,9 @@ export function formatDate(timeInMillis: number): string {
  * Returns how long ago a timestamp was from now, or how far into the future it is.
  */
 export function describeTime(timeInMillis: number): string {
+  if (timeInMillis === 0) {
+    return "";
+  }
   let howLongAgo = Date.now() - timeInMillis;
   let past = true;
   if (howLongAgo < 0) {
