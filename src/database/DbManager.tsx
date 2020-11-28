@@ -3,8 +3,7 @@ import { isCordova } from "../utils/PlatformUtils";
 
 const VERSION = "1.0";
 const SCHEMA = `hymnal_1`;
-export const SONGS_TABLE = `songs_1`;
-
+export const SONGS_TABLE = `songs_2`;
 const SQL_DB_NAME = `${SCHEMA}.${SONGS_TABLE}`;
 const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
   name: SQL_DB_NAME,
@@ -89,14 +88,13 @@ export const AUTHOR = "author";
 export const TITLE = "title";
 export const LYRICS = "lyrics";
 
-const CREATE_SONGS_TABLE = `CREATE TABLE IF NOT EXISTS ${SONGS_TABLE}(
-  ${SONG_NUMBER} int,
-  ${BOOK_ID} int,
-  ${NUM_HITS} int,
-  ${LAST_USED} datetime,
-  ${FAVORITED} boolean,
-  ${AUTHOR} text,
-  ${TITLE} text,
-  ${LYRICS} text,
-  primary key (${SONG_NUMBER}, ${BOOK_ID})
-);`;
+const CREATE_SONGS_TABLE = `CREATE VIRTUAL TABLE IF NOT EXISTS ${SONGS_TABLE} USING FTS3(
+  ${SONG_NUMBER},
+  ${BOOK_ID},
+  ${NUM_HITS},
+  ${LAST_USED},
+  ${FAVORITED},
+  ${AUTHOR},
+  ${TITLE},
+  ${LYRICS},
+  tokenize=porter);`

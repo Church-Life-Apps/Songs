@@ -6,7 +6,7 @@ import { describeTime } from "../utils/TimeUtils";
 export class DbSong {
   constructor(
     public songNumber: number,
-    public bookId: number,
+    public bookId: string,
     public numHits: number,
     public lastUsed: number,
     public favorited: boolean,
@@ -21,3 +21,5 @@ export class DbSong {
     }, lastUsed: ${describeTime(this.lastUsed)}, favorited: ${this.favorited}.`;
   };
 }
+
+export const PLACEHOLDER_SONG = new DbSong(0, "", 0, 0, false, "", "", "{}");

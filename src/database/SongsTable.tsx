@@ -1,7 +1,8 @@
 import { SQLiteObject } from "@ionic-native/sqlite";
 import { DbSong } from "../models/DbSong";
 import { isCordova } from "../utils/PlatformUtils";
-import { Song } from "../utils/SongUtils";
+import { shlJsonUrl, SHL_BOOK_ID, SHL_RESOURCE_JSON_KEY, Song } from "../utils/SongUtils";
+import { getItem, storeItem } from "../utils/StorageUtils";
 import {
   AUTHOR,
   BOOK_ID,
@@ -19,9 +20,7 @@ import {
  * Retrieves a single song from the DB for the requested song number and updates the num_hits of that song.
  */
 export function getSong(songNumber: number, callback: (song: DbSong | null) => void): void {
-  updateSongHits(songNumber);
-
-  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber}`;
+  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER}=${songNumber} AND ${BOOK_ID}='${SHL_BOOK_ID}'`;
   runQuerySingle(query, `Getting song ${songNumber}`, callback);
 }
 
@@ -29,7 +28,7 @@ export function getSong(songNumber: number, callback: (song: DbSong | null) => v
  * Updates the favorited field for the provided song number.
  */
 export function updateSongFavorited(songNumber: number, favorited: boolean): void {
-  const query = `UPDATE ${SONGS_TABLE} SET ${FAVORITED}=${favorited} WHERE ${SONG_NUMBER}=${songNumber}`;
+  const query = `UPDATE ${SONGS_TABLE} SET ${FAVORITED}=${favorited} WHERE ${SONG_NUMBER}=${songNumber} AND ${BOOK_ID}='${SHL_BOOK_ID}'`;
 
   runQuery(query, `Set ${songNumber} favorited to ${favorited}.`);
 }
@@ -54,42 +53,73 @@ export function getFavoriteSongs(callback: (songs: DbSong[]) => void): void {
 
 /**
  * Lists all songs in the DB that match the text.
- *
- * This is really naive right now and does not sort by accuracy.
- * TODO (Brandon): Use full text search and return rows ordered by hit accuracy.
  */
 export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => void): void {
-  const query = `SELECT * FROM ${SONGS_TABLE} WHERE ${AUTHOR} LIKE '%${searchText}%' 
-  OR ${TITLE} LIKE '%${searchText}%' 
-  OR ${LYRICS} LIKE '%${searchText}%'`;
-
+  let query: string;
+  if (searchText === "") {
+    query = `SELECT * FROM ${SONGS_TABLE}`;
+  } else if (!isNaN(+searchText)) {
+    query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER} MATCH '${searchText}*'`;
+  } else {
+    // TODO (Brandon): Figure out how to return rows ordered by hit accuracy.
+    query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONGS_TABLE} MATCH '${formatStringForSql(searchText)}'`;
+  }
   runQueryWithCallback(query, `List songs by search text: "${searchText}"`, callback);
 }
 
 /**
  * Increments the num_hits by 1 and updates last_used time to now for the song number provided.
  */
-function updateSongHits(songNumber: number): void {
+export function updateSongHits(songNumber: number): void {
   const query =
-    `UPDATE ${SONGS_TABLE} SET ${NUM_HITS}=${NUM_HITS} + 1 ` +
-    `AND ${LAST_USED}=${Date.now()} WHERE ${SONG_NUMBER}=${songNumber}`;
-
+    `UPDATE ${SONGS_TABLE} SET ${NUM_HITS}=${NUM_HITS} + 1, ${LAST_USED}=${Date.now()} ` +
+    `WHERE ${SONG_NUMBER}=${songNumber} AND ${BOOK_ID}='${SHL_BOOK_ID}'`;
   runQuery(query, `Update hits for song ${songNumber}.`);
 }
 
 /**
- * Deletes all rows from the database. DANGEROUS!
+ * Fetches the song list from online, trigger populating the database with the songs,
+ * then returns the fetched songs immediately.
  */
-export function clearDatabase(): void {
-  const query = `DELETE FROM ${SONGS_TABLE}`;
-  runQuery(query, "Deleting all songs");
+export async function fetchSongsAndPopulateSongsTable(): Promise<Song[]> {
+  return getItem(SHL_BOOK_ID)
+    .then(async (item) => {
+      if (!item) {
+        const response = await fetch(shlJsonUrl);
+        const body = await response.json();
+        storeItem(SHL_BOOK_ID, JSON.stringify(body));
+        populateDatabase(body[SHL_RESOURCE_JSON_KEY], SHL_BOOK_ID);
+        return body[SHL_RESOURCE_JSON_KEY];
+      } else {
+        console.log("Returning stored songs Json.");
+        return JSON.parse(item)[SHL_RESOURCE_JSON_KEY];
+      }
+    })
+    .catch((r) => {
+      console.error(r);
+      return [];
+    });
+}
+
+/**
+ * Cancels all pending transactions.
+ * TODO (Brandon): Unhack this and fix the search bar lag problem.
+ */
+export function cancelAllTransactions(): void {
+  const dbManager = DbManager.getInstance();
+  if (isCordova()) {
+    // Mobile
+    const songsTable = dbManager.getSongsTable as SQLiteObject;
+    console.log("Aborting pending transactions.");
+    songsTable.abortallPendingTransactions();
+  }
 }
 
 /**
  * Given a list of Songs, populate the database with that song list and book id.
  * For both mobile/browser, Keep all queries under 1 transaction. Multiple transactions are more expensive.
  */
-export function populateDatabase(songs: Song[], bookId: number): void {
+function populateDatabase(songs: Song[], bookId: string): void {
   const songsTable = DbManager.getInstance().getSongsTable;
   if (songsTable === undefined) {
     console.log(`Cannot populate DB it is undefined.`);
@@ -136,10 +166,12 @@ export function populateDatabase(songs: Song[], bookId: number): void {
 /**
  * Gets the query to insert a song based on the song object and bookId.
  */
-function getInsertSongQuery(song: Song, bookId: number): string {
-  return `INSERT INTO ${SONGS_TABLE} values(${song.songNumber}, ${bookId}, 0, 0, false, '${formatStringForSql(
-    song.author
-  )}', '${formatStringForSql(song.title)}', '${formatStringForSql(JSON.stringify(song.lyrics))}')`;
+function getInsertSongQuery(song: Song, bookId: string): string {
+  return `INSERT INTO ${SONGS_TABLE} values(${song.songNumber}, '${formatStringForSql(
+    bookId
+  )}', 0, 0, false, '${formatStringForSql(song.author)}', '${formatStringForSql(song.title)}', '${formatStringForSql(
+    JSON.stringify(song.lyrics)
+  )}')`;
 }
 
 /**
@@ -164,7 +196,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
     if (!isCordova()) {
       // Not Mobile:
       const sql = songsTable as Database;
-      sql.readTransaction((transaction) => {
+      sql.transaction((transaction) => {
         transaction.executeSql(
           query,
           [],
@@ -175,6 +207,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
           },
           (_transaction, error) => {
             console.log(`WebSQL query error: ${descriptor}, ${error.message}.`);
+            callback([]);
             return false;
           }
         );
@@ -190,6 +223,7 @@ function runQueryWithCallback(query: string, descriptor: string, callback: (song
     }
   } catch (e) {
     console.log(`SQL query error: ${descriptor}, ${e}.`);
+    callback([]);
   }
 }
 
@@ -270,7 +304,7 @@ function mapToSongList(rows: SQLResultSet): DbSong[] {
 function mapToDbSong(row: { [x: string]: string | number | boolean }): DbSong {
   return new DbSong(
     row[SONG_NUMBER] as number,
-    row[BOOK_ID] as number,
+    row[BOOK_ID] as string,
     row[NUM_HITS] as number,
     row[LAST_USED] as number,
     row[FAVORITED] as boolean,

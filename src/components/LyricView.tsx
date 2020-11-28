@@ -1,7 +1,8 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { Song, SongViewMode } from "../utils/SongUtils";
-import { getShlSongs } from "../utils/StorageUtils";
+import { SongViewMode } from "../utils/SongUtils";
+import { fetchSongsAndPopulateSongsTable, getSong } from "../database/SongsTable";
+import { DbSong, PLACEHOLDER_SONG } from "../models/DbSong";
 import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
@@ -14,18 +15,22 @@ interface LyricViewProps {
  * Lyric Viewer React Functional Component.
  */
 const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
-  const [song, setSong] = useState<Song>();
+  const [song, setSong] = useState<DbSong>(PLACEHOLDER_SONG);
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Lyrics);
-    getShlSongs()
-      .then((songs) => songs[props.songNumber - 1])
-      .then(setSong)
-      .catch((r) => {
-        console.error(r);
-        return <IonItem lines="none">No song found.</IonItem>;
-      });
-  }, [props.songNumber]);
+    getSong(props.songNumber, (song) => {
+      if (song) {
+        setSong(song);
+      } else {
+        fetchSongsAndPopulateSongsTable()
+          .then((songs) => (songs ? songs : []))
+          .then((songs) => songs[props.songNumber - 1])
+          .then((song) => new DbSong(props.songNumber, "", 0, 0, false, song.author, song.title, song.lyrics))
+          .then((song) => setSong(song));
+      }
+    });
+  }, []);
 
   return (
     <IonCard>
@@ -39,14 +44,15 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   /**
    * Parses all verse of the song to a string.
    */
-  function getLyrics(song: Song) {
-    const verses = Object.keys(song.lyrics);
+  function getLyrics(song: DbSong): JSX.Element[] {
+    const songLyrics = JSON.parse(song.lyrics);
+    const verses = Object.keys(songLyrics);
     const lyrics: JSX.Element[] = [];
     let key = 0;
     verses.forEach((versenumber) => {
       lyrics.push(<IonLabel key={key}>{getVerseText(versenumber)}</IonLabel>);
       key++;
-      song.lyrics[versenumber].forEach((line: string) => {
+      songLyrics[versenumber].forEach((line: string) => {
         lyrics.push(
           <IonItem key={key} lines="none">
             <IonLabel className="ion-text-wrap">{line}</IonLabel>
