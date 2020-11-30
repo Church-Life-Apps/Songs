@@ -107,6 +107,7 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
         onClick={() => {
           history.push(`/${bookId}/${song.songNumber}`);
         }}
+        className="hymnalListView"
       >
         <IonCardTitle>
           {song.songNumber}. {song.title}
