@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Components.css";
-import { makeThreeDigits } from "../utils/SongUtils";
+import { makeThreeDigits, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
+//Import Event tracking
+import { triggerSongView } from "../tracking/EventFunctions";
 
 const baseUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
 const hymnalPart = "shl/SHL_"; // This part can change when red book is added
@@ -30,6 +32,10 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
   const url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+
+  useEffect(() => {
+    triggerSongView(props.songNumber, SongViewMode.Music);
+  }, [props.songNumber]);
 
   // TODO: Add Pinch and Zoom to image.
   return (

@@ -1,8 +1,10 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { Song } from "../utils/SongUtils";
+import { Song, SongViewMode } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
 import "./Components.css";
+//Import Event tracking
+import { triggerSongView } from "../tracking/EventFunctions";
 
 interface LyricViewProps {
   songNumber: number;
@@ -15,6 +17,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const [song, setSong] = useState<Song>();
 
   useEffect(() => {
+    triggerSongView(props.songNumber, SongViewMode.Lyrics);
     getShlSongs()
       .then((songs) => songs[props.songNumber - 1])
       .then(setSong)

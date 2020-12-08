@@ -17,11 +17,11 @@ export const PageView = (): void => {
  * @param {string} action
  * @param {string} label
  */
+
 export const Event = (category: string, action: string, label: string): void => {
   ReactGA.event({
     category: category,
     action: action,
     label: label,
   });
-  console.log("Event triggered");
 };
