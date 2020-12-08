@@ -22,12 +22,10 @@ import "./theme/variables.css";
 import HomePage from "./pages/HomePage";
 import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
-import { PageView, initGA } from "./components/Tracking";
-
-const StreamID = "UA-183902236-1";
+import { PageView, initGA } from "./tracking/GoogleAnalytics";
 
 try {
-  initGA(StreamID);
+  initGA();
   PageView();
 } catch (e) {
   console.error(e);

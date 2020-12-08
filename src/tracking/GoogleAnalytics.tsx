@@ -1,11 +1,14 @@
 import ReactGA from "react-ga";
 
-export const initGA = (trackingID) => {
-  ReactGA.initialize(trackingID);
+const StreamID = "UA-183902236-1";
+
+export const initGA = (): void => {
+  ReactGA.initialize(StreamID);
 };
 
-export const PageView = () => {
+export const PageView = (): void => {
   ReactGA.pageview(window.location.pathname + window.location.search);
+  console.log("Page viewed");
 };
 
 /**
@@ -14,10 +17,15 @@ export const PageView = () => {
  * @param {string} action
  * @param {string} label
  */
-export const Event = (category, action, label) => {
+export const Event = (
+  category: string,
+  action: string,
+  label: string
+): void => {
   ReactGA.event({
     category: category,
     action: action,
     label: label,
   });
+  console.log("Event triggered");
 };

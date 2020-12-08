@@ -6,7 +6,7 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 //Import Event tracking
-import { Event } from "../components/Tracking";
+import { Event } from "../tracking/GoogleAnalytics";
 
 /**
  * Song Page Component.
