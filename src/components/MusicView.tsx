@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Components.css";
-import { makeThreeDigits } from "../utils/SongUtils";
+import { makeThreeDigits, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
 //Import Event tracking
@@ -34,7 +34,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
 
   useEffect(() => {
-    triggerSongView(props.songNumber, "Music");
+    triggerSongView(props.songNumber, SongViewMode.Music);
   }, [props.songNumber]);
 
   // TODO: Add Pinch and Zoom to image.

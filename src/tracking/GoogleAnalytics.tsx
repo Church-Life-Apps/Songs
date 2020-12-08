@@ -24,5 +24,4 @@ export const Event = (category: string, action: string, label: string): void => 
     action: action,
     label: label,
   });
-  console.log("Event triggered");
 };
