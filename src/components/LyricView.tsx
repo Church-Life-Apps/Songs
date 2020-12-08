@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import { Song } from "../utils/SongUtils";
 import { getShlSongs } from "../utils/StorageUtils";
 import "./Components.css";
+//Import Event tracking
+import { Event } from "../components/Tracking";
 
 interface LyricViewProps {
   songNumber: number;
@@ -20,6 +22,8 @@ interface LyricViewProps {
  */
 const LyricView: React.FC<LyricViewProps> = (props) => {
   const [song, setSong] = useState<Song>();
+
+  GAEvent(props.songNumber);
 
   useEffect(() => {
     getShlSongs()
@@ -74,5 +78,14 @@ const LyricView: React.FC<LyricViewProps> = (props) => {
       .replace("p", "Pre-Chorus ");
   }
 };
+
+function GAEvent(songNumber : number){
+  try {
+    Event("INTERACTION", "Song viewed(lyric)", String(songNumber));
+    console.log("Song number: "+String(songNumber)+" viewed in lyric mode");
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 export default LyricView;

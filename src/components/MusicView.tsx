@@ -3,6 +3,8 @@ import "./Components.css";
 import { makeThreeDigits } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
+//Import Event tracking
+import { Event } from "../components/Tracking";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
@@ -37,6 +39,8 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
     secondTuneSuffix +
     imageSuffix;
 
+  GAEvent(props.songNumber);
+
   // TODO: Add Pinch and Zoom to image.
   return (
     <div>
@@ -70,5 +74,14 @@ const MusicView: React.FC<MusicViewProps> = (props) => {
     </div>
   );
 };
+
+function GAEvent(songNumber : number){
+  try {
+    Event("INTERACTION", "Song viewed(music)", String(songNumber));
+    console.log("Song number: "+String(songNumber)+" viewed in music mode");
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 export default MusicView;

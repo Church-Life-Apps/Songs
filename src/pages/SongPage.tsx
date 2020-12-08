@@ -42,12 +42,6 @@ const SongPage: React.FC = () => {
   );
 
   function RenderSong(songNumber: number) {
-    try {
-      Event("INTERACTION", "Song is viewed", String(songNumber));
-      console.log("Song number: "+String(songNumber)+" viewed");
-    } catch (e) {
-      console.error(e);
-    }
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
