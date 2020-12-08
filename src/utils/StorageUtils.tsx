@@ -20,7 +20,9 @@ export async function getShlSongs(): Promise<Song[]> {
       if (!item) {
         const response = await fetch(shlJsonUrl);
         const body = await response.json();
-        storeItem(shlKey, JSON.stringify(body))
+        storeItem(shlKey, JSON.stringify(body));
+        // TODO (Brandon): Use Database instead of JSON.
+        // populateDatabase(body[shlName], 1);
         return body[shlName];
       } else {
         return JSON.parse(item)[shlName];
@@ -36,7 +38,7 @@ export async function getShlSongs(): Promise<Song[]> {
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.
  * If an item with that key already existed, it will overwrite the value.
  */
-export async function storeItem(key: string, value: string) {
+export async function storeItem(key: string, value: string): Promise<void> {
   return Storage.set({
     key: key,
     value: value,
@@ -49,7 +51,7 @@ export async function storeItem(key: string, value: string) {
  * Retrieves an item with the given key, or blank if not found.
  */
 export async function getItem(key: string): Promise<string> {
-  let value = (await Storage.get({ key: key })).value;
+  const value = (await Storage.get({ key: key })).value;
   if (value === null) {
     return "";
   }

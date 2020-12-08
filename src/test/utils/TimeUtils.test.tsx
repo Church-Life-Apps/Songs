@@ -32,5 +32,7 @@ describe("Time Utils Tests", () => {
     expect(describeTime(Date.now() + MILLIS_PER_MINUTE * 1.1)).toBe("In 1 minute.");
     expect(describeTime(Date.now() + MILLIS_PER_SECOND * 5.1)).toBe("In 5 seconds.");
     expect(describeTime(Date.now() + MILLIS_PER_SECOND * 1.1)).toBe("In 1 second.");
+
+    expect(describeTime(0)).toBe("");
   });
 });

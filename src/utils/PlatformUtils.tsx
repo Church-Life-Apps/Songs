@@ -12,21 +12,21 @@ import { getPlatforms, isPlatform } from "@ionic/react";
 /**
  * Returns true if this is app currently running on an iOS device.
  */
-export function isIOS() {
+export function isIOS(): boolean {
   return isPlatform("ios");
 }
 
 /**
  * Returns true if this app is currently running on an Android device.
  */
-export function isAndroid() {
+export function isAndroid(): boolean {
   return isPlatform("android");
 }
 
 /**
  * Returns true if this app is currently running on the desktop.
  */
-export function isBrowser() {
+export function isBrowser(): boolean {
   return isPlatform("desktop");
 }
 
@@ -35,10 +35,10 @@ export function isBrowser() {
  *
  * * SQLite requires Cordova.
  */
-export function isCordova() {
+export function isCordova(): boolean {
   return isPlatform("cordova");
 }
 
-export function logPlatforms() {
+export function logPlatforms(): void {
   console.log("Current platforms: " + getPlatforms());
 }

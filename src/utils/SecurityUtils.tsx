@@ -2,20 +2,18 @@
  * Helper functions for Security stuff.
  */
 
-let CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 
 /**
  * Uses AES to encrypt some text with the given private key.
  */
-export function encrypt(normalText: String, privateKey: String) {
-  return CryptoJS.AES.encrypt(normalText, privateKey);
+export function encrypt(normalText: string, privateKey: string): string {
+  return CryptoJS.AES.encrypt(normalText, privateKey).toString(CryptoJS.format.OpenSSL);
 }
 
 /**
  * Uses AES to decrypt some text with the given private key.
  */
-export function decrypt(encryptedtext: String, privateKey: String) {
-  return CryptoJS.AES.decrypt(encryptedtext, privateKey).toString(
-    CryptoJS.enc.Utf8
-  );
+export function decrypt(encryptedtext: string, privateKey: string): string {
+  return CryptoJS.AES.decrypt(encryptedtext, privateKey).toString(CryptoJS.enc.Utf8);
 }

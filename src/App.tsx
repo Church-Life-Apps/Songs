@@ -22,7 +22,8 @@ import "./theme/variables.css";
 import HomePage from "./pages/HomePage";
 import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
-import { PageView, initGA } from "./tracking/GoogleAnalytics";
+import { DbManager } from "./database/DbManager";
+import { initGA, PageView } from "./tracking/GoogleAnalytics";
 
 try {
   initGA();
@@ -31,14 +32,19 @@ try {
   console.error(e);
 }
 
-const App: React.FC = () => (
-  <HashRouter>
-    <Switch>
-      <Route path="/" component={HomePage} exact />
-      <Route path="/:bookId" component={BookPage} exact />
-      <Route path="/:bookId/:songId" component={SongPage} exact />
-    </Switch>
-  </HashRouter>
-);
+export const AppName = "Hymnal App";
+
+const App: React.FC = () => {
+  DbManager.getInstance();
+  return (
+    <HashRouter>
+      <Switch>
+        <Route path="/" component={HomePage} exact />
+        <Route path="/:bookId" component={BookPage} exact />
+        <Route path="/:bookId/:songId" component={SongPage} exact />
+      </Switch>
+    </HashRouter>
+  );
+};
 
 export default App;
