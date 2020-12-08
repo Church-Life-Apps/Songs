@@ -6,7 +6,6 @@ export const initGA = (trackingID) => {
 
 export const PageView = () => {
   ReactGA.pageview(window.location.pathname + window.location.search);
-  console.log("Page viewed");
 };
 
 /**
@@ -21,5 +20,4 @@ export const Event = (category, action, label) => {
     action: action,
     label: label,
   });
-  console.log("Event triggered");
 };
