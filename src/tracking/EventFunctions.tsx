@@ -1,7 +1,7 @@
 import { SongViewMode } from "../utils/SongUtils";
 import { Event } from "./GoogleAnalytics";
 
-export function void triggerSongView(songNumber: number, mode: SongViewMode) {
+export function triggerSongView(songNumber: number, mode: SongViewMode): void {
   try {
     Event("INTERACTION", `Song viewed(${SongViewMode[mode]})`, songNumber.toString());
     console.log(`Song number: ${String(songNumber)} viewed in ${SongViewMode[mode]} mode`);
