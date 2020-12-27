@@ -1,9 +1,7 @@
 import ReactGA from "react-ga";
 
-const StreamID = "UA-183902236-1";
-
 export const initGA = (): void => {
-  ReactGA.initialize(StreamID);
+  ReactGA.initialize(process.env.GOOGLEANALYTICS_STREAMID as string);
 };
 
 export const PageView = (): void => {
