@@ -35,7 +35,7 @@ describe("App", () => {
   it("can access secrets", async () => {
     expect(process.env.EMAILJS_USERID).toBeDefined();
     expect(process.env.GOOGLEANALYTICS_STREAMID).toBeDefined();
-  })
+  });
 
   it("renders without crashing", async () => {
     await page.waitForSelector(selectors.appName);
