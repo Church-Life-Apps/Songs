@@ -97,4 +97,4 @@ const CREATE_SONGS_TABLE = `CREATE VIRTUAL TABLE IF NOT EXISTS ${SONGS_TABLE} US
   ${AUTHOR},
   ${TITLE},
   ${LYRICS},
-  tokenize=porter);`
+  tokenize=porter);`;
