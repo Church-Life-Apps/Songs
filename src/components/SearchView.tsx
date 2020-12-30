@@ -12,11 +12,9 @@ import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { updateSongHits } from "../database/SongsTable";
 import { DbSong } from "../models/DbSong";
-import { removePunctuation } from "../utils/SongUtils";
 import "./Components.css";
 
 interface SearchViewProps {
-  searchString: string;
   songs: DbSong[];
 }
 
@@ -29,28 +27,25 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
   const [songCardsIterator] = useState(props.songs.entries());
 
   const history = useHistory();
-  const searchParam = GetSearchParam();
-  const searchIsNumber = typeof searchParam === "number";
 
   if (songCards.length === 0) {
     LoadSongs(songCardsIterator, 20);
   }
-
   return songCards.length > 0 ? (
     <div>
-      <IonList>{songCards}</IonList>
-      <IonInfiniteScroll onIonInfinite={LoadMoreSongs} disabled={searchIsNumber}>
+      <IonList id="searchViewSongList">{songCards}</IonList>
+      <IonInfiniteScroll onIonInfinite={LoadMoreSongs}>
         <IonInfiniteScrollContent
           loadingSpinner="bubbles"
           loadingText="Loading more songs..."
         ></IonInfiniteScrollContent>
       </IonInfiniteScroll>
     </div>
-  ) : props.searchString !== "" ? (
+  ) : (
     <IonItem>
       <IonLabel>No results found</IonLabel>
     </IonItem>
-  ) : null;
+  );
 
   function LoadMoreSongs(event: CustomEvent<void>) {
     const target = event.target as HTMLIonInfiniteScrollElement;
@@ -73,25 +68,6 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
     }
 
     return true;
-  }
-
-  function GetSearchParam() {
-    if (
-      props.searchString === undefined ||
-      typeof props.searchString !== "string" ||
-      props.searchString.trim() === ""
-    ) {
-      return [];
-    }
-
-    const searchString = removePunctuation(props.searchString.trim().toLowerCase());
-    const searchNumber = Number(searchString);
-
-    if (!isNaN(searchNumber) && searchNumber > 0 && searchNumber <= props.songs.length) {
-      return searchNumber;
-    }
-
-    return searchString.split(" ");
   }
 
   function GenerateSongCard(song: DbSong) {

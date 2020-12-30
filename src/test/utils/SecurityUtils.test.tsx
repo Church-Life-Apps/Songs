@@ -10,6 +10,6 @@ describe("Security Utils Tests", () => {
     const decrypted = decrypt(encrypted, privateKey);
     expect(decrypted).toBe(text);
 
-    expect(decrypt(encrypted, "key2")).not.toBe(text);
+    expect(decrypt(encrypted, "key")).not.toBe(text);
   });
 });

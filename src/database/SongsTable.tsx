@@ -1,5 +1,5 @@
 import { SQLiteObject } from "@ionic-native/sqlite";
-import { DbSong } from "../models/DbSong";
+import { DbSong, sortDbSongs } from "../models/DbSong";
 import { isCordova } from "../utils/PlatformUtils";
 import { shlJsonUrl, SHL_BOOK_ID, SHL_RESOURCE_JSON_KEY, Song } from "../utils/SongUtils";
 import { getItem, storeItem } from "../utils/StorageUtils";
@@ -56,15 +56,18 @@ export function getFavoriteSongs(callback: (songs: DbSong[]) => void): void {
  */
 export function listSongsBySearchText(searchText: string, callback: (songs: DbSong[]) => void): void {
   let query: string;
+  let updatedCallback = callback;
   if (searchText === "") {
     query = `SELECT * FROM ${SONGS_TABLE}`;
   } else if (!isNaN(+searchText)) {
     query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONG_NUMBER} MATCH '${searchText}*'`;
   } else {
-    // TODO (Brandon): Figure out how to return rows ordered by hit accuracy.
     query = `SELECT * FROM ${SONGS_TABLE} WHERE ${SONGS_TABLE} MATCH '${formatStringForSql(searchText)}'`;
+    updatedCallback = (songs: DbSong[]) => {
+      callback(sortDbSongs(songs, searchText));
+    };
   }
-  runQueryWithCallback(query, `List songs by search text: "${searchText}"`, callback);
+  runQueryWithCallback(query, `List songs by search text: "${searchText}"`, updatedCallback);
 }
 
 /**
@@ -92,27 +95,15 @@ export async function fetchSongsAndPopulateSongsTable(): Promise<Song[]> {
         return body[SHL_RESOURCE_JSON_KEY];
       } else {
         console.log("Returning stored songs Json.");
-        return JSON.parse(item)[SHL_RESOURCE_JSON_KEY];
+        const songs = JSON.parse(item)[SHL_RESOURCE_JSON_KEY];
+        populateDatabase(songs, SHL_BOOK_ID);
+        return songs;
       }
     })
     .catch((r) => {
       console.error(r);
       return [];
     });
-}
-
-/**
- * Cancels all pending transactions.
- * TODO (Brandon): Unhack this and fix the search bar lag problem.
- */
-export function cancelAllTransactions(): void {
-  const dbManager = DbManager.getInstance();
-  if (isCordova()) {
-    // Mobile
-    const songsTable = dbManager.getSongsTable as SQLiteObject;
-    console.log("Aborting pending transactions.");
-    songsTable.abortallPendingTransactions();
-  }
 }
 
 /**
@@ -167,11 +158,14 @@ function populateDatabase(songs: Song[], bookId: string): void {
  * Gets the query to insert a song based on the song object and bookId.
  */
 function getInsertSongQuery(song: Song, bookId: string): string {
-  return `INSERT INTO ${SONGS_TABLE} values(${song.songNumber}, '${formatStringForSql(
-    bookId
-  )}', 0, 0, false, '${formatStringForSql(song.author)}', '${formatStringForSql(song.title)}', '${formatStringForSql(
+  return `INSERT INTO ${SONGS_TABLE} (${SONG_NUMBER}, ${BOOK_ID}, ${NUM_HITS}, ${LAST_USED}, ${FAVORITED}, ${AUTHOR}, ${TITLE}, ${LYRICS})
+  SELECT ${song.songNumber}, '${bookId}', 0, 0, 'false', '${formatStringForSql(song.author)}', '${formatStringForSql(
+    song.title
+  )}', '${formatStringForSql(
     JSON.stringify(song.lyrics)
-  )}')`;
+  )}' WHERE NOT EXISTS (SELECT 1 FROM ${SONGS_TABLE} WHERE ${BOOK_ID}='${bookId}' AND ${SONG_NUMBER}=${
+    song.songNumber
+  })`;
 }
 
 /**

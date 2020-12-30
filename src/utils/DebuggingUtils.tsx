@@ -20,3 +20,19 @@ export function logPromiseTime(promise: Promise<void>, name = "Method"): void {
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+/**
+ * Delays a bit of time then runs the callback function, simulating a laggy network call.
+ */
+export async function lagItWithCallback(ms: number, callback: ((word: string) => void)): Promise<void> {
+  await delay(ms);
+  callback("Callback called after delaying for " + ms + " ms.")
+}
+
+/**
+ * Force lags an async function.
+ */
+export async function lagIt(ms: number): Promise<string> {
+  await delay(ms);
+  return "returning after delaying for " + ms + " ms."
+}
