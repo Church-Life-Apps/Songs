@@ -2,7 +2,6 @@ import { IonButton, IonInput, IonItem, IonLabel, IonModal, IonTextarea } from "@
 import React, { useState } from "react";
 import "./Components.css";
 import emailjs from "emailjs-com";
-import { decrypt } from "../utils/SecurityUtils";
 
 /**
  * Feedback Screen.
@@ -11,8 +10,6 @@ import { decrypt } from "../utils/SecurityUtils";
  * This class will send actual emails when people have feedback.
  */
 const FeedbackScreen: React.FC = () => {
-  const ENCRYPTED_USER_ID = "U2FsdGVkX19ijiVnA6XtmJ4wa/RL9NngWwn4uKfq6gO+4ZI/V1F/RCYL4REfk0tZ";
-  const PRIVATE_KEY = "jesus private key";
   const SERVICE_ID = "hymnal_app_service_id";
   const EMAIL_TEMPLATE = "template_z4z7bhi";
 
@@ -21,7 +18,7 @@ const FeedbackScreen: React.FC = () => {
   const [feedbackResponseText, setFeedbackResponseText] = useState<string>("");
   const [feedbackResponseModal, setShowFeedbackResponseModal] = useState<boolean>(false);
 
-  emailjs.init(decrypt(ENCRYPTED_USER_ID, PRIVATE_KEY));
+  emailjs.init(process.env.EMAILJS_USERID as string);
 
   return (
     <div id="feedbackFormDiv">
