@@ -5,10 +5,6 @@ on:
     branches:
       - master
 
-env:
-  EMAILJS_USERID: ${{ secrets.EMAILJS_USERID }}
-  GOOGLEANALYTICS_STREAMID: ${{ secrets.GOOGLEANALYTICS_STREAMID }}
-
 jobs:
   build-and-deploy:
     name: Build and Deploy
@@ -23,6 +19,9 @@ jobs:
         run: |
           npm install
           npm run build
+        env:
+          EMAILJS_USERID: ${{ secrets.EMAILJS_USERID }}
+          GOOGLEANALYTICS_STREAMID: ${{ secrets.GOOGLEANALYTICS_STREAMID }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
