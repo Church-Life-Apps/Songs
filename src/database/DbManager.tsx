@@ -3,7 +3,7 @@ import { isCordova } from "../utils/PlatformUtils";
 
 const VERSION = "1.0";
 const SCHEMA = `hymnal_1`;
-export const SONGS_TABLE = `songs_1`;
+export const SONGS_TABLE = `songs_2`;
 const SQL_DB_NAME = `${SCHEMA}.${SONGS_TABLE}`;
 const SONGS_TABLE_CONFIG: SQLiteDatabaseConfig = {
   name: SQL_DB_NAME,
