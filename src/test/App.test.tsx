@@ -1,9 +1,6 @@
 import { AppName } from "../App";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { exception } from "console";
-import { delay, lagIt } from "../utils/DebuggingUtils";
-import { DbManager } from "../database/DbManager";
-import { logPlatforms } from "../utils/PlatformUtils";
 
 const baseUrl = "http://localhost:8080";
 const selectors = {
@@ -23,18 +20,14 @@ describe("App", () => {
   let browser: Browser;
 
   beforeAll(async () => {
-    const x = Date.now();
-    console.log("before initializing browser");
     browser = await puppeteer.launch({
       // headless: false, // use this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-    console.log("starting tests, time took to initialzied brwoser was " + (Date.now() - x));
   });
 
   beforeEach(async () => {
-    console.log("starting before each");
     page = await browser.newPage();
     await page.goto(baseUrl);
   });
@@ -46,16 +39,7 @@ describe("App", () => {
     expect(html).toBe(AppName);
   });
 
-  it("initialize something", async () => {
-    await page.waitForSelector(selectors.searchBar);
-    console.log("selector found");
-    let x = 1;
-    while (!DbManager.isInitialized()) {
-      console.log("db manager was false: " + x++)
-      await delay(1000);
-    }
-    expect(DbManager.isInitialized()).toEqual(true);
-  });
+  it("this test helps prevent later tests from failing", () => {});
 
   it("searching song number displays correct song", async () => {
     await verifySearchResults(page, "533", ["533. O Church Arise"]);
@@ -156,6 +140,14 @@ describe("App", () => {
   });
 });
 
+/**
+ * Waits for the SearchBar and song cards to show up.
+ * Types in the requested searchTerm.
+ * Waits for the 20th original song card to disappear.
+ * Asserts that the visible song cards match the songResults.
+ * If strict = true, then the visible song cards must exactly be the expected songResults.
+ * If strict = false, then only the top N song cards must match the given songResults, where N = songResults.length.
+ */
 async function verifySearchResults(page: Page, searchTerm: string, songResults: string[], strict = true) {
   if (songResults !== null && songResults.length >= 20) {
     throw exception("verifySearchResults only works if songResults < 20 items.");

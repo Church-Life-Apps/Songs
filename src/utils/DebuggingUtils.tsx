@@ -24,9 +24,9 @@ export function delay(ms: number): Promise<void> {
 /**
  * Delays a bit of time then runs the callback function, simulating a laggy network call.
  */
-export async function lagItWithCallback(ms: number, callback: ((word: string) => void)): Promise<void> {
+export async function lagItWithCallback(ms: number, callback: (word: string) => void): Promise<void> {
   await delay(ms);
-  callback("Callback called after delaying for " + ms + " ms.")
+  callback("Callback called after delaying for " + ms + " ms.");
 }
 
 /**
@@ -34,5 +34,5 @@ export async function lagItWithCallback(ms: number, callback: ((word: string) =>
  */
 export async function lagIt(ms: number): Promise<string> {
   await delay(ms);
-  return "returning after delaying for " + ms + " ms."
+  return "returning after delaying for " + ms + " ms.";
 }

@@ -2,7 +2,7 @@ import { decrypt, encrypt } from "../../utils/SecurityUtils";
 
 describe("Security Utils Tests", () => {
   it("Encrypt and Decrypt Test", () => {
-    const text = JSON.stringify({ data: "hello world" });
+    const text = "hello world";
     const privateKey = "key1";
 
     const encrypted = encrypt(text, privateKey);
@@ -10,6 +10,6 @@ describe("Security Utils Tests", () => {
     const decrypted = decrypt(encrypted, privateKey);
     expect(decrypted).toBe(text);
 
-    expect(decrypt(encrypted, "key")).not.toBe(text);
+    expect(decrypt(encrypted, "key2")).not.toBe(text);
   });
 });
