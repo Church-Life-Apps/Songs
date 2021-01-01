@@ -39,7 +39,9 @@ describe("App", () => {
     expect(html).toBe(AppName);
   });
 
-  it("this test helps prevent later tests from failing", () => {});
+  it("this test helps prevent later tests from failing", () => {
+    true;
+  });
 
   it("searching song number displays correct song", async () => {
     await verifySearchResults(page, "533", ["533. O Church Arise"]);
