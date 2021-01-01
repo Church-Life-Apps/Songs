@@ -67,7 +67,7 @@ export class DbManager {
   get getSongsTable(): SQLiteObject | Database | undefined {
     return this.songsTable;
   }
-  
+
   static isInitialized(): boolean {
     return DbManager.instance !== undefined && DbManager.instance.getSongsTable !== undefined;
   }
