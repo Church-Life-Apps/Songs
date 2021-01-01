@@ -54,10 +54,10 @@ export class DbManager {
             console.log(`Error creating database ${SQL_DB_NAME} because ${error}, ${error.message}`);
           },
           () => {
+            this.songsTable = db;
             console.log(`Successfully opened WebSQL database schema: ${SCHEMA} and created table: ${SONGS_TABLE}.`);
           }
         );
-        this.songsTable = db;
       } catch (e) {
         console.log("Error creating the WebSQL database: " + e + e.message);
       }
@@ -69,7 +69,8 @@ export class DbManager {
   }
   
   static isInitialized(): boolean {
-    return DbManager.instance !== undefined;
+    console.log("intance = " + DbManager.instance);
+    return DbManager.instance !== undefined
   }
 
   static getInstance(): DbManager {

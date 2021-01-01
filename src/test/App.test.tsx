@@ -1,7 +1,9 @@
 import { AppName } from "../App";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { exception } from "console";
-import { lagIt } from "../utils/DebuggingUtils";
+import { delay, lagIt } from "../utils/DebuggingUtils";
+import { DbManager } from "../database/DbManager";
+import { logPlatforms } from "../utils/PlatformUtils";
 
 const baseUrl = "http://localhost:8080";
 const selectors = {
@@ -9,7 +11,7 @@ const selectors = {
   appName: "#appName",
   searchViewIonCard: "#searchViewSongList > ion-card",
   searchViewIonCardTitle: "#searchViewSongList > ion-card > ion-card-title",
-  lyricViewIonCardTitle: "#root > div > ion-content > ion-card > ion-card-header > ion-card-title",
+  lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
   lyricLine: "#root > div > ion-content > ion-card > ion-card-content > ion-item",
@@ -21,28 +23,43 @@ describe("App", () => {
   let browser: Browser;
 
   beforeAll(async () => {
+    const x = Date.now();
+    console.log("before initializing browser");
     browser = await puppeteer.launch({
       // headless: false, // use this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+    console.log("starting tests, time took to initialzied brwoser was " + (Date.now() - x));
   });
 
   beforeEach(async () => {
+    console.log("starting before each");
     page = await browser.newPage();
     await page.goto(baseUrl);
   });
 
-  it("can access secrets", async () => {
-    expect(process.env.EMAILJS_USERID).toBeDefined();
-    expect(process.env.GOOGLEANALYTICS_STREAMID).toBeDefined();
-  });
+  // it("can access secrets", async () => {
+  //   expect(process.env.EMAILJS_USERID).toBeDefined();
+  //   expect(process.env.GOOGLEANALYTICS_STREAMID).toBeDefined();
+  // });
 
   it("renders without crashing", async () => {
     await page.waitForSelector(selectors.appName);
 
     const html = await page.$eval(selectors.appName, (e) => e.innerHTML);
     expect(html).toBe(AppName);
+  });
+
+  it("initialize something", async () => {
+    await page.waitForSelector(selectors.searchBar);
+    console.log("selector found");
+    let x = 1;
+    while (!DbManager.isInitialized()) {
+      console.log("db manager was false: " + x++)
+      await delay(1000);
+    }
+    expect(DbManager.isInitialized()).toEqual(true);
   });
 
   it("searching song number displays correct song", async () => {
@@ -58,15 +75,16 @@ describe("App", () => {
   });
 
   it("searching is case and order insensitive", async () => {
+    const expectedSong = "3. Praise God From Whom All Blessings Flow";
     const newPage = async () => {
       page = await browser.newPage();
       await page.goto(baseUrl);
     };
 
-    await verifySearchResults(page, "praise god from Whom aLL bleSsiNgs FLOW", ["3. Praise God From Whom All Blessings Flow"], false);
+    await verifySearchResults(page, "praise god from Whom aLL bleSsiNgs FLOW", [expectedSong], false);
 
     await newPage();
-    await verifySearchResults(page, "whom all flow god praise from blessings", ["3. Praise God From Whom All Blessings Flow"], false);
+    await verifySearchResults(page, "whom all flow god praise from blessings", [expectedSong], false);
   }, 10000);
 
   it("searching terms not found displays no results", async () => {
@@ -147,31 +165,21 @@ async function verifySearchResults(page: Page, searchTerm: string, songResults: 
   if (songResults !== null && songResults.length >= 20) {
     throw exception("verifySearchResults only works if songResults < 20 items.");
   }
-  console.log("beginning test");
   await page.waitForSelector(selectors.searchBar);
-  console.log("search bar selector found");
+
   await page.waitForSelector(selectors.searchViewIonCard);
-  console.log("search view ion card fond");
 
   await page.type(selectors.searchBar, searchTerm);
-  console.log("search bar search term typed");
-  
+
   await page.waitForSelector(selectors.searchViewIonCard + ":nth-child(20)", {
     hidden: true,
   });
   const ionCards = await page.$$(selectors.searchViewIonCardTitle);
-  console.log("ioncards found. should be vaidatoing now.");
   if (strict) {
-    try {
-      expect(ionCards.length).toEqual(songResults.length);
-    } catch (e) {
-      console.log("erorred!!!!!!!!!!!!!!");
-      // await lagIt(6000000);
-    }
+    expect(ionCards.length).toEqual(songResults.length);
   } else {
-    expect (ionCards.length).toBeGreaterThanOrEqual(songResults.length);
+    expect(ionCards.length).toBeGreaterThanOrEqual(songResults.length);
   }
-
   if (strict) {
     for (let i = 0; i < ionCards.length; i++) {
       expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
@@ -181,5 +189,4 @@ async function verifySearchResults(page: Page, searchTerm: string, songResults: 
       expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
     }
   }
-  
 }

@@ -33,7 +33,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   }, []);
 
   return (
-    <IonCard>
+    <IonCard id="lyricViewCard">
       <IonCardHeader>
         <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
       </IonCardHeader>
