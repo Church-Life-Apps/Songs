@@ -6,10 +6,12 @@
  * import { makeThreeDigits } from '../utils/SongUtils'
  */
 
-export const shlName = "Songs and Hymns of Life";
+export const SHL_RESOURCE_JSON_KEY = "Songs and Hymns of Life";
 
 export const shlJsonUrl =
   "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json";
+
+export const SHL_BOOK_ID = "shl";
 
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.
@@ -24,21 +26,18 @@ export function makeThreeDigits(num: number): string {
   }
 }
 
-export function removePunctuation(s: string): string {
-  return s.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, "");
-}
-
 export enum SongViewMode {
   Music,
   Lyrics,
 }
 
-// TODO: use json schema
+/**
+ * Fields from the shl.json resource file.
+ * Add more fields here when they are required in the app.
+ */
 export interface Song {
   title: string;
   author: string;
   songNumber: number;
-
-  // [Issue #74] This needs to be fixed and turned back on:
-  lyrics: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  lyrics: string;
 }

@@ -1,10 +1,12 @@
-import { IonContent, IonPage, IonItem, IonHeader, IonSearchbar } from "@ionic/react";
+import { IonContent, IonPage, IonHeader, IonInput, IonItem } from "@ionic/react";
 import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
-import { Song } from "../utils/SongUtils";
-import { getShlSongs } from "../utils/StorageUtils";
+import { SHL_BOOK_ID } from "../utils/SongUtils";
+import { fetchSongsAndPopulateSongsTable, listSongsBySearchText } from "../database/SongsTable";
+import { DbSong } from "../models/DbSong";
+import { DbManager } from "../database/DbManager";
 
 /**
  * Book Page Component.
@@ -15,13 +17,28 @@ import { getShlSongs } from "../utils/StorageUtils";
 const BookPage: React.FC = () => {
   // the search string inputted by the user
   const [searchString, setSearchString] = useState<string>("");
-  const [songs, setSongs] = useState<Song[]>([]);
+  const [songs, setSongs] = useState<DbSong[]>([]);
 
   useEffect(() => {
-    getShlSongs()
-      .then((song) => (song ? song : []))
-      .then(setSongs);
-  }, []);
+    const timeOutId = setTimeout(() => {
+      listSongsBySearchText(searchString, (songs) => {
+        if (songs.length === 0 && searchString === "") {
+          // The Database did not return anything, so fetch songs list from online and try to populate the DB for next time.
+          fetchSongsAndPopulateSongsTable()
+            .then((songs) => (songs ? songs : []))
+            .then((songs) =>
+              songs.map((song) => {
+                return new DbSong(song.songNumber, SHL_BOOK_ID, 0, 0, false, song.author, song.title, song.lyrics);
+              })
+            )
+            .then((songs) => setSongs(songs));
+        } else {
+          setSongs(songs);
+        }
+      });
+    }, 200);
+    return () => clearTimeout(timeOutId);
+  }, [searchString]);
 
   const history = useHistory();
 
@@ -31,17 +48,20 @@ const BookPage: React.FC = () => {
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
       <IonItem>
-        <IonSearchbar
+        <IonInput
           id="searchBar"
           type="search"
           value={searchString}
           placeholder="Search for a song"
-          onIonChange={(e) => setSearchString(e.detail.value as string)}
-        ></IonSearchbar>
+          onIonChange={(word) => {
+            setSearchString(word.detail.value as string);
+          }}
+          hidden={!DbManager.isInitialized()}
+        ></IonInput>
       </IonItem>
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
-      <IonContent key={searchString}>
-        <SearchView key={searchString + songs.length} searchString={searchString} songs={songs} />
+      <IonContent>
+        <SearchView key={searchString + songs.length} songs={songs} />
       </IonContent>
     </IonPage>
   );

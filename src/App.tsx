@@ -24,6 +24,7 @@ import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { DbManager } from "./database/DbManager";
 import { initGA, PageView } from "./tracking/GoogleAnalytics";
+import { logPlatforms } from "./utils/PlatformUtils";
 
 try {
   initGA();
@@ -36,6 +37,7 @@ export const AppName = "Hymnal App";
 
 const App: React.FC = () => {
   DbManager.getInstance();
+  logPlatforms();
   return (
     <HashRouter>
       <Switch>

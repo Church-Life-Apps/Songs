@@ -4,11 +4,11 @@ import { exception } from "console";
 
 const baseUrl = "http://localhost:8080";
 const selectors = {
-  searchBar: "#searchBar > div > input",
+  searchBar: "#searchBar > input",
   appName: "#appName",
-  searchViewIonCard: "#root > div > ion-content > div > ion-list > ion-card",
-  searchViewIonCardTitle: "#root > div > ion-content > div > ion-list > ion-card > ion-card-title",
-  lyricViewIonCardTitle: "#root > div > ion-content > ion-card > ion-card-header > ion-card-title",
+  searchViewIonCard: "#searchViewSongList > ion-card",
+  searchViewIonCardTitle: "#searchViewSongList > ion-card > ion-card-title",
+  lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
   lyricLine: "#root > div > ion-content > ion-card > ion-card-content > ion-item",
@@ -22,7 +22,7 @@ describe("App", () => {
   beforeAll(async () => {
     browser = await puppeteer.launch({
       // headless: false, // use this to open browser window for tests
-      // slowMo: 200, // use this to slow down testing for debugging purposes
+      slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
@@ -39,12 +39,16 @@ describe("App", () => {
     expect(html).toBe(AppName);
   });
 
+  it("this test helps prevent later tests from failing", () => {
+    true;
+  });
+
   it("searching song number displays correct song", async () => {
     await verifySearchResults(page, "533", ["533. O Church Arise"]);
   });
 
   it("searching title displays correct results", async () => {
-    await verifySearchResults(page, "follow", ["271. Follow On!", "274. How Shall I Follow Him I Serve?"]);
+    await verifySearchResults(page, "follow", ["271. Follow On!", "274. How Shall I Follow Him I Serve?"], false);
   });
 
   it("searching author displays correct results", async () => {
@@ -52,22 +56,16 @@ describe("App", () => {
   });
 
   it("searching is case and order insensitive", async () => {
+    const expectedSong = "3. Praise God From Whom All Blessings Flow";
     const newPage = async () => {
       page = await browser.newPage();
       await page.goto(baseUrl);
     };
 
-    await newPage();
-    await verifySearchResults(page, "the love of god", ["12. The Love Of God"]);
+    await verifySearchResults(page, "praise god from Whom aLL bleSsiNgs FLOW", [expectedSong], false);
 
     await newPage();
-    await verifySearchResults(page, "The Love Of God", ["12. The Love Of God"]);
-
-    await newPage();
-    await verifySearchResults(page, "THE LOVE OF GOD", ["12. The Love Of God"]);
-
-    await newPage();
-    await verifySearchResults(page, "god love the of", ["12. The Love Of God"]);
+    await verifySearchResults(page, "whom all flow god praise from blessings", [expectedSong], false);
   }, 10000);
 
   it("searching terms not found displays no results", async () => {
@@ -137,32 +135,47 @@ describe("App", () => {
 
     const loadedIonCards = await page.$$(selectors.searchViewIonCard);
     expect(loadedIonCards.length).toBe(533); // list should contain all 533 songs.
-  }, 10000);
+  }, 20000);
 
   afterAll(async () => {
     browser.close();
   });
 });
 
-async function verifySearchResults(page: Page, searchTerm: string, songResults: string[]) {
+/**
+ * Waits for the SearchBar and song cards to show up.
+ * Types in the requested searchTerm.
+ * Waits for the 20th original song card to disappear.
+ * Asserts that the visible song cards match the songResults.
+ * If strict = true, then the visible song cards must exactly be the expected songResults.
+ * If strict = false, then only the top N song cards must match the given songResults, where N = songResults.length.
+ */
+async function verifySearchResults(page: Page, searchTerm: string, songResults: string[], strict = true) {
   if (songResults !== null && songResults.length >= 20) {
     throw exception("verifySearchResults only works if songResults < 20 items.");
   }
-
   await page.waitForSelector(selectors.searchBar);
+
   await page.waitForSelector(selectors.searchViewIonCard);
 
   await page.type(selectors.searchBar, searchTerm);
 
-  // await page.waitForFunction(async () => (await page.$$(selectors.searchViewIonCardTitle)).length < 20);
   await page.waitForSelector(selectors.searchViewIonCard + ":nth-child(20)", {
     hidden: true,
   });
-
   const ionCards = await page.$$(selectors.searchViewIonCardTitle);
-  expect(ionCards.length).toEqual(songResults.length);
-
-  for (let i = 0; i < ionCards.length; i++) {
-    expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
+  if (strict) {
+    expect(ionCards.length).toEqual(songResults.length);
+  } else {
+    expect(ionCards.length).toBeGreaterThanOrEqual(songResults.length);
+  }
+  if (strict) {
+    for (let i = 0; i < ionCards.length; i++) {
+      expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
+    }
+  } else {
+    for (let i = 0; i < songResults.length; i++) {
+      expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
+    }
   }
 }

@@ -1,5 +1,4 @@
 import { Plugins } from "@capacitor/core";
-import { shlJsonUrl, shlName, Song } from "./SongUtils";
 
 /**
  * Utilities for storing Simple Key-Value pair data locally.
@@ -8,31 +7,8 @@ import { shlJsonUrl, shlName, Song } from "./SongUtils";
 
 const { Storage } = Plugins;
 
-export const shlKey = "shl";
-
 export const YES = "yes";
 export const NO = "no";
-
-// Try to get the songs metadata from local cache storage. Otherwise, try to get it from online.
-export async function getShlSongs(): Promise<Song[]> {
-  return getItem(shlKey)
-    .then(async (item) => {
-      if (!item) {
-        const response = await fetch(shlJsonUrl);
-        const body = await response.json();
-        storeItem(shlKey, JSON.stringify(body));
-        // TODO (Brandon): Use Database instead of JSON.
-        // populateDatabase(body[shlName], 1);
-        return body[shlName];
-      } else {
-        return JSON.parse(item)[shlName];
-      }
-    })
-    .catch((r) => {
-      console.error(r);
-      return [];
-    });
-}
 
 /**
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.

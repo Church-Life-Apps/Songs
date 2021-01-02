@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js";
  * Uses AES to encrypt some text with the given private key.
  */
 export function encrypt(normalText: string, privateKey: string): string {
-  return CryptoJS.AES.encrypt(normalText, privateKey).toString(CryptoJS.format.OpenSSL);
+  return CryptoJS.AES.encrypt(normalText, privateKey).toString();
 }
 
 /**
