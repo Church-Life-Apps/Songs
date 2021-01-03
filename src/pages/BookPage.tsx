@@ -32,7 +32,7 @@ const BookPage: React.FC = () => {
                 return new DbSong(song.songNumber, SHL_BOOK_ID, 0, 0, false, song.author, song.title, song.lyrics);
               })
             )
-            .then((songs) => setSongs(songs))
+            .then((songs) => setSongs(songs));
         } else {
           setSongs(songs);
         }
@@ -50,7 +50,6 @@ const BookPage: React.FC = () => {
       clearInterval(check);
     }
   }
-
 
   const check = setInterval(checkDatabaseLoad, 1000);
   // console.log(DbManager.isInitialized());
