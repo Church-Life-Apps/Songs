@@ -14,11 +14,12 @@ import { DbManager } from "../database/DbManager";
  * Use 'useState' for dynamic variables.
  * When the variable changes, the places where it's being used are automatically re-rendered.
  */
+
 const BookPage: React.FC = () => {
   // the search string inputted by the user
   const [searchString, setSearchString] = useState<string>("");
   const [songs, setSongs] = useState<DbSong[]>([]);
-
+  // const [showSearchBar, setShowSearchBar] = useState<boolean>(DbManager.isInitialized());
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       listSongsBySearchText(searchString, (songs) => {
@@ -31,7 +32,7 @@ const BookPage: React.FC = () => {
                 return new DbSong(song.songNumber, SHL_BOOK_ID, 0, 0, false, song.author, song.title, song.lyrics);
               })
             )
-            .then((songs) => setSongs(songs));
+            .then((songs) => setSongs(songs))
         } else {
           setSongs(songs);
         }
@@ -42,11 +43,25 @@ const BookPage: React.FC = () => {
 
   const history = useHistory();
 
+  function checkDatabaseLoad() {
+    if (DbManager.isInitialized()) {
+      // eslint-disable-next-line
+      document.getElementById("searchBar")!.hidden = false;
+      clearInterval(check);
+    }
+  }
+
+
+  const check = setInterval(checkDatabaseLoad, 1000);
+  // console.log(DbManager.isInitialized());
+
   return (
     <IonPage>
       <IonHeader>
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
+      {/* <button onClick = {() => {db = !db; console.log(db);}}>button</button> */}
+      {/* <button id = "button">button</button> */}
       <IonItem>
         <IonInput
           id="searchBar"
@@ -56,6 +71,9 @@ const BookPage: React.FC = () => {
           onIonChange={(word) => {
             setSearchString(word.detail.value as string);
           }}
+          // key={DbManager.isInitialized().toString()}
+          // key = {db.toString()}
+          // hidden={!DbManager.isInitialized()}
           hidden={!DbManager.isInitialized()}
         ></IonInput>
       </IonItem>
