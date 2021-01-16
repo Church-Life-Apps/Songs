@@ -19,7 +19,7 @@ declare const window: { openDatabase: (arg0: string, arg1: string, arg2: string,
  * This class defines all the tables and instantiates them as a singleton database object when the app starts up.
  */
 export class DbManager {
-  private static instance: DbManager = new DbManager();
+  private static instance: DbManager;
   private songsTable: SQLiteObject | Database | undefined;
 
   /**
