@@ -47,18 +47,17 @@ const BookPage: React.FC = () => {
       <IonHeader>
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
-      {
-        DbManager.isInitialized() &&
-      <IonItem>
-        <IonInput
-          id="searchBar"
-          type="search"
-          value={searchString}
-          placeholder="Search for a song"
-          onIonChange={(word) => setSearchString(word.detail.value as string) }
-        ></IonInput>
-      </IonItem>
-      }
+      {DbManager.isInitialized() && (
+        <IonItem>
+          <IonInput
+            id="searchBar"
+            type="search"
+            value={searchString}
+            placeholder="Search for a song"
+            onIonChange={(word) => setSearchString(word.detail.value as string)}
+          ></IonInput>
+        </IonItem>
+      )}
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent>
         <SearchView key={searchString + songs.length} songs={songs} />
