@@ -69,7 +69,7 @@ export class DbManager {
   }
 
   static isInitialized(): boolean {
-    return DbManager.instance !== undefined && DbManager.instance.getSongsTable !== undefined;
+    return DbManager.instance !== undefined && DbManager.instance.songsTable !== undefined;
   }
 
   static getInstance(): DbManager {

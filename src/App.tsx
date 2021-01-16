@@ -38,6 +38,7 @@ export const AppName = "Hymnal App";
 const App: React.FC = () => {
   DbManager.getInstance();
   logPlatforms();
+
   return (
     <HashRouter>
       <Switch>
