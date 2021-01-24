@@ -52,7 +52,7 @@ describe("App", () => {
   });
 
   it("searching author displays correct results", async () => {
-    await verifySearchResults(page, "chris tomlin", ["121. How Great Is Our God", "135. The Wonderful Cross"]);
+    await verifySearchResults(page, "bertha fennell", ["401. Savior, I By Faith Am Touching"], false);
   });
 
   it("searching is case and order insensitive", async () => {
