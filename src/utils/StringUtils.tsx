@@ -17,5 +17,12 @@ const stringSimilarity = require("string-similarity"); // eslint-disable-line @t
  * 1 = the same string.
  */
 export function getSimilarity(word: string, search: string): number {
-  return stringSimilarity.compareTwoStrings(removePunctuation(word.toLowerCase()), search);
+  return stringSimilarity.compareTwoStrings(removePunctuation(word.toString().toLowerCase()), search);
+}
+
+/**
+ * Returns true if a string is a number, false otherwise.
+ */
+export function isNumeric(word: string): boolean {
+  return !isNaN(+word)
 }

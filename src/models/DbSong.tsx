@@ -48,5 +48,5 @@ export function sortDbSongs(songs: DbSong[], searchText: string): DbSong[] {
  * The title is much shorter by length, so matches in the title will naturally weigh more than matches in the lyrics.
  */
 function getMatchScore(song: DbSong, search: string) {
-  return getSimilarity(song.title, search) + getSimilarity(song.lyrics, search);
+  return getSimilarity(song.title, search) + getSimilarity(song.lyrics, search) + getSimilarity(song.author, search);
 }

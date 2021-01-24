@@ -5,8 +5,11 @@ import SearchView from "../components/SearchView";
 import { useHistory } from "react-router-dom";
 import { SHL_BOOK_ID } from "../utils/SongUtils";
 import { fetchSongsAndPopulateSongsTable, listSongsBySearchText } from "../database/SongsTable";
-import { DbSong } from "../models/DbSong";
+import { DbSong, sortDbSongs } from "../models/DbSong";
+import { getSimilarity, isNumeric } from "../utils/StringUtils";
 import { DbManager } from "../database/DbManager";
+
+const MATCH_THRESHOLD = 0.25;
 
 /**
  * Book Page Component.
@@ -32,6 +35,27 @@ const BookPage: React.FC = () => {
               })
             )
             .then((songs) => setSongs(songs));
+        } else if (songs.length === 0 && !DbManager.isInitialized()) {
+          fetchSongsAndPopulateSongsTable()
+            .then((songs) => (songs ? songs : []))
+            .then((songs) => {
+              if (isNumeric(searchString)) {
+                return songs[+searchString - 1] ? [songs[+searchString - 1]] : [];
+              } else {
+                return songs.filter(
+                  (song) =>
+                    getSimilarity(song.title, searchString) > MATCH_THRESHOLD ||
+                    getSimilarity(song.author, searchString) > MATCH_THRESHOLD
+                );
+              }
+            })
+            .then((songs) =>
+              songs.map((song) => {
+                return new DbSong(song.songNumber, SHL_BOOK_ID, 0, 0, false, song.author, song.title, song.lyrics);
+              })
+            )
+            .then((songs) => sortDbSongs(songs, searchString))
+            .then((songs) => setSongs(songs));
         } else {
           setSongs(songs);
         }
@@ -47,17 +71,15 @@ const BookPage: React.FC = () => {
       <IonHeader>
         <NavigationBar backButtonOnClick={() => history.push("/")} />
       </IonHeader>
-      {DbManager.isInitialized() && (
-        <IonItem>
-          <IonInput
-            id="searchBar"
-            type="search"
-            value={searchString}
-            placeholder="Search for a song"
-            onIonChange={(word) => setSearchString(word.detail.value as string)}
-          ></IonInput>
-        </IonItem>
-      )}
+      <IonItem>
+        <IonInput
+          id="searchBar"
+          type="search"
+          value={searchString}
+          placeholder="Search for a song"
+          onIonChange={(word) => setSearchString(word.detail.value as string)}
+        ></IonInput>
+      </IonItem>
       {/* The key here will trigger a re-initialization of a new searchView when it changes. */}
       <IonContent>
         <SearchView key={searchString + songs.length} songs={songs} />
