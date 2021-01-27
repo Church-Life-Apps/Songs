@@ -26,7 +26,11 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
         fetchSongsAndPopulateSongsTable()
           .then((songs) => (songs ? songs : []))
           .then((songs) => songs[props.songNumber - 1])
-          .then((song) => new DbSong(props.songNumber, "", 0, 0, false, song.author, song.title, song.lyrics))
+          .then((song) =>
+            song
+              ? new DbSong(props.songNumber, "", 0, 0, false, song.author, song.title, JSON.stringify(song.lyrics))
+              : PLACEHOLDER_SONG
+          )
           .then((song) => setSong(song));
       }
     });
