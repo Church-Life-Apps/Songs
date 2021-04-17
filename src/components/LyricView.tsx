@@ -1,4 +1,14 @@
-import { IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow, IonCol, IonCardTitle, IonText, IonCardSubtitle } from "@ionic/react";
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCardTitle,
+  IonText,
+  IonCardSubtitle,
+} from "@ionic/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { SongViewMode } from "../utils/SongUtils";
 import { fetchSongsAndPopulateSongsTable, getSong } from "../database/SongsTable";
@@ -45,9 +55,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
               <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
               <IonCardSubtitle key={song?.author}>By {song?.author}</IonCardSubtitle>
             </IonCardHeader>
-            <IonCardContent key={song?.lyrics}>
-                    {song ? getLyrics(song) : song}
-            </IonCardContent>
+            <IonCardContent key={song?.lyrics}>{song ? getLyrics(song) : song}</IonCardContent>
           </IonCard>
         </IonCol>
       </IonRow>
@@ -64,12 +72,22 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     let key = 0;
     verses.forEach((versenumber) => {
       // margin-top doesn't want to work on the verse number directly, so just use a spacer
-      lyrics.push(<Fragment><div className="ion-margin-vertical"></div></Fragment>);
-      lyrics.push(<h5 key={key} className="ion-margin-top">{getVerseText(versenumber)}</h5>);
+      lyrics.push(
+        <Fragment>
+          <div className="ion-margin-vertical"></div>
+        </Fragment>
+      );
+      lyrics.push(
+        <h5 key={key} className="ion-margin-top">
+          {getVerseText(versenumber)}
+        </h5>
+      );
       key++;
       songLyrics[versenumber].forEach((line: string) => {
         lyrics.push(
-          <IonText className="lyricVerse" color="dark"><p>{line}</p></IonText>
+          <IonText className="lyricVerse" color="dark">
+            <p>{line}</p>
+          </IonText>
         );
         key++;
       });
