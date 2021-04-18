@@ -52,10 +52,10 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
         <IonCol size="12" size-lg="8" size-xl="6">
           <IonCard id="lyricViewCard" className="ion-padding">
             <IonCardHeader className="ion-text-center">
-              <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
-              <IonCardSubtitle key={song?.author}>By {song?.author}</IonCardSubtitle>
+              <IonCardTitle key="title">{song?.title}</IonCardTitle>
+              <IonCardSubtitle key="author">By {song?.author}</IonCardSubtitle>
             </IonCardHeader>
-            <IonCardContent key={song?.lyrics}>{song ? getLyrics(song) : song}</IonCardContent>
+            <IonCardContent key="lyrics">{song ? getLyrics(song) : song}</IonCardContent>
           </IonCard>
         </IonCol>
       </IonRow>
@@ -73,23 +73,21 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     verses.forEach((versenumber) => {
       // margin-top doesn't want to work on the verse number directly, so just use a spacer
       lyrics.push(
-        <Fragment>
+        <Fragment key={key++}>
           <div className="ion-margin-vertical"></div>
         </Fragment>
       );
       lyrics.push(
-        <h5 key={key} className="ion-margin-top">
+        <h5 key={key++} className="ion-margin-top">
           {getVerseText(versenumber)}
         </h5>
       );
-      key++;
       songLyrics[versenumber].forEach((line: string) => {
         lyrics.push(
-          <IonText className="lyricVerse" color="dark">
+          <IonText key={key++} className="lyricVerse" color="dark">
             <p>{line}</p>
           </IonText>
         );
-        key++;
       });
     });
     return lyrics;

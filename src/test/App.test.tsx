@@ -11,7 +11,7 @@ const selectors = {
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
-  lyricLine: "#root > div > ion-content > ion-card > ion-card-content > ion-item",
+  lyricLine: "#lyricViewCard > ion-card-content > ion-text",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
 };
 
@@ -21,7 +21,7 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false, // use this to open browser window for tests
+      //headless: false, // use this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
