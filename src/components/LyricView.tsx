@@ -1,5 +1,15 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCardTitle,
+  IonText,
+  IonCardSubtitle,
+} from "@ionic/react";
+import React, { Fragment, useEffect, useState } from "react";
 import { SongViewMode } from "../utils/SongUtils";
 import { fetchSongsAndPopulateSongsTable, getSong } from "../database/SongsTable";
 import { DbSong, PLACEHOLDER_SONG } from "../models/DbSong";
@@ -37,12 +47,19 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   }, []);
 
   return (
-    <IonCard id="lyricViewCard">
-      <IonCardHeader>
-        <IonCardTitle key={song?.title}>{song?.title}</IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent key={song?.lyrics}>{song ? getLyrics(song) : song}</IonCardContent>
-    </IonCard>
+    <IonGrid>
+      <IonRow class="ion-justify-content-center">
+        <IonCol size="12" size-lg="8" size-xl="6">
+          <IonCard id="lyricViewCard" className="ion-padding">
+            <IonCardHeader className="ion-text-center">
+              <IonCardTitle key="title">{song?.title}</IonCardTitle>
+              <IonCardSubtitle key="author">By {song?.author}</IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent key="lyrics">{song ? getLyrics(song) : song}</IonCardContent>
+          </IonCard>
+        </IonCol>
+      </IonRow>
+    </IonGrid>
   );
 
   /**
@@ -54,18 +71,25 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     const lyrics: JSX.Element[] = [];
     let key = 0;
     verses.forEach((versenumber) => {
-      lyrics.push(<IonLabel key={key}>{getVerseText(versenumber)}</IonLabel>);
-      key++;
+      // margin-top doesn't want to work on the verse number directly, so just use a spacer
+      lyrics.push(
+        <Fragment key={key++}>
+          <div className="ion-margin-vertical"></div>
+        </Fragment>
+      );
+      lyrics.push(
+        <h5 key={key++} className="ion-margin-top">
+          {getVerseText(versenumber)}
+        </h5>
+      );
       songLyrics[versenumber].forEach((line: string) => {
         lyrics.push(
-          <IonItem key={key} lines="none">
-            <IonLabel className="ion-text-wrap">{line}</IonLabel>
-          </IonItem>
+          <IonText key={key++} className="lyricVerse" color="dark">
+            <p>{line}</p>
+          </IonText>
         );
-        key++;
       });
     });
-
     return lyrics;
   }
 

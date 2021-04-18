@@ -62,6 +62,23 @@ ion-modal {
   margin: 20px;
 }
 
+.lyricVerse p {
+  font-size: 1rem;
+  padding-left: 0.5rem;
+}
+
+/* 
+*  laptop/desktop sized devices are generally > 1200px.
+*    admittedly, this is arbitrary. A full responsive system 
+*    might be better down the road
+*/
+@media (min-width: 1200px) {
+  .lyricVerse p {
+    font-size: 1.1rem;
+    padding-left: 1rem;
+  }
+}
+
 #settingsModal {
   padding: 15px;
   background-color: transparent;
