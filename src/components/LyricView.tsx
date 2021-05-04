@@ -10,12 +10,11 @@ import {
   IonCardSubtitle,
 } from "@ionic/react";
 import React, { Fragment, useEffect, useState } from "react";
-import { SongViewMode } from "../utils/SongUtils";
-import { fetchSongsAndPopulateSongsTable, getSong } from "../database/SongsTable";
-import { DbSong, PLACEHOLDER_SONG } from "../models/DbSong";
+import { PLACEHOLDER_SONG, Song, SongViewMode } from "../utils/SongUtils";
 import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
+import { getSong } from "../service/SongsService";
 
 interface LyricViewProps {
   songNumber: number;
@@ -25,24 +24,12 @@ interface LyricViewProps {
  * Lyric Viewer React Functional Component.
  */
 const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
-  const [song, setSong] = useState<DbSong>(PLACEHOLDER_SONG);
+  const [song, setSong] = useState<Song>(PLACEHOLDER_SONG);
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Lyrics);
-    getSong(props.songNumber, (song) => {
-      if (song) {
-        setSong(song);
-      } else {
-        fetchSongsAndPopulateSongsTable()
-          .then((songs) => (songs ? songs : []))
-          .then((songs) => songs[props.songNumber - 1])
-          .then((song) =>
-            song
-              ? new DbSong(props.songNumber, "", 0, 0, false, song.author, song.title, JSON.stringify(song.lyrics))
-              : PLACEHOLDER_SONG
-          )
-          .then((song) => setSong(song));
-      }
+    getSong(props.songNumber).then((song) => {
+      setSong(song);
     });
   }, []);
 
@@ -63,15 +50,20 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   );
 
   /**
-   * Parses all verse of the song to a string.
+   * Parses all verse of the song to a list of JSX elements.
    */
-  function getLyrics(song: DbSong): JSX.Element[] {
-    const songLyrics = JSON.parse(song.lyrics);
-    const verses = Object.keys(songLyrics);
+  function getLyrics(song: Song): JSX.Element[] {    
     const lyrics: JSX.Element[] = [];
     let key = 0;
-    verses.forEach((versenumber) => {
-      // margin-top doesn't want to work on the verse number directly, so just use a spacer
+
+    const songLyrics = song.lyrics;
+    const verseKeys = Object.keys(songLyrics);
+    const lyricBlocks: string[][] = Object.values(songLyrics);
+    
+    for (let i = 0; i < verseKeys.length; ++i) {
+      const verseKey = verseKeys[i];
+      const verseLyrics = lyricBlocks[i];
+
       lyrics.push(
         <Fragment key={key++}>
           <div className="ion-margin-vertical"></div>
@@ -79,17 +71,17 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       );
       lyrics.push(
         <h5 key={key++} className="ion-margin-top">
-          {getVerseText(versenumber)}
+          {getVerseText(verseKey)}
         </h5>
       );
-      songLyrics[versenumber].forEach((line: string) => {
+      verseLyrics.forEach((line: string) => {
         lyrics.push(
           <IonText key={key++} className="lyricVerse" color="dark">
             <p>{line}</p>
           </IonText>
         );
       });
-    });
+    }
     return lyrics;
   }
 

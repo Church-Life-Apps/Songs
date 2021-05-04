@@ -10,12 +10,11 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { updateSongHits } from "../database/SongsTable";
-import { DbSong } from "../models/DbSong";
+import { Song } from "../utils/SongUtils";
 import "./Components.css";
 
 interface SearchViewProps {
-  songs: DbSong[];
+  songs: Song[];
 }
 
 /**
@@ -56,7 +55,7 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
     target.complete();
   }
 
-  function LoadSongs(songIterator: IterableIterator<[number, DbSong]>, count: number): boolean {
+  function LoadSongs(songIterator: IterableIterator<[number, Song]>, count: number): boolean {
     while (count > 0) {
       const nextSong = songIterator.next();
       if (nextSong.done) {
@@ -70,12 +69,11 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
     return true;
   }
 
-  function GenerateSongCard(song: DbSong) {
+  function GenerateSongCard(song: Song) {
     return (
       <IonCard
         key={song.songNumber}
         onClick={() => {
-          updateSongHits(song.songNumber);
           history.push(`/${bookId}/${song.songNumber}`);
         }}
         className="hymnalListView"
