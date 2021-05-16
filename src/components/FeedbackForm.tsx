@@ -70,12 +70,12 @@ const FeedbackScreen: React.FC = () => {
     } else {
       emailjs.send(SERVICE_ID, EMAIL_TEMPLATE, templateParams).then(
         function (response) {
-          console.log("Email sent successfully.", response.status, response.text);
+          console.debug("Email sent successfully.", response.status, response.text);
           setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
         },
         function (error) {
           setFeedbackResponseText(`Error Submitting Feedback: ${error}`);
-          console.log("Error sending email: ", error);
+          console.error("Error sending email: ", error);
         }
       );
       clearForm();

@@ -19,7 +19,7 @@ export async function storeItem(key: string, value: string): Promise<void> {
     key: key,
     value: value,
   }).catch((error) => {
-    console.log(`Error storing item because ${error}.`);
+    console.error(`Error storing item because ${error}.`);
   });
 }
 
@@ -38,6 +38,6 @@ export async function getItem(key: string): Promise<string> {
  * Clears all values from the storage cache.
  */
 export function clearCache(): void {
-  console.log("Clearing Local Cache.");
+  console.debug("Clearing Local Cache.");
   Storage.clear();
 }
