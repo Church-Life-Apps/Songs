@@ -45,4 +45,4 @@ export interface Song {
 }
 
 // Placeholder blank song.
-export const PLACEHOLDER_SONG: Song= { title: "", author: "", songNumber: 0, lyrics: emptyMap }
+export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: emptyMap };

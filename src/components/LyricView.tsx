@@ -52,14 +52,14 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   /**
    * Parses all verse of the song to a list of JSX elements.
    */
-  function getLyrics(song: Song): JSX.Element[] {    
+  function getLyrics(song: Song): JSX.Element[] {
     const lyrics: JSX.Element[] = [];
     let key = 0;
 
     const songLyrics = song.lyrics;
     const verseKeys = Object.keys(songLyrics);
     const lyricBlocks: string[][] = Object.values(songLyrics);
-    
+
     for (let i = 0; i < verseKeys.length; ++i) {
       const verseKey = verseKeys[i];
       const verseLyrics = lyricBlocks[i];
