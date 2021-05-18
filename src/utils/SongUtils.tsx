@@ -13,8 +13,6 @@ export const shlJsonUrl =
 
 export const SHL_BOOK_ID = "shl";
 
-const emptyMap = new Map();
-
 /**
  * Prepends 0s onto a 1 or 2 digit number to make it look like a 3 digit number.
  */
@@ -45,4 +43,4 @@ export interface Song {
 }
 
 // Placeholder blank song.
-export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: emptyMap };
+export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: new Map() };
