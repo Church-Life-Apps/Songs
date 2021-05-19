@@ -8,7 +8,7 @@ export const initGA = (): void => {
 
 export const PageView = (): void => {
   ReactGA.pageview(window.location.pathname + window.location.search);
-  console.log("Page viewed");
+  console.debug("Page viewed");
 };
 
 /**

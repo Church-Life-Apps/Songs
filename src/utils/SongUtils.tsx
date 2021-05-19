@@ -39,5 +39,8 @@ export interface Song {
   title: string;
   author: string;
   songNumber: number;
-  lyrics: string;
+  lyrics: Map<string, string[]>;
 }
+
+// Placeholder blank song.
+export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: new Map() };

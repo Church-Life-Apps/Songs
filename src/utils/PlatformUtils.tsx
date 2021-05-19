@@ -40,5 +40,5 @@ export function isCordova(): boolean {
 }
 
 export function logPlatforms(): void {
-  console.log("Current platforms: " + getPlatforms());
+  console.debug("Current platforms: " + getPlatforms());
 }

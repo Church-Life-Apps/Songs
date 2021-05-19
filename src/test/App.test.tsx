@@ -69,7 +69,7 @@ describe("App", () => {
   }, 10000);
 
   it("searching terms not found displays no results", async () => {
-    await verifySearchResults(page, "gibberish", []);
+    await verifySearchResults(page, "zxcvzxv", []);
 
     expect(await page.$eval(selectors.noResultsFoundLabel, (e) => e.innerHTML)).toEqual("No results found");
   });
