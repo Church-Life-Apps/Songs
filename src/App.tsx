@@ -32,7 +32,7 @@ try {
   console.error(e);
 }
 
-export const AppName = "Hymnal App";
+export const AppName = "Songs and Hymns of Life";
 
 const App: React.FC = () => {
   logPlatforms();
