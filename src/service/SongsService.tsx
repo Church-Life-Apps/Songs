@@ -1,12 +1,9 @@
 import { shlJsonUrl, SHL_RESOURCE_JSON_KEY, Song } from "../utils/SongUtils";
-import { getSimilarity, isNumeric, removePunctuation } from "../utils/StringUtils";
+import { getSimilarity, isNumeric, removePunctuation, tokenize } from "../utils/StringUtils";
 
 /**
  * File which handles retrieving and searching for songs.
  */
-
-// TODO: Extract values like this to be configurable outside of code so we can tweak on the fly.
-const MATCH_THRESHOLD = 0.4;
 
 let shlSongs: Song[] | undefined = undefined;
 
@@ -50,26 +47,104 @@ export async function listSongs(searchString: string): Promise<Song[]> {
   } else if (isNumeric(searchString)) {
     return songs.filter((song) => song.songNumber.toString().startsWith(searchString));
   } else {
+    // Build a cache to speed up duplicate calls
+    const matchScores: Map<number, number> = new Map<number, number>();
+    songs.forEach((song) => { matchScores.set(song.songNumber, getMatchScore(song, searchString)) });
+
+    console.log(matchScores);
+
     return songs
-      .filter((song) => getMatchScore(song, searchString) > MATCH_THRESHOLD)
-      .sort((song1, song2) => getMatchScore(song2, searchString) - getMatchScore(song1, searchString));
+      .filter((song) => matchScores.get(song.songNumber)! > 0)
+      .sort((song1, song2) => matchScores.get(song2.songNumber)! - matchScores.get(song1.songNumber)!);
   }
 }
 
+// TODO: Extract values like this to be configurable outside of code so we can tweak on the fly.
+
+// This is a very strict threshold. In order for two strings to have similarity > 0.9,
+// they need to either be exactly the same, or only 1 letter off for every 10 or so letters.
+const similarityThreshold = 0.9;
+
+// If the entire search string is a substring of the title or author, we should give the highest score.
+const titleMatchScore = 1000;
+const authorMatchScore = 900;
+
+// Score for each word that matches title or author.
+const titleTokenMatchScore = 100;
+const authorTokenMatchScore = 90;
+
+// If the entire search string is a substring of the lyric line, add 10.
+// We want this to have more influence than token matches in title or author,
+// but less influence than a title/author match on the entire search string.
+const lyricMatchScore = 500;
+
+// We want lyric token matches to help distinguish between songs, but not
+// override any title/author token matches, so we pick a very low number here.
+const lyricTokenMatchScore = 1;
+
 /**
  * Returns a number based on how well the song matches the search string.
- *
- * TODO: Improve how we determine matches against title/author.
- * TODO: Enhance this to also include searching through lyrics.
  *
  * Notes:
  * This has to be fast. Optimimzations may include some kind of predefined lookup dictionary,
  * or storing past searches.
  */
 function getMatchScore(song: Song, searchString: string): number {
-  let matchBonus = 0;
-  if (removePunctuation(song.title.toLowerCase()).includes(searchString)) {
-    matchBonus += 0.2;
+  let matchScore = 0;
+
+  const search = removePunctuation(searchString).toLowerCase();
+  const searchTokens = tokenize(search);
+
+  const title = removePunctuation(song.title).toLowerCase();
+  const titleTokens = tokenize(title);
+
+  const author = removePunctuation(song.author).toLowerCase();
+  const authorTokens = tokenize(author);
+
+  // Check matches in title
+  if (title.includes(search)) {
+    matchScore += titleMatchScore;
+  } else {
+    for (const word of titleTokens) {
+      for (const searchTerm of searchTokens) {
+        if (getSimilarity(word, searchTerm) > similarityThreshold) {
+          matchScore += titleTokenMatchScore;
+        }
+      }
+    }
   }
-  return matchBonus + getSimilarity(song.title, searchString) + getSimilarity(song.author, searchString);
+
+  // Check matches in author
+  if (author.includes(search)) {
+    matchScore += authorMatchScore;
+  } else {
+    for (const word of authorTokens) {
+      for (const searchTerm of searchTokens) {
+        if (getSimilarity(word, searchTerm) > similarityThreshold) {
+          matchScore += authorTokenMatchScore;
+        }
+      }
+    }
+  }
+
+  // Check matches in lyrics
+  for (const line of Object.values(song.lyrics)) {
+    const lineString: string = removePunctuation(String(line)).toLowerCase();
+
+    if (lineString.includes(search)) {
+      matchScore += lyricMatchScore;
+    } else {
+      const lineTokens = tokenize(lineString);
+
+      for (const word of lineTokens) {
+        for (const searchTerm of searchTokens) {
+          if (getSimilarity(word, searchTerm) > similarityThreshold) {
+            matchScore += lyricTokenMatchScore;
+          }
+        }
+      }
+    }
+  }
+
+  return matchScore;
 }
