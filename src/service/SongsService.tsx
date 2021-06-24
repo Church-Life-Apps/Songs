@@ -55,7 +55,9 @@ export async function listSongs(searchString: string): Promise<Song[]> {
   } else {
     // Build a cache to speed up duplicate calls
     const matchScores: Map<number, number> = new Map<number, number>();
-    songs.forEach((song) => { matchScores.set(song.songNumber, getMatchScore(song, searchString)) });
+    songs.forEach((song) => {
+      matchScores.set(song.songNumber, getMatchScore(song, searchString));
+    });
 
     console.log(matchScores);
 
