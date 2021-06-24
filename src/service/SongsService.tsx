@@ -63,7 +63,9 @@ export async function listSongs(searchString: string): Promise<Song[]> {
 
     return songs
       .filter((song) => (matchScores.get(song.songNumber) as number) > 0)
-      .sort((song1, song2) => (matchScores.get(song2.songNumber) as number) - (matchScores.get(song1.songNumber) as number));
+      .sort(
+        (song1, song2) => (matchScores.get(song2.songNumber) as number) - (matchScores.get(song1.songNumber) as number)
+      );
   }
 }
 
@@ -135,9 +137,14 @@ function getMatchScore(song: Song, searchString: string): number {
     }
   }
 
-  // Populate local client-side caches if they are empty. 
+  // Populate local client-side caches if they are empty.
   if (!normalizedLyrics.has(song.songNumber)) {
-    normalizedLyrics.set(song.songNumber, Object.values(song.lyrics).map(s => normalize(String(s))).join(' ') as string);
+    normalizedLyrics.set(
+      song.songNumber,
+      Object.values(song.lyrics)
+        .map((s) => normalize(String(s)))
+        .join(" ") as string
+    );
   }
 
   if (!tokenizedLyrics.has(song.songNumber)) {
