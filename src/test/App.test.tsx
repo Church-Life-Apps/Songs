@@ -74,7 +74,7 @@ describe("App", () => {
 
   it("finds song by lyrics", async () => {
     await verifySearchResults(page, "incarnate born", ["77. Crown Him With Many Crowns"], false);
-  })
+  });
 
   it("prioritizes title over lyrics in search", async () => {
     await verifySearchResults(page, "incarnate", ["380. O Word Of God Incarnate"], false);
