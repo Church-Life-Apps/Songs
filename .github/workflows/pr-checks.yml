@@ -51,6 +51,9 @@ jobs:
     needs: [prettier, eslint]
     runs-on: ubuntu-latest
     steps:
+      - name: Setup kernel for react native, increase watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
