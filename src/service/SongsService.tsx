@@ -1,11 +1,17 @@
 import { shlJsonUrl, SHL_RESOURCE_JSON_KEY, Song } from "../utils/SongUtils";
-import { getSimilarity, isNumeric, removePunctuation, tokenize } from "../utils/StringUtils";
+import { getSimilarity, isNumeric, normalize, tokenize } from "../utils/StringUtils";
 
 /**
  * File which handles retrieving and searching for songs.
  */
 
 let shlSongs: Song[] | undefined = undefined;
+
+/**
+ * Lightweight caches string tokenizations. These are reset on refresh.
+ */
+const normalizedLyrics: Map<number, string> = new Map<number, string>();
+const tokenizedLyrics: Map<number, string[]> = new Map<number, string[]>();
 
 /**
  * Fetches the lyrics and stores it in memory as a variable.
@@ -54,8 +60,8 @@ export async function listSongs(searchString: string): Promise<Song[]> {
     console.log(matchScores);
 
     return songs
-      .filter((song) => matchScores.get(song.songNumber)! > 0)
-      .sort((song1, song2) => matchScores.get(song2.songNumber)! - matchScores.get(song1.songNumber)!);
+      .filter((song) => (matchScores.get(song.songNumber) as number) > 0)
+      .sort((song1, song2) => (matchScores.get(song2.songNumber) as number) - (matchScores.get(song1.songNumber) as number));
   }
 }
 
@@ -92,13 +98,13 @@ const lyricTokenMatchScore = 1;
 function getMatchScore(song: Song, searchString: string): number {
   let matchScore = 0;
 
-  const search = removePunctuation(searchString).toLowerCase();
+  const search = normalize(searchString);
   const searchTokens = tokenize(search);
 
-  const title = removePunctuation(song.title).toLowerCase();
+  const title = normalize(song.title);
   const titleTokens = tokenize(title);
 
-  const author = removePunctuation(song.author).toLowerCase();
+  const author = normalize(song.author);
   const authorTokens = tokenize(author);
 
   // Check matches in title
@@ -127,20 +133,23 @@ function getMatchScore(song: Song, searchString: string): number {
     }
   }
 
+  // Populate local client-side caches if they are empty. 
+  if (!normalizedLyrics.has(song.songNumber)) {
+    normalizedLyrics.set(song.songNumber, Object.values(song.lyrics).map(s => normalize(String(s))).join(' ') as string);
+  }
+
+  if (!tokenizedLyrics.has(song.songNumber)) {
+    tokenizedLyrics.set(song.songNumber, tokenize(normalizedLyrics.get(song.songNumber) as string));
+  }
+
   // Check matches in lyrics
-  for (const line of Object.values(song.lyrics)) {
-    const lineString: string = removePunctuation(String(line)).toLowerCase();
-
-    if (lineString.includes(search)) {
-      matchScore += lyricMatchScore;
-    } else {
-      const lineTokens = tokenize(lineString);
-
-      for (const word of lineTokens) {
-        for (const searchTerm of searchTokens) {
-          if (getSimilarity(word, searchTerm) > similarityThreshold) {
-            matchScore += lyricTokenMatchScore;
-          }
+  if ((normalizedLyrics.get(song.songNumber) as string).includes(search)) {
+    matchScore += lyricMatchScore;
+  } else {
+    for (const word of tokenizedLyrics.get(song.songNumber) as string[]) {
+      for (const searchTerm of searchTokens) {
+        if (getSimilarity(word, searchTerm) > similarityThreshold) {
+          matchScore += lyricTokenMatchScore;
         }
       }
     }

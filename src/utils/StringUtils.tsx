@@ -21,7 +21,11 @@ export function getSimilarity(word: string, search: string): number {
 }
 
 export function tokenize(sentence: string): string[] {
-  return removePunctuation(sentence).toLowerCase().split(" ");
+  return sentence.split(" ");
+}
+
+export function normalize(sentence: string): string {
+  return removePunctuation(sentence).toLowerCase().trim();
 }
 
 /**
