@@ -21,7 +21,7 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      //headless: false, // use this to open browser window for tests
+      // headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
@@ -67,6 +67,22 @@ describe("App", () => {
     await newPage();
     await verifySearchResults(page, "whom all flow god praise from blessings", [expectedSong], false);
   }, 10000);
+
+  it("finds song by lyrics", async () => {
+    await verifySearchResults(page, "early in the morning", ["5. Holy, Holy, Holy!"], false);
+  });
+
+  it("finds song by lyrics", async () => {
+    await verifySearchResults(page, "incarnate born", ["77. Crown Him With Many Crowns"], false);
+  });
+
+  it("prioritizes title over lyrics in search", async () => {
+    await verifySearchResults(page, "incarnate", ["380. O Word Of God Incarnate"], false);
+  });
+
+  it("prioritizes title over lyrics in search", async () => {
+    await verifySearchResults(page, "born", ["475. Ye Must Be Born Again"], false);
+  });
 
   it("searching terms not found displays no results", async () => {
     await verifySearchResults(page, "zxcvzxv", []);

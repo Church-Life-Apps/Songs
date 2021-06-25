@@ -20,6 +20,14 @@ export function getSimilarity(word: string, search: string): number {
   return stringSimilarity.compareTwoStrings(removePunctuation(word.toString().toLowerCase()), search);
 }
 
+export function tokenize(sentence: string): string[] {
+  return sentence.split(" ");
+}
+
+export function normalize(sentence: string): string {
+  return removePunctuation(sentence).toLowerCase().trim();
+}
+
 /**
  * Returns true if a string is a number, false otherwise.
  */
