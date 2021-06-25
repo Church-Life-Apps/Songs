@@ -4,6 +4,20 @@ An Ionic web, Android and iOS app for the SHL and SFG songbooks
 
 The web app is hosted here: https://church-life-apps.github.io/
 
+# Contributors
+
+Feel free to contact us if you are interested in contributing, or just send a PR! Let us know if you have any questions or run into any problems.
+
+# Developer Setup
+
+[Clone](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository) this repository.
+
+To setup your develop environment, you will need to install [Node.js](https://nodejs.org/en/download/), and run `npm install` in the root directory.
+
+Use `npm start` to run the app locally.
+
+You can also use `npm run build` to build the app, and `npm run test` to run tests.
+
 # Android
 
 To run the app on Android app follow these steps:
