@@ -15,6 +15,7 @@ import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
 import { getSong } from "../service/SongsService";
+import { useParams } from "react-router";
 
 interface LyricViewProps {
   songNumber: number;
@@ -25,10 +26,11 @@ interface LyricViewProps {
  */
 const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const [song, setSong] = useState<Song>(PLACEHOLDER_SONG);
+  const { bookId } = useParams<{ bookId: string }>();
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Lyrics);
-    getSong(props.songNumber).then((song) => {
+    getSong(props.songNumber, bookId).then((song) => {
       setSong(song);
     });
   }, []);

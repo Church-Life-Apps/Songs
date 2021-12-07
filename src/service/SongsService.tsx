@@ -1,11 +1,11 @@
-import { shlJsonUrl, SHL_RESOURCE_JSON_KEY, Song } from "../utils/SongUtils";
+import { getSongbookById, Song } from "../utils/SongUtils";
 import { getSimilarity, isNumeric, normalize, tokenize } from "../utils/StringUtils";
 
 /**
  * File which handles retrieving and searching for songs.
  */
 
-let shlSongs: Song[] | undefined = undefined;
+const songs = new Map<string, Song[]>();
 
 /**
  * Lightweight caches string tokenizations. These are reset on refresh.
@@ -17,25 +17,31 @@ const tokenizedLyrics: Map<number, string[]> = new Map<number, string[]>();
  * Fetches the lyrics and stores it in memory as a variable.
  * Refreshing the page will cause another fetch.
  */
-async function getOrfetchSongs(): Promise<Song[]> {
-  if (shlSongs === undefined) {
-    const response = await fetch(shlJsonUrl);
+async function getOrfetchSongs(bookId: string): Promise<Song[]> {
+  const cachedSongs = songs.get(bookId);
+  if (cachedSongs === undefined) {
+    const songbook = await getSongbookById(bookId);
+    if (!songbook) {
+      console.error("No songbook found for id " + bookId);
+      return [];
+    }
+    const response = await fetch(songbook.lyricsUrl);
     const body = await response.json();
-    const songs = body[SHL_RESOURCE_JSON_KEY];
-    shlSongs = songs;
-    console.debug("Fetching lyrics");
-    return songs;
+    const songsForBook = body[songbook.name];
+    songs.set(bookId, songsForBook);
+    console.log("Fetching lyrics for book " + bookId);
+    return songsForBook;
   } else {
-    console.debug("Returning stored lyrics");
-    return shlSongs;
+    console.debug("Returning stored lyrics for book " + bookId);
+    return cachedSongs;
   }
 }
 
 /**
  * Retrieves a single song based on song number.
  */
-export async function getSong(number: number): Promise<Song> {
-  const songs = await getOrfetchSongs();
+export async function getSong(number: number, bookId: string): Promise<Song> {
+  const songs = await getOrfetchSongs(bookId);
   if (number < 0 || number >= songs.length) {
     return { title: "", author: "", songNumber: -1, lyrics: JSON.parse("{}") };
   } else {
@@ -46,8 +52,8 @@ export async function getSong(number: number): Promise<Song> {
 /**
  * Returns a list of songs filtered and sorted by how well they match the given searchString.
  */
-export async function listSongs(searchString: string): Promise<Song[]> {
-  const songs = await getOrfetchSongs();
+export async function listSongs(searchString: string, bookId: string): Promise<Song[]> {
+  const songs = await getOrfetchSongs(bookId);
   if (searchString === "") {
     return songs;
   } else if (isNumeric(searchString)) {

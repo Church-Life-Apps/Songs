@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Components.css";
-import { makeThreeDigits, SongViewMode } from "../utils/SongUtils";
+import { getSongbookById, makeThreeDigits, Songbook, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isBrowser } from "../utils/PlatformUtils";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
+import { useParams } from "react-router";
 
-const baseUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/";
-const hymnalPart = "shl/SHL_"; // This part can change when red book is added
 const imageSuffix = ".png";
 const alt = "No Song Found";
 
@@ -26,16 +25,24 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const [secondTune, setSecondTune] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(widthPixels);
   const [zoomed, setZoomed] = useState<boolean>(false);
+  const [songbook, setSongbook] = useState<Songbook>();
+  const { bookId } = useParams<{ bookId: string }>();
 
-  const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber);
-
+  // Probably update this behavior later if other hymnals have songs with 2 tunes also.
+  const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber) && bookId === "shl";
   const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
-  const url = baseUrl + hymnalPart + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+  const url = songbook?.musicUrl + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Music);
   }, [props.songNumber]);
+
+  useEffect(() => {
+    getSongbookById(bookId).then((book) => {
+      setSongbook(book);
+    });
+  }, [bookId]);
 
   // TODO: Add Pinch and Zoom to image.
   return (
@@ -48,8 +55,6 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
       )}
 
       {/* image */}
-      {/* <TransformWrapper>
-        <TransformComponent> */}
       <img
         style={{ width: width }}
         id="musicView"
@@ -62,8 +67,6 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
         src={url}
         alt={alt}
       />
-      {/* </TransformComponent>
-      </TransformWrapper> */}
     </div>
   );
 };

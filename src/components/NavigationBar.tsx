@@ -7,14 +7,17 @@ import {
   settingsOutline,
   swapHorizontalOutline,
 } from "ionicons/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SettingsView from "../components/SettingsView";
-import { AppName } from "../App";
+import { useParams } from "react-router";
+import { getSongbookById } from "../utils/SongUtils";
 
 interface NavigationBarProps {
   backButtonOnClick?: () => void;
   toggleSongModeOnClick?: () => void;
 }
+
+export const defaultNavigationTitle = "Choose a Songbook!";
 
 /**
  * Navigation Bar Component
@@ -22,11 +25,20 @@ interface NavigationBarProps {
 const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   // whether or not to show settings modal
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
+  const [songbookName, setSongbookName] = useState<string>(defaultNavigationTitle);
+  const { bookId } = useParams<{ bookId: string }>();
+
+  useEffect(() => {
+    getSongbookById(bookId).then((book) => {
+      if (book) {
+        setSongbookName(book.name);
+      }
+    });
+  }, [bookId]);
 
   return (
     <IonToolbar>
-      {/* [eric] we can probably come up with a better name, right? */}
-      <IonTitle id="appName">{AppName}</IonTitle>
+      <IonTitle id="appName">{songbookName}</IonTitle>
       <IonButtons slot="start">{RenderBackButton()}</IonButtons>
       <IonButtons slot="primary">
         {RenderToggleSongModeButton()}

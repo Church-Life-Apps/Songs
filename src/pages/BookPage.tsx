@@ -2,7 +2,7 @@ import { IonContent, IonPage, IonHeader, IonInput, IonItem } from "@ionic/react"
 import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import SearchView from "../components/SearchView";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Song } from "../utils/SongUtils";
 import { listSongs } from "../service/SongsService";
 
@@ -16,12 +16,15 @@ const BookPage: React.FC = () => {
   // the search string inputted by the user
   const [searchString, setSearchString] = useState<string>("");
   const [songs, setSongs] = useState<Song[]>([]);
+  const { bookId } = useParams<{ bookId: string }>();
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
-      listSongs(searchString).then((songs) => {
-        setSongs(songs);
-      });
+      listSongs(searchString, bookId)
+        .then((songs) => {
+          setSongs(songs);
+        })
+        .catch((e) => console.error(e));
     }, 200);
     return () => clearTimeout(timeOutId);
   }, [searchString]);
