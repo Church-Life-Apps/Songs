@@ -40,51 +40,54 @@ export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, ly
 
 /* ---------- Songbook Stuff -------------- */
 export interface Songbook {
-  name: string,
-  bookId: string,
-  lyricsUrl: string,
-  musicUrl: string,
+  name: string;
+  bookId: string;
+  lyricsUrl: string;
+  musicUrl: string;
 }
 
 /* SongBooks List Url */
-export const songbooksListUrl = "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/songbooks.json"
+export const songbooksListUrl =
+  "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/songbooks.json";
 
 /**
  * Default Songbooks to show until we pull from the above link to dynamically get all songbooks.
  * Add songbooks to here when they are stable and include them in the subsequent release.
  */
-export const defaultSongbooks = [{
-  "name":"Songs and Hymns of Life",
-  "bookId": "shl",
-  "lyricsUrl": "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json",
-  "musicUrl": "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_"
-}];
+export const defaultSongbooks = [
+  {
+    name: "Songs and Hymns of Life",
+    bookId: "shl",
+    lyricsUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json",
+    musicUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_",
+  },
+];
 
-let cachedSongbooks = defaultSongbooks
-let songbooksFetched = false
+let cachedSongbooks = defaultSongbooks;
+let songbooksFetched = false;
 
 /** For Developers only - flip to `true` to include beta books. Revert back to `false` before committing. */
-const includeTestingSongbooks = false
+const includeTestingSongbooks = false;
 
 /**
- * Gets list of supported songbooks from the above link. 
+ * Gets list of supported songbooks from the above link.
  * Fetches from the list of songbooks or returns cached list if available.
  */
 export async function getSongbooks(): Promise<Songbook[]> {
   if (songbooksFetched) {
     return cachedSongbooks;
   }
-  const response = await fetch (songbooksListUrl)
+  const response = await fetch(songbooksListUrl);
   if (response) {
-    const body = await response.json()
+    const body = await response.json();
     const stableBooks: Songbook[] = body["songbooks"];
     const testingBooks: Songbook[] = body["testing"];
     const songbooks = includeTestingSongbooks ? stableBooks.concat(testingBooks) : stableBooks;
     cachedSongbooks = songbooks;
     songbooksFetched = true;
-    return songbooks
+    return songbooks;
   } else {
-    return defaultSongbooks
+    return defaultSongbooks;
   }
 }
 
@@ -93,5 +96,5 @@ export async function getSongbooks(): Promise<Songbook[]> {
  */
 export async function getSongbookById(bookId: string): Promise<Songbook | undefined> {
   const songbooks = await getSongbooks();
-  return songbooks.find(book => book.bookId === bookId);
+  return songbooks.find((book) => book.bookId === bookId);
 }

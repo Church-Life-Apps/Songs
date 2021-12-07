@@ -3,7 +3,7 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { defaultSongbooks, getSongbooks, Songbook } from "../utils/SongUtils";
-import "./Pages.css"
+import "./Pages.css";
 /**
  * Home Page Component.
  *
@@ -29,27 +29,28 @@ const HomePage: React.FC = () => {
 
       <IonContent>
         {/* Redirect to book page until we add more book or make this page functional */}
-        <IonList>{songbooks.map((it) => { return generateSongbookCard(it) })}</IonList>
+        <IonList>
+          {songbooks.map((it) => {
+            return generateSongbookCard(it);
+          })}
+        </IonList>
       </IonContent>
     </IonPage>
   );
 
-
-function generateSongbookCard(songbook: Songbook): JSX.Element {
-  return (
-    <IonCard
-      key={songbook.name}
-      onClick={() => {
-        history.push(songbook.bookId);
-      }}
-      className="songbookCardView"
-      id={songbook.bookId}
-    >
-      <IonCardTitle>
-        {songbook.name}
-      </IonCardTitle>
-    </IonCard>
-  );
-}
+  function generateSongbookCard(songbook: Songbook): JSX.Element {
+    return (
+      <IonCard
+        key={songbook.name}
+        onClick={() => {
+          history.push(songbook.bookId);
+        }}
+        className="songbookCardView"
+        id={songbook.bookId}
+      >
+        <IonCardTitle>{songbook.name}</IonCardTitle>
+      </IonCard>
+    );
+  }
 };
 export default HomePage;

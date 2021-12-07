@@ -5,7 +5,7 @@ import { getSimilarity, isNumeric, normalize, tokenize } from "../utils/StringUt
  * File which handles retrieving and searching for songs.
  */
 
-const songs = new Map<string, Song[]>()
+const songs = new Map<string, Song[]>();
 
 /**
  * Lightweight caches string tokenizations. These are reset on refresh.
@@ -23,14 +23,14 @@ async function getOrfetchSongs(bookId: string): Promise<Song[]> {
     const songbook = await getSongbookById(bookId);
     if (!songbook) {
       console.error("No songbook found for id " + bookId);
-      return []
+      return [];
     }
     const response = await fetch(songbook.lyricsUrl);
     const body = await response.json();
     const songsForBook = body[songbook.name];
     songs.set(bookId, songsForBook);
     console.log("Fetching lyrics for book " + bookId);
-    return songsForBook
+    return songsForBook;
   } else {
     console.debug("Returning stored lyrics for book " + bookId);
     return cachedSongs;

@@ -17,7 +17,7 @@ interface NavigationBarProps {
   toggleSongModeOnClick?: () => void;
 }
 
-export const defaultNavigationTitle = "Choose a Songbook!"
+export const defaultNavigationTitle = "Choose a Songbook!";
 
 /**
  * Navigation Bar Component
@@ -34,7 +34,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
         setSongbookName(book.name);
       }
     });
-  }, [bookId])
+  }, [bookId]);
 
   return (
     <IonToolbar>

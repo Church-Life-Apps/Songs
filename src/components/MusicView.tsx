@@ -29,7 +29,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const { bookId } = useParams<{ bookId: string }>();
 
   // Probably update this behavior later if other hymnals have songs with 2 tunes also.
-  const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber) && bookId === 'shl';
+  const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber) && bookId === "shl";
   const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
   const url = songbook?.musicUrl + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
@@ -42,7 +42,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
     getSongbookById(bookId).then((book) => {
       setSongbook(book);
     });
-  }, [bookId])
+  }, [bookId]);
 
   // TODO: Add Pinch and Zoom to image.
   return (

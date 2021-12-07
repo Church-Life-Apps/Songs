@@ -18,12 +18,13 @@ const BookPage: React.FC = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const { bookId } = useParams<{ bookId: string }>();
 
-
   useEffect(() => {
     const timeOutId = setTimeout(() => {
-      listSongs(searchString, bookId).then((songs) => {
-        setSongs(songs);
-      }).catch((e) => console.error(e));
+      listSongs(searchString, bookId)
+        .then((songs) => {
+          setSongs(songs);
+        })
+        .catch((e) => console.error(e));
     }, 200);
     return () => clearTimeout(timeOutId);
   }, [searchString]);
