@@ -1,11 +1,12 @@
-import { AppName } from "../App";
 import puppeteer, { Browser, Page } from "puppeteer";
+import { defaultNavigationTitle } from "../components/NavigationBar";
 import { exception } from "console";
 
 const baseUrl = "http://localhost:8080";
 const selectors = {
   searchBar: "#searchBar > input",
   appName: "#appName",
+  shlSongbook: "#shl > ion-card-title",
   searchViewIonCard: "#searchViewSongList > ion-card",
   searchViewIonCardTitle: "#searchViewSongList > ion-card > ion-card-title",
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
@@ -36,7 +37,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.appName);
 
     const html = await page.$eval(selectors.appName, (e) => e.innerHTML);
-    expect(html).toBe(AppName);
+    expect(html).toBe(defaultNavigationTitle);
   });
 
   it("this test helps prevent later tests from failing", () => {
@@ -91,6 +92,9 @@ describe("App", () => {
   });
 
   it("selecting song displays song page music view", async () => {
+    await page.waitForSelector(selectors.shlSongbook)
+    await page.click(selectors.shlSongbook)
+
     await page.waitForSelector(selectors.searchViewIonCardTitle);
 
     const navigation = page.waitForNavigation({ waitUntil: "networkidle0" });
@@ -108,6 +112,9 @@ describe("App", () => {
   }, 20000);
 
   it("song page lyric view works correctly", async () => {
+    await page.waitForSelector(selectors.shlSongbook)
+    await page.click(selectors.shlSongbook)
+  
     await page.waitForSelector(selectors.searchViewIonCardTitle);
 
     const ionCards = await page.$$(selectors.searchViewIonCardTitle);
@@ -129,6 +136,9 @@ describe("App", () => {
   });
 
   it("displays song list and loads all songs on scroll", async () => {
+    await page.waitForSelector(selectors.shlSongbook)
+    await page.click(selectors.shlSongbook)
+  
     await page.waitForSelector(selectors.searchViewIonCard);
 
     let ionCards = await page.$$(selectors.searchViewIonCard);
@@ -167,6 +177,9 @@ describe("App", () => {
  * If strict = false, then only the top N song cards must match the given songResults, where N = songResults.length.
  */
 async function verifySearchResults(page: Page, searchTerm: string, songResults: string[], strict = true) {
+  await page.waitForSelector(selectors.shlSongbook)
+  await page.click(selectors.shlSongbook)
+
   if (songResults !== null && songResults.length >= 20) {
     throw exception("verifySearchResults only works if songResults < 20 items.");
   }
