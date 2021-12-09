@@ -1,6 +1,6 @@
 {
   "appId": "church.life.apps.songs",
-  "appName": "Hymnal App",
+  "appName": "Songs",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
