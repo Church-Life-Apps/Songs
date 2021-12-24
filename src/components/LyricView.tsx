@@ -71,18 +71,13 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
         }
         const verseLyrics: string[] = songLyrics.get(verseNumber) || [""];
 
-        lyrics.push(
-          buildLyricBlock(verseName, verseLyrics, key++)
-        );
-      })
-    }
-    else {
+        lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
+      });
+    } else {
       songLyrics.forEach((verseLyrics, verseNumber) => {
-        const verseName = getVerseText(verseNumber)
-        lyrics.push(
-          buildLyricBlock(verseName, verseLyrics, key++)
-        );
-      })
+        const verseName = getVerseText(verseNumber);
+        lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
+      });
     }
     return lyrics;
   }
@@ -97,13 +92,11 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   }
 
   function buildLyricBlock(name: string, lines: string[], key: number) {
-    const lyricsElement: JSX.Element[] = lines.map((line, index) => <p key={index}>{line}</p>)
+    const lyricsElement: JSX.Element[] = lines.map((line, index) => <p key={index}>{line}</p>);
     return (
       <Fragment key={key}>
         <div className="ion-margin-vertical"></div>
-        <h5 className="ion-margin-top">
-          {name}
-        </h5>
+        <h5 className="ion-margin-top">{name}</h5>
         <IonText className="lyricVerse" color="dark">
           {lyricsElement}
         </IonText>
