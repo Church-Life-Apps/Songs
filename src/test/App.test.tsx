@@ -12,7 +12,7 @@ const selectors = {
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
-  lyricLine: "#lyricViewCard > ion-card-content > ion-text",
+  lyricLine: "#lyricViewCard > ion-card-content > ion-text > p",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
 };
 
