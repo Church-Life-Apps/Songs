@@ -59,30 +59,30 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     let key = 0;
 
     const songLyrics = song.lyrics;
-    const verseKeys = Object.keys(songLyrics);
-    const lyricBlocks: string[][] = Object.values(songLyrics);
+    const presentationOrder = song.presentation?.split(" ");
 
-    for (let i = 0; i < verseKeys.length; ++i) {
-      const verseKey = verseKeys[i];
-      const verseLyrics = lyricBlocks[i];
+    // if the song has a presentation order defined, use it;
+    // otherwise, present in written order
+    if (typeof presentationOrder !== "undefined") {
+      presentationOrder.forEach((verseNumber) => {
+        const verseName: string = getVerseText(verseNumber);
+        if (verseNumber === "c") {
+          verseNumber = "c1";
+        }
+        const verseLyrics: string[] = songLyrics.get(verseNumber) || [""];
 
-      lyrics.push(
-        <Fragment key={key++}>
-          <div className="ion-margin-vertical"></div>
-        </Fragment>
-      );
-      lyrics.push(
-        <h5 key={key++} className="ion-margin-top">
-          {getVerseText(verseKey)}
-        </h5>
-      );
-      verseLyrics.forEach((line: string) => {
         lyrics.push(
-          <IonText key={key++} className="lyricVerse" color="dark">
-            <p>{line}</p>
-          </IonText>
+          buildLyricBlock(verseName, verseLyrics, key++)
         );
-      });
+      })
+    }
+    else {
+      songLyrics.forEach((verseLyrics, verseNumber) => {
+        const verseName = getVerseText(verseNumber)
+        lyrics.push(
+          buildLyricBlock(verseName, verseLyrics, key++)
+        );
+      })
     }
     return lyrics;
   }
@@ -94,6 +94,21 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       .replace("c", "Chorus ")
       .replace("b", "Bridge ")
       .replace("p", "Pre-Chorus ");
+  }
+
+  function buildLyricBlock(name: string, lines: string[], key: number) {
+    const lyricsElement: JSX.Element[] = lines.map((line, index) => <p key={index}>{line}</p>)
+    return (
+      <Fragment key={key}>
+        <div className="ion-margin-vertical"></div>
+        <h5 className="ion-margin-top">
+          {name}
+        </h5>
+        <IonText className="lyricVerse" color="dark">
+          {lyricsElement}
+        </IonText>
+      </Fragment>
+    );
   }
 };
 
