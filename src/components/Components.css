@@ -96,6 +96,7 @@ ion-modal {
 }
 
 .hymnalListView {
+  cursor: pointer;
   padding: 10px;
   padding-left: 15px;
   padding-right: 15px;
