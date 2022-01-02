@@ -58,6 +58,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
       <img
         style={{ width: width }}
         id="musicView"
+        className="xd"
         onDoubleClick={() => {
           if (zoomed) {
             setWidth(widthPixels);

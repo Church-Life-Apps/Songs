@@ -1,10 +1,11 @@
-import { IonContent, IonPage, IonHeader } from "@ionic/react";
+import { IonButton, IonIcon, IonContent, IonPage, IonHeader, IonFab, IonFabButton } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
 //Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
 
@@ -20,7 +21,7 @@ const SongPage: React.FC = () => {
 
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
-
+  console.log(history);
   return (
     <IonPage>
       <IonHeader>
@@ -34,7 +35,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
+        {BackButton(+songId)}
         {RenderSong(+songId)}
+        {ForwardButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -57,6 +60,34 @@ const SongPage: React.FC = () => {
       Event("INTERACTION", "Songmode is toggled", "SongMode_Toggle");
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  function BackButton(songNumber: number) {
+    if (songNumber > 1) {
+      return (
+        <IonFab vertical="center"horizontal="start" slot="fixed">
+          <IonFabButton color="medium" onClick={() => {
+          history.push(`/${bookId}/${songNumber - 1}`);
+        }}>
+            <IonIcon id="prevButton" icon={arrowBackCircleOutline} />
+          </IonFabButton>
+        </IonFab>
+      )
+    }
+  }
+
+  function ForwardButton(songNumber: number) {
+    if (songNumber < 600) {
+      return (
+        <IonFab vertical="center" horizontal="end" slot="fixed">
+          <IonFabButton color="medium" onClick={() => {
+          history.push(`/${bookId}/${songNumber + 1}`);
+        }}>
+            <IonIcon id="nextButton" icon={arrowForwardCircleOutline} />
+          </IonFabButton>
+        </IonFab>
+      )
     }
   }
 };

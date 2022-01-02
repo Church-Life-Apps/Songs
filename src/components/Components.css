@@ -13,6 +13,16 @@ ion-toggle {
   --handle-background-checked: #1f96f8;
 }
 
+#prevButton {
+  --ionicon-stroke-width: 32px;
+  font-size: 72px;
+}
+
+#nextButton {
+  --ionicon-stroke-width: 32px;
+  font-size: 72px;
+}
+
 #songToggler {
   text-align: right;
   margin-bottom: -40px;
@@ -67,9 +77,9 @@ ion-modal {
   padding-left: 0.5rem;
 }
 
-/* 
+/*
 *  laptop/desktop sized devices are generally > 1200px.
-*    admittedly, this is arbitrary. A full responsive system 
+*    admittedly, this is arbitrary. A full responsive system
 *    might be better down the road
 */
 @media (min-width: 1200px) {
