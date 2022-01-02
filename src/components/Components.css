@@ -13,16 +13,6 @@ ion-toggle {
   --handle-background-checked: #1f96f8;
 }
 
-#prevButton {
-  --ionicon-stroke-width: 32px;
-  font-size: 72px;
-}
-
-#nextButton {
-  --ionicon-stroke-width: 32px;
-  font-size: 72px;
-}
-
 #songToggler {
   text-align: right;
   margin-bottom: -40px;
@@ -75,6 +65,17 @@ ion-modal {
 .lyricVerse p {
   font-size: 1rem;
   padding-left: 0.5rem;
+}
+
+/* something about pixels being multiple of 8 */
+#prevButton {
+  --ionicon-stroke-width: 32px;
+  font-size: 72px;
+}
+
+#nextButton {
+  --ionicon-stroke-width: 32px;
+  font-size: 72px;
 }
 
 /*

@@ -35,9 +35,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {BackButton(+songId)}
+        {PrevButton(+songId)}
         {RenderSong(+songId)}
-        {ForwardButton(+songId)}
+        {NextButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -63,7 +63,7 @@ const SongPage: React.FC = () => {
     }
   }
 
-  function BackButton(songNumber: number) {
+  function PrevButton(songNumber: number) {
     if (songNumber > 1) {
       return (
         <IonFab vertical="center"horizontal="start" slot="fixed">
@@ -77,8 +77,9 @@ const SongPage: React.FC = () => {
     }
   }
 
-  function ForwardButton(songNumber: number) {
-    if (songNumber < 600) {
+  function NextButton(songNumber: number) {
+    // idk how to get total number of songs so its hard coded for shl for now
+    if (songNumber < 533) {
       return (
         <IonFab vertical="center" horizontal="end" slot="fixed">
           <IonFabButton color="medium" onClick={() => {
