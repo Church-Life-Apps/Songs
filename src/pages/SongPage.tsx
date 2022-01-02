@@ -66,14 +66,17 @@ const SongPage: React.FC = () => {
   function PrevButton(songNumber: number) {
     if (songNumber > 1) {
       return (
-        <IonFab vertical="center"horizontal="start" slot="fixed">
-          <IonFabButton color="medium" onClick={() => {
-          history.push(`/${bookId}/${songNumber - 1}`);
-        }}>
+        <IonFab vertical="center" horizontal="start" slot="fixed">
+          <IonFabButton
+            color="medium"
+            onClick={() => {
+              history.push(`/${bookId}/${songNumber - 1}`);
+            }}
+          >
             <IonIcon id="prevButton" icon={arrowBackCircleOutline} />
           </IonFabButton>
         </IonFab>
-      )
+      );
     }
   }
 
@@ -82,13 +85,16 @@ const SongPage: React.FC = () => {
     if (songNumber < 533) {
       return (
         <IonFab vertical="center" horizontal="end" slot="fixed">
-          <IonFabButton color="medium" onClick={() => {
-          history.push(`/${bookId}/${songNumber + 1}`);
-        }}>
+          <IonFabButton
+            color="medium"
+            onClick={() => {
+              history.push(`/${bookId}/${songNumber + 1}`);
+            }}
+          >
             <IonIcon id="nextButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>
         </IonFab>
-      )
+      );
     }
   }
 };
