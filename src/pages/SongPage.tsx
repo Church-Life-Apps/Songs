@@ -22,7 +22,7 @@ const SongPage: React.FC = () => {
 
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Music);
-  console.log(history);
+
   return (
     <IonPage>
       <IonHeader>
@@ -36,9 +36,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && PrevButton(+songId)}
+        {isBrowser() && RenderPrevButton(+songId)}
         {RenderSong(+songId)}
-        {isBrowser() && NextButton(+songId)}
+        {isBrowser() && RenderNextButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -64,7 +64,7 @@ const SongPage: React.FC = () => {
     }
   }
 
-  function PrevButton(songNumber: number) {
+  function RenderPrevButton(songNumber: number) {
     if (songNumber > 1) {
       return (
         <IonFab vertical="center" horizontal="start" slot="fixed">
@@ -81,7 +81,7 @@ const SongPage: React.FC = () => {
     }
   }
 
-  function NextButton(songNumber: number) {
+  function RenderNextButton(songNumber: number) {
     // idk how to get total number of songs so its hard coded for shl for now
     if (songNumber < 533) {
       return (
