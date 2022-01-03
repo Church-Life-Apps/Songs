@@ -99,12 +99,18 @@ describe("App", () => {
 
     const navigation = page.waitForNavigation({ waitUntil: "networkidle0" });
 
-    await page.click(selectors.searchViewIonCard + ":nth-child(6)");
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.songViewToggler);
+    const button = await page.$(selectors.songViewToggler);
+    await button?.click();
+    
+    await page.waitForSelector(selectors.musicView);
 
     await navigation;
 
     expect(page.url()).toEqual(baseUrl + "/#/shl/6");
-
     const musicViewSrc = await page.$eval(selectors.musicView, (e) => e.getAttribute("src"));
     expect(musicViewSrc).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
@@ -119,12 +125,6 @@ describe("App", () => {
 
     const ionCards = await page.$$(selectors.searchViewIonCardTitle);
     await ionCards[5].click();
-
-    await page.waitForSelector(selectors.musicView);
-    await page.waitForSelector(selectors.songViewToggler);
-
-    const button = await page.$(selectors.songViewToggler);
-    await button?.click();
 
     await page.waitForSelector(selectors.lyricViewIonCardTitle);
 
