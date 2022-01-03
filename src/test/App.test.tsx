@@ -105,7 +105,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.songViewToggler);
     const button = await page.$(selectors.songViewToggler);
     await button?.click();
-    
+
     await page.waitForSelector(selectors.musicView);
 
     await navigation;
