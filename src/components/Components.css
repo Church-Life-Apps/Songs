@@ -68,12 +68,7 @@ ion-modal {
 }
 
 /* something about icons being multiples of 8 pixels in width*/
-#prevButton {
-  --ionicon-stroke-width: 32px;
-  font-size: 72px;
-}
-
-#nextButton {
+.pageTurnButton {
   --ionicon-stroke-width: 32px;
   font-size: 72px;
 }

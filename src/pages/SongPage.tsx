@@ -73,7 +73,7 @@ const SongPage: React.FC = () => {
               history.push(`/${bookId}/${songNumber - 1}`);
             }}
           >
-            <IonIcon id="prevButton" icon={arrowBackCircleOutline} />
+            <IonIcon class="pageTurnButton" icon={arrowBackCircleOutline} />
           </IonFabButton>
         </IonFab>
       );
@@ -91,7 +91,7 @@ const SongPage: React.FC = () => {
               history.push(`/${bookId}/${songNumber + 1}`);
             }}
           >
-            <IonIcon id="nextButton" icon={arrowForwardCircleOutline} />
+            <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>
         </IonFab>
       );
