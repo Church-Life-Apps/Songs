@@ -1,5 +1,6 @@
 import { IonIcon, IonContent, IonPage, IonHeader, IonFab, IonFabButton } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
+import { isBrowser } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
@@ -35,9 +36,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {PrevButton(+songId)}
+        {isBrowser() && PrevButton(+songId)}
         {RenderSong(+songId)}
-        {NextButton(+songId)}
+        {isBrowser() && NextButton(+songId)}
       </IonContent>
     </IonPage>
   );
