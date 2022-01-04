@@ -12,6 +12,7 @@ const selectors = {
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
+  lyricVerseName: "#lyricViewCard > ion-card-content > h5",
   lyricLine: "#lyricViewCard > ion-card-content > ion-text > p",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
 };
@@ -134,6 +135,41 @@ describe("App", () => {
     const lyricLines = await page.$$(selectors.lyricLine);
     expect(lyricLines.length).toEqual(27);
   });
+
+
+  it("lyrics view displays lyrics in presentation order", async () => {
+    await page.waitForSelector(selectors.shlSongbook);
+    await page.click(selectors.shlSongbook);
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    let ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    // scroll to bottom
+    await ionCards[ionCards.length - 1].hover();
+    await page.waitForSelector(selectors.searchViewIonCard + `:nth-child(${ionCards.length})`);
+    ionCards = await page.$$(selectors.searchViewIonCard);
+
+    while (ionCards.length < 45) {
+      // fake scrolling by hovering back and forth:
+      await ionCards[ionCards.length - 1].hover();
+      await ionCards[ionCards.length - 10].hover();
+      await ionCards[ionCards.length - 1].hover();
+
+      await page.waitForSelector(selectors.searchViewIonCard + `:nth-child(${ionCards.length})`);
+      ionCards = await page.$$(selectors.searchViewIonCard);
+    }
+    // scroll song into view
+    await ionCards[41].hover();
+    await ionCards[41].click();
+
+    await page.waitForSelector(selectors.lyricViewIonCardTitle);
+    
+    const cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
+    expect(cardTitle).toEqual("Blessed Be Your Name");
+
+    const lyricVerseNames = await page.$$(selectors.lyricVerseName);
+    expect(lyricVerseNames.length).toEqual(10);
+  })
 
   it("displays song list and loads all songs on scroll", async () => {
     await page.waitForSelector(selectors.shlSongbook);
