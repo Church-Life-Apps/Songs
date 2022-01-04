@@ -66,9 +66,6 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     if (typeof presentationOrder !== "undefined") {
       presentationOrder.forEach((verseNumber) => {
         const verseName: string = getVerseText(verseNumber);
-        if (verseNumber === "c") {
-          verseNumber = "c1";
-        }
         const verseLyrics: string[] = songLyrics.get(verseNumber) || [""];
 
         lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
