@@ -25,9 +25,7 @@ const SongPage: React.FC = () => {
   const [songBookLength, setSongBookLength] = useState<number>(0);
 
   useEffect(() => {
-    getNumSongsForBookId(bookId).then((size) => 
-      setSongBookLength(size)
-    )
+    getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
   }, [bookId]);
 
   return (

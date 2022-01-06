@@ -26,7 +26,7 @@ interface LyricViewProps {
  */
 const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const [song, setSong] = useState<Song>(PLACEHOLDER_SONG);
-  const { bookId, songId } = useParams<{ bookId: string, songId: string }>();
+  const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Lyrics);
