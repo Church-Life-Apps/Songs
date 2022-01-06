@@ -4,11 +4,12 @@ import { isBrowser } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
 //Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
+import { getNumSongsForBookId } from "../service/SongsService";
 
 /**
  * Song Page Component.
@@ -19,9 +20,15 @@ import { Event } from "../tracking/GoogleAnalytics";
 const SongPage: React.FC = () => {
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
   const history = useHistory();
-
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
+  const [songBookLength, setSongBookLength] = useState<number>(0);
+
+  useEffect(() => {
+    getNumSongsForBookId(bookId).then((size) => 
+      setSongBookLength(size)
+    )
+  }, [bookId]);
 
   return (
     <IonPage>
@@ -83,7 +90,7 @@ const SongPage: React.FC = () => {
 
   function RenderNextButton(songNumber: number) {
     // idk how to get total number of songs so its hard coded for shl for now
-    if (songNumber < 533) {
+    if (songNumber < songBookLength) {
       return (
         <IonFab vertical="center" horizontal="end" slot="fixed">
           <IonFabButton
