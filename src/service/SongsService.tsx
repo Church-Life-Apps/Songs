@@ -38,6 +38,14 @@ async function getOrfetchSongs(bookId: string): Promise<Song[]> {
 }
 
 /**
+ * Gets number of songs in the songbook for bookId.
+ */
+export async function getNumSongsForBookId(bookId: string): Promise<number> {
+  const songs = await getOrfetchSongs(bookId);
+  return songs.length;
+}
+
+/**
  * Retrieves a single song based on song number.
  */
 export async function getSong(number: number, bookId: string): Promise<Song> {

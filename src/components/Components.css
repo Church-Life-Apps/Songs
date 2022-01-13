@@ -67,9 +67,15 @@ ion-modal {
   padding-left: 0.5rem;
 }
 
-/* 
+/* something about icons being multiples of 8 pixels in width*/
+.pageTurnButton {
+  --ionicon-stroke-width: 32px;
+  font-size: 72px;
+}
+
+/*
 *  laptop/desktop sized devices are generally > 1200px.
-*    admittedly, this is arbitrary. A full responsive system 
+*    admittedly, this is arbitrary. A full responsive system
 *    might be better down the road
 */
 @media (min-width: 1200px) {
