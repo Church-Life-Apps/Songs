@@ -15,7 +15,7 @@ const selectors = {
   lyricLine: "#lyricViewCard > ion-card-content > ion-text",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
   nextButton: "#nextButton",
-  prevButton: "#prevButton"
+  prevButton: "#prevButton",
 };
 
 describe("App", () => {
@@ -181,10 +181,12 @@ describe("App", () => {
 
     await page.waitForSelector(selectors.nextButton);
     await page.click(selectors.nextButton);
-    
+
     expect(page.url()).toEqual(baseUrl + "/#/shl/7");
-    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("God, Our Father, We Adore Thee!");
-    
+    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual(
+      "God, Our Father, We Adore Thee!"
+    );
+
     await page.waitForSelector(selectors.prevButton);
     await page.click(selectors.prevButton);
 
