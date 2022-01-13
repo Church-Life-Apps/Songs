@@ -14,6 +14,8 @@ const selectors = {
   songViewToggler: "#songViewToggler",
   lyricLine: "#lyricViewCard > ion-card-content > ion-text",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
+  nextButton: "#nextButton",
+  prevButton: "#prevButton"
 };
 
 describe("App", () => {
@@ -22,8 +24,8 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false, // uncomment this to open browser window for tests
-      slowMo: 10, // use this to slow down testing for debugging purposes
+      headless: false, // uncomment this to open browser window for tests
+      slowMo: 20, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
@@ -162,6 +164,69 @@ describe("App", () => {
     const loadedIonCards = await page.$$(selectors.searchViewIonCard);
     expect(loadedIonCards.length).toBe(533); // list should contain all 533 songs.
   }, 20000);
+
+  it("displays arrow buttons and transitions correctly on lyrics mode", async () => {
+    await page.waitForSelector(selectors.shlSongbook);
+    await page.click(selectors.shlSongbook);
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.lyricViewIonCardTitle);
+
+    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
+
+    await page.waitForSelector(selectors.nextButton);
+    await page.click(selectors.nextButton);
+    
+    expect(page.url()).toEqual(baseUrl + "/#/shl/7");
+    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("God, Our Father, We Adore Thee!");
+    
+    await page.waitForSelector(selectors.prevButton);
+    await page.click(selectors.prevButton);
+
+    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
+  });
+
+  it("displays arrow buttons and transitions correctly on music mode", async () => {
+    await page.waitForSelector(selectors.shlSongbook);
+    await page.click(selectors.shlSongbook);
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.songViewToggler);
+    await page.click(selectors.songViewToggler);
+
+    await page.waitForSelector(selectors.musicView);
+
+    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
+      "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
+    );
+
+    await page.waitForSelector(selectors.nextButton);
+    await page.click(selectors.nextButton);
+
+    expect(page.url()).toEqual(baseUrl + "/#/shl/7");
+    expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
+      "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_007.png"
+    );
+
+    await page.waitForSelector(selectors.prevButton);
+    await page.click(selectors.prevButton);
+
+    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
+      "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
+    );
+  });
 
   afterAll(async () => {
     browser.close();

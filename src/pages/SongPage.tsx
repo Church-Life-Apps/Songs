@@ -72,7 +72,7 @@ const SongPage: React.FC = () => {
   function RenderPrevButton(songNumber: number) {
     if (songNumber > 1) {
       return (
-        <IonFab vertical="center" horizontal="start" slot="fixed">
+        <IonFab id="prevButton" vertical="center" horizontal="start" slot="fixed">
           <IonFabButton
             color="medium"
             onClick={() => {
@@ -90,7 +90,7 @@ const SongPage: React.FC = () => {
     // idk how to get total number of songs so its hard coded for shl for now
     if (songNumber < songBookLength) {
       return (
-        <IonFab vertical="center" horizontal="end" slot="fixed">
+        <IonFab id="nextButton" vertical="center" horizontal="end" slot="fixed">
           <IonFabButton
             color="medium"
             onClick={() => {
