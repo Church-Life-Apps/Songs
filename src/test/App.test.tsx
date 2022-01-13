@@ -24,8 +24,8 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false, // uncomment this to open browser window for tests
-      slowMo: 20, // use this to slow down testing for debugging purposes
+      // headless: false, // uncomment this to open browser window for tests
+      slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
