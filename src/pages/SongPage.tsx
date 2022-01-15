@@ -1,12 +1,15 @@
-import { IonContent, IonPage, IonHeader } from "@ionic/react";
+import { IonIcon, IonContent, IonPage, IonHeader, IonFab, IonFabButton } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
+import { isBrowser } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
 //Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
+import { getNumSongsForBookId } from "../service/SongsService";
 
 /**
  * Song Page Component.
@@ -17,9 +20,13 @@ import { Event } from "../tracking/GoogleAnalytics";
 const SongPage: React.FC = () => {
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
   const history = useHistory();
-
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
+  const [songBookLength, setSongBookLength] = useState<number>(0);
+
+  useEffect(() => {
+    getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
+  }, [bookId]);
 
   return (
     <IonPage>
@@ -34,7 +41,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
+        {isBrowser() && RenderPrevButton(+songId)}
         {RenderSong(+songId)}
+        {isBrowser() && RenderNextButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -57,6 +66,41 @@ const SongPage: React.FC = () => {
       Event("INTERACTION", "Songmode is toggled", "SongMode_Toggle");
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  function RenderPrevButton(songNumber: number) {
+    if (songNumber > 1) {
+      return (
+        <IonFab id="prevButton" vertical="center" horizontal="start" slot="fixed">
+          <IonFabButton
+            color="medium"
+            onClick={() => {
+              history.push(`/${bookId}/${songNumber - 1}`);
+            }}
+          >
+            <IonIcon class="pageTurnButton" icon={arrowBackCircleOutline} />
+          </IonFabButton>
+        </IonFab>
+      );
+    }
+  }
+
+  function RenderNextButton(songNumber: number) {
+    // idk how to get total number of songs so its hard coded for shl for now
+    if (songNumber < songBookLength) {
+      return (
+        <IonFab id="nextButton" vertical="center" horizontal="end" slot="fixed">
+          <IonFabButton
+            color="medium"
+            onClick={() => {
+              history.push(`/${bookId}/${songNumber + 1}`);
+            }}
+          >
+            <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
+          </IonFabButton>
+        </IonFab>
+      );
     }
   }
 };
