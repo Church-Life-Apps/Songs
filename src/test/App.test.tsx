@@ -138,7 +138,6 @@ describe("App", () => {
     expect(lyricLines.length).toEqual(27);
   });
 
-
   it("lyrics view displays lyrics in presentation order", async () => {
     await page.waitForSelector(selectors.shlSongbook);
     await page.click(selectors.shlSongbook);
@@ -165,13 +164,13 @@ describe("App", () => {
     await ionCards[41].click();
 
     await page.waitForSelector(selectors.lyricViewIonCardTitle);
-    
+
     const cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
     expect(cardTitle).toEqual("Blessed Be Your Name");
 
     const lyricVerseNames = await page.$$(selectors.lyricVerseName);
     expect(lyricVerseNames.length).toEqual(10);
-  })
+  });
 
   it("displays song list and loads all songs on scroll", async () => {
     await page.waitForSelector(selectors.shlSongbook);

@@ -72,24 +72,24 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       });
     } else {
       // separate chorus(es) and normal verses
-      const choruses:Map<string, string[]> = new Map();
-      const nonChoruses:Map<string, string[]> = new Map();
+      const choruses: Map<string, string[]> = new Map();
+      const nonChoruses: Map<string, string[]> = new Map();
       songLyrics.forEach((verseLyrics, verseNumber) => {
-        if (verseNumber.startsWith('c')) {
+        if (verseNumber.startsWith("c")) {
           choruses.set(verseNumber, verseLyrics);
         } else {
           nonChoruses.set(verseNumber, verseLyrics);
         }
       });
 
-      let mainChorusName:string, mainChorusLyrics:string[];
-      if (choruses.size){
+      let mainChorusName: string, mainChorusLyrics: string[];
+      if (choruses.size) {
         [mainChorusName, mainChorusLyrics] = choruses.entries().next().value;
       }
       nonChoruses.forEach((verseLyrics, verseNumber) => {
         let verseName = getVerseText(verseNumber);
         lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
-        
+
         verseName = getVerseText(mainChorusName);
         lyrics.push(buildLyricBlock(verseName, mainChorusLyrics, key++));
       });
