@@ -82,16 +82,28 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
         }
       });
 
-      let mainChorusName: string, mainChorusLyrics: string[];
-      if (choruses.size) {
-        [mainChorusName, mainChorusLyrics] = choruses.entries().next().value;
+      let mainChorusNumber:string, mainChorusLyrics:string[];
+      if (choruses.size){
+        [mainChorusNumber, mainChorusLyrics] = choruses.entries().next().value;
       }
       nonChoruses.forEach((verseLyrics, verseNumber) => {
-        let verseName = getVerseText(verseNumber);
+        const verseName = getVerseText(verseNumber);
         lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
+        
+        if (mainChorusNumber){
+          // insert chorus 1 between each verse
+          const chorusName = getVerseText(mainChorusNumber);
+          lyrics.push(buildLyricBlock(chorusName, mainChorusLyrics, key++));
+        }
+      });
 
-        verseName = getVerseText(mainChorusName);
-        lyrics.push(buildLyricBlock(verseName, mainChorusLyrics, key++));
+      // append all choruses except for chorus 1
+      choruses.forEach((chorusLyrics, chorusNumber) => {
+        if (chorusNumber === mainChorusNumber) {
+          return;
+        }
+        const chorusName = getVerseText(chorusNumber);
+        lyrics.push(buildLyricBlock(chorusName, chorusLyrics, key++));
       });
     }
     return lyrics;
