@@ -20,6 +20,7 @@
     "@types/websql": "0.0.27",
     "crypto-js": "^4.1.1",
     "emailjs-com": "^2.6.4",
+    "follow-redirects": "^1.14.7",
     "ionicons": "^5.5.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
