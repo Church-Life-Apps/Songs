@@ -77,7 +77,6 @@ const FeedbackScreen: React.FC = () => {
     if (title === "" || message === "") {
       setFeedbackResponseText("Please include a title/subject and a feedback message!");
     } else {
-      
       // using octokit rest smaller bundle size
       const sentFromWhom = fromWhom || "anonymous";
 
