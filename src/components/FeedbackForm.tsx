@@ -2,9 +2,9 @@ import { IonButton, IonInput, IonItem, IonLabel, IonModal, IonTextarea } from "@
 import React, { useState } from "react";
 import "./Components.css";
 
-// import { decrypt } from "../utils/SecurityUtils";
+import { decrypt } from "../utils/SecurityUtils";
 import { Octokit } from "octokit";
-const octokit = new Octokit({ auth: `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` });
+
 
 /**
  * Feedback Screen.
@@ -12,10 +12,12 @@ const octokit = new Octokit({ auth: `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` }
  */
 const FeedbackScreen: React.FC = () => {
 
-  // const PRIVATE_KEY = "jesus private key";
+  const PRIVATE_KEY = "jesus private key";
   // REPO_OWNER can be a github username or organization name
   const REPO_OWNER = "Crested-Canary";
   const REPO_NAME = "testing-issues";
+  const ENCRYPTED_TOKEN = "U2FsdGVkX19u+16xw6Vek/cTgv7Pl9T3V9B0PKx6slBM7T/Xs5RLgWA6/r088pPXUE/DjRS76GZzj5qgOQKoRw==";
+  const octokit = new Octokit({ auth: decrypt(ENCRYPTED_TOKEN, PRIVATE_KEY) });
 
   const [fromWhom, setFromWhom] = useState<string>("");
   const [message, setMessage] = useState<string>("");
