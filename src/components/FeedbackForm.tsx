@@ -5,13 +5,11 @@ import "./Components.css";
 import { decrypt } from "../utils/SecurityUtils";
 import { Octokit } from "octokit";
 
-
 /**
  * Feedback Screen.
  * Uses GitHub issues api to create issues directly in the Song repo.
  */
 const FeedbackScreen: React.FC = () => {
-
   const PRIVATE_KEY = "jesus private key";
   // REPO_OWNER can be a github username or organization name
   const REPO_OWNER = "Church-Life-Apps";
@@ -76,7 +74,6 @@ const FeedbackScreen: React.FC = () => {
    * Creates a github issue with the feedback content.
    */
   function sendEmail() {
-
     if (title === "" || message === "") {
       setFeedbackResponseText("Please include a title/subject and a feedback message!");
     } else {
@@ -84,21 +81,24 @@ const FeedbackScreen: React.FC = () => {
       // using octokit rest smaller bundle size
       const sentFromWhom = fromWhom || "anonymous";
 
-      octokit.rest.issues.create({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
-        title: title,
-        body: `> ${message}\n— ${sentFromWhom}`
-      }).then(
-        function (response) {
-          console.debug("GitHub issue created successfully.", response.status, response.data.body);
-          setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
-        },
-        function (error) {
-          setFeedbackResponseText(`Error Submitting Feedback: ${error}`);
-          console.error("Error making GitHub issue: ", error);
-        }
-      );
+      octokit.rest.issues
+        .create({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          title: title,
+          body: `> ${message}\n— ${sentFromWhom}`,
+        })
+        .then(
+          function (response) {
+            console.debug("GitHub issue created successfully.", response.status, response.data.body);
+            setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
+          },
+          function (error) {
+            setFeedbackResponseText(`Error Submitting Feedback: ${error}`);
+            console.error("Error making GitHub issue: ", error);
+          }
+        );
+
       clearForm();
     }
     setShowFeedbackResponseModal(true);
