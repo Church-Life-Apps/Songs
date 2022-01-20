@@ -91,7 +91,7 @@ const FeedbackScreen: React.FC = () => {
         body: `> ${message}\n— ${sentFromWhom}`
       }).then(
         function (response) {
-          console.debug("Email sent successfully.", response.status, response.data.body);
+          console.debug("GitHub issue created successfully.", response.status, response.data.body);
           setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
         },
         function (error) {
