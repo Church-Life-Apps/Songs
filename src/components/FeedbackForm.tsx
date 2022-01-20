@@ -1,32 +1,32 @@
 import { IonButton, IonInput, IonItem, IonLabel, IonModal, IonTextarea } from "@ionic/react";
 import React, { useState } from "react";
 import "./Components.css";
-import emailjs from "emailjs-com";
-import { decrypt } from "../utils/SecurityUtils";
+
+// import { decrypt } from "../utils/SecurityUtils";
+import { Octokit } from "octokit";
+const octokit = new Octokit({ auth: `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` });
 
 /**
  * Feedback Screen.
- *
- * Uses EmailJS as a service to send emails.
- * This class will send actual emails when people have feedback.
+ * Uses GitHub issues api to create issues directly in the Song repo.
  */
 const FeedbackScreen: React.FC = () => {
-  const ENCRYPTED_USER_ID = "U2FsdGVkX19ijiVnA6XtmJ4wa/RL9NngWwn4uKfq6gO+4ZI/V1F/RCYL4REfk0tZ";
-  const PRIVATE_KEY = "jesus private key";
-  const SERVICE_ID = "hymnal_app_service_id";
-  const EMAIL_TEMPLATE = "template_z4z7bhi";
+
+  // const PRIVATE_KEY = "jesus private key";
+  // REPO_OWNER can be a github username or organization name
+  const REPO_OWNER = "Crested-Canary";
+  const REPO_NAME = "testing-issues";
 
   const [fromWhom, setFromWhom] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [feedbackResponseText, setFeedbackResponseText] = useState<string>("");
   const [feedbackResponseModal, setShowFeedbackResponseModal] = useState<boolean>(false);
-
-  emailjs.init(decrypt(ENCRYPTED_USER_ID, PRIVATE_KEY));
 
   return (
     <div id="feedbackFormDiv">
       <IonItem>
-        <IonLabel position="floating">Name</IonLabel>
+        <IonLabel position="floating">Name (Optional)</IonLabel>
         <IonInput
           type="text"
           value={fromWhom}
@@ -34,6 +34,17 @@ const FeedbackScreen: React.FC = () => {
           onIonChange={(e) => setFromWhom(e.detail.value as string)}
         ></IonInput>
       </IonItem>
+
+      <IonItem>
+        <IonLabel position="floating">Subject/Title</IonLabel>
+        <IonInput
+          type="text"
+          value={title}
+          placeholder="Enter Subject/Title"
+          onIonChange={(e) => setTitle(e.detail.value as string)}
+        ></IonInput>
+      </IonItem>
+
       <IonItem>
         <IonLabel position="floating">What do you think?</IonLabel>
         <IonTextarea
@@ -58,24 +69,30 @@ const FeedbackScreen: React.FC = () => {
   );
 
   /**
-   * Sends an email to the hymnal dev team when someone has feedback.
+   * Creates a github issue with the feedback content.
    */
   function sendEmail() {
-    const templateParams = {
-      from_name: fromWhom,
-      message: message,
-    };
-    if (message === "" || fromWhom === "") {
-      setFeedbackResponseText("Please tell us your name and feedback message!");
+
+    if (title === "" || message === "") {
+      setFeedbackResponseText("Please include a title/subject and a feedback message!");
     } else {
-      emailjs.send(SERVICE_ID, EMAIL_TEMPLATE, templateParams).then(
+      
+      // using octokit rest smaller bundle size
+      const sentFromWhom = fromWhom || "anonymous";
+
+      octokit.rest.issues.create({
+        owner: REPO_OWNER,
+        repo: REPO_NAME,
+        title: title,
+        body: `> ${message}\n— ${sentFromWhom}`
+      }).then(
         function (response) {
-          console.debug("Email sent successfully.", response.status, response.text);
+          console.debug("Email sent successfully.", response.status, response.data.body);
           setFeedbackResponseText("Feedback Submitted Sucessfully, Thanks!");
         },
         function (error) {
           setFeedbackResponseText(`Error Submitting Feedback: ${error}`);
-          console.error("Error sending email: ", error);
+          console.error("Error making GitHub issue: ", error);
         }
       );
       clearForm();
@@ -87,6 +104,7 @@ const FeedbackScreen: React.FC = () => {
   function clearForm() {
     setFromWhom("");
     setMessage("");
+    setTitle("");
   }
 
   // Clears and hides Response modal.
