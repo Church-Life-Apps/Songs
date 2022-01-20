@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./Components.css";
 
 import { decrypt } from "../utils/SecurityUtils";
-import { Octokit } from "octokit";
+import { Octokit } from "@octokit/rest";
 
 /**
  * Feedback Screen.
@@ -57,7 +57,7 @@ const FeedbackScreen: React.FC = () => {
         ></IonTextarea>
       </IonItem>
 
-      <IonButton expand="full" onClick={sendEmail}>
+      <IonButton expand="full" onClick={createGithubIssue}>
         Submit Feedback
       </IonButton>
 
@@ -73,7 +73,7 @@ const FeedbackScreen: React.FC = () => {
   /**
    * Creates a github issue with the feedback content.
    */
-  function sendEmail() {
+  function createGithubIssue() {
     if (title === "" || message === "") {
       setFeedbackResponseText("Please include a title/subject and a feedback message!");
     } else {
@@ -85,7 +85,7 @@ const FeedbackScreen: React.FC = () => {
           owner: REPO_OWNER,
           repo: REPO_NAME,
           title: title,
-          body: `> ${message}\n— ${sentFromWhom}`,
+          body: `> ${message}\n\n— ${sentFromWhom}`,
         })
         .then(
           function (response) {
