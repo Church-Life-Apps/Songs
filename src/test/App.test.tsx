@@ -149,10 +149,10 @@ describe("App", () => {
     const lyricVerseNames = await page.$$(selectors.lyricVerseName);
     expect(lyricVerseNames.length).toEqual(10);
 
-    expect(await lyricVerseNames[2].evaluate(e => e.innerHTML)).toEqual("Chorus 1");
-    expect(await lyricVerseNames[3].evaluate(e => e.innerHTML)).toEqual("Chorus 2");
-    expect(await lyricVerseNames[5].evaluate(e => e.innerHTML)).toEqual("Verse 4");
-    expect(await lyricVerseNames[8].evaluate(e => e.innerHTML)).toEqual("Bridge 1");
+    expect(await lyricVerseNames[2].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
+    expect(await lyricVerseNames[3].evaluate((e) => e.innerHTML)).toEqual("Chorus 2");
+    expect(await lyricVerseNames[5].evaluate((e) => e.innerHTML)).toEqual("Verse 4");
+    expect(await lyricVerseNames[8].evaluate((e) => e.innerHTML)).toEqual("Bridge 1");
   });
 
   it("lyrics view displays lyrics based on presentation order - song 44", async () => {
@@ -166,8 +166,8 @@ describe("App", () => {
     const lyricVerseNames = await page.$$(selectors.lyricVerseName);
     expect(lyricVerseNames.length).toEqual(8);
 
-    expect(await lyricVerseNames[1].evaluate(e => e.innerHTML)).toEqual("Chorus 1");
-    expect(await lyricVerseNames[5].evaluate(e => e.innerHTML)).toEqual("Chorus 1");
+    expect(await lyricVerseNames[1].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
+    expect(await lyricVerseNames[5].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
   });
 
   it("displays song list and loads all songs on scroll", async () => {
