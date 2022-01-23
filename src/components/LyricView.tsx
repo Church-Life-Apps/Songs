@@ -63,7 +63,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
 
     // if the song has a presentation order defined, use it;
     // otherwise, present in written order
-    if (typeof presentationOrder !== "undefined") {
+    if (presentationOrder != null) {
       presentationOrder.forEach((verseNumber) => {
         const verseName: string = getVerseText(verseNumber);
         const verseLyrics: string[] = songLyrics.get(verseNumber) || [""];
