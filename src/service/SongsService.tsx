@@ -51,9 +51,11 @@ export async function getNumSongsForBookId(bookId: string): Promise<number> {
 export async function getSong(number: number, bookId: string): Promise<Song> {
   const songs = await getOrfetchSongs(bookId);
   if (number < 0 || number >= songs.length) {
-    return { title: "", author: "", songNumber: -1, lyrics: JSON.parse("{}") };
+    return { title: "", author: "", songNumber: -1, lyrics: new Map() };
   } else {
-    songs[number - 1].lyrics = new Map(Object.entries(songs[number - 1].lyrics));
+    if (!(songs[number - 1].lyrics instanceof Map)){
+      songs[number - 1].lyrics = new Map(Object.entries(songs[number - 1].lyrics));
+    }
     return songs[number - 1];
   }
 }
