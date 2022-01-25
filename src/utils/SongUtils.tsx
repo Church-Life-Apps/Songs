@@ -33,7 +33,6 @@ export interface Song {
   author: string;
   songNumber: number;
   lyrics: Map<string, string[]>;
-  presentation?: string;
 }
 
 // Placeholder blank song.

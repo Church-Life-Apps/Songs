@@ -59,51 +59,29 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     let key = 0;
 
     const songLyrics = song.lyrics;
-    const presentationOrder = song.presentation?.split(" ");
+    const verseKeys = Object.keys(songLyrics);
+    const lyricBlocks: string[][] = Object.values(songLyrics);
 
-    // if the song has a presentation order defined, use it;
-    // otherwise, present in written order
-    if (presentationOrder != null) {
-      presentationOrder.forEach((verseNumber) => {
-        const verseName: string = getVerseText(verseNumber);
-        const verseLyrics: string[] = songLyrics.get(verseNumber) || [""];
+    for (let i = 0; i < verseKeys.length; ++i) {
+      const verseKey = verseKeys[i];
+      const verseLyrics = lyricBlocks[i];
 
-        lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
-      });
-    } else {
-      // separate chorus(es) and normal verses
-      const choruses: Map<string, string[]> = new Map();
-      const nonChoruses: Map<string, string[]> = new Map();
-      songLyrics.forEach((verseLyrics, verseNumber) => {
-        if (verseNumber.startsWith("c")) {
-          choruses.set(verseNumber, verseLyrics);
-        } else {
-          nonChoruses.set(verseNumber, verseLyrics);
-        }
-      });
-
-      let mainChorusNumber: string, mainChorusLyrics: string[];
-      if (choruses.size) {
-        [mainChorusNumber, mainChorusLyrics] = choruses.entries().next().value;
-      }
-      nonChoruses.forEach((verseLyrics, verseNumber) => {
-        const verseName = getVerseText(verseNumber);
-        lyrics.push(buildLyricBlock(verseName, verseLyrics, key++));
-
-        if (mainChorusNumber) {
-          // insert chorus 1 between each verse
-          const chorusName = getVerseText(mainChorusNumber);
-          lyrics.push(buildLyricBlock(chorusName, mainChorusLyrics, key++));
-        }
-      });
-
-      // append all choruses except for chorus 1
-      choruses.forEach((chorusLyrics, chorusNumber) => {
-        if (chorusNumber === mainChorusNumber) {
-          return;
-        }
-        const chorusName = getVerseText(chorusNumber);
-        lyrics.push(buildLyricBlock(chorusName, chorusLyrics, key++));
+      lyrics.push(
+        <Fragment key={key++}>
+          <div className="ion-margin-vertical"></div>
+        </Fragment>
+      );
+      lyrics.push(
+        <h5 key={key++} className="ion-margin-top">
+          {getVerseText(verseKey)}
+        </h5>
+      );
+      verseLyrics.forEach((line: string) => {
+        lyrics.push(
+          <IonText key={key++} className="lyricVerse" color="dark">
+            <p>{line}</p>
+          </IonText>
+        );
       });
     }
     return lyrics;
@@ -116,19 +94,6 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       .replace("c", "Chorus ")
       .replace("b", "Bridge ")
       .replace("p", "Pre-Chorus ");
-  }
-
-  function buildLyricBlock(name: string, lines: string[], key: number) {
-    const lyricsElement: JSX.Element[] = lines.map((line, index) => <p key={index}>{line}</p>);
-    return (
-      <Fragment key={key}>
-        <div className="ion-margin-vertical"></div>
-        <h5 className="ion-margin-top">{name}</h5>
-        <IonText className="lyricVerse" color="dark">
-          {lyricsElement}
-        </IonText>
-      </Fragment>
-    );
   }
 };
 
