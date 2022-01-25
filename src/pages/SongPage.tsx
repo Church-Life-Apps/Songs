@@ -76,7 +76,7 @@ const SongPage: React.FC = () => {
           <IonFabButton
             color="medium"
             onClick={() => {
-              history.push(`/${bookId}/${songNumber - 1}`);
+              history.push(`/${bookId}/${Math.min(songNumber - 1, songBookLength)}`);
             }}
           >
             <IonIcon class="pageTurnButton" icon={arrowBackCircleOutline} />
@@ -87,15 +87,14 @@ const SongPage: React.FC = () => {
   }
 
   function RenderNextButton(songNumber: number) {
-    // idk how to get total number of songs so its hard coded for shl for now
     if (songNumber < songBookLength) {
       return (
         <IonFab id="nextButton" vertical="center" horizontal="end" slot="fixed">
           <IonFabButton
             color="medium"
             onClick={() => {
-              history.push(`/${bookId}/${songNumber + 1}`);
-            }}
+              history.push(`/${bookId}/${Math.max(songNumber + 1, 1)}`);
+            }}  
           >
             <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>

@@ -1,4 +1,4 @@
-import { getSongbookById, Song } from "../utils/SongUtils";
+import { getSongbookById, PLACEHOLDER_SONG, Song } from "../utils/SongUtils";
 import { getSimilarity, isNumeric, normalize, tokenize } from "../utils/StringUtils";
 
 /**
@@ -29,7 +29,6 @@ async function getOrfetchSongs(bookId: string): Promise<Song[]> {
     const body = await response.json();
     const songsForBook = body[songbook.name];
     songs.set(bookId, songsForBook);
-    console.log("Fetching lyrics for book " + bookId);
     return songsForBook;
   } else {
     console.debug("Returning stored lyrics for book " + bookId);
@@ -50,11 +49,13 @@ export async function getNumSongsForBookId(bookId: string): Promise<number> {
  */
 export async function getSong(number: number, bookId: string): Promise<Song> {
   const songs = await getOrfetchSongs(bookId);
-  if (number < 0 || number >= songs.length) {
-    return { title: "", author: "", songNumber: -1, lyrics: JSON.parse("{}") };
+  if (isNaN(number) || number < 0 || number > songs.length) {
+    return { title: "", author: "", songNumber: -1, lyrics: new Map(), presentation: "" };
   } else {
-    songs[number - 1].lyrics = new Map(Object.entries(songs[number - 1].lyrics));
-    return songs[number - 1];
+    const placeholder = PLACEHOLDER_SONG;
+    Object.assign(placeholder, songs[number - 1]);
+    placeholder.lyrics = new Map(Object.entries(songs[number - 1].lyrics));
+    return placeholder;
   }
 }
 
