@@ -53,7 +53,6 @@ export async function getSong(number: number, bookId: string): Promise<Song> {
   if (number < 0 || number >= songs.length) {
     return { title: "", author: "", songNumber: -1, lyrics: JSON.parse("{}") };
   } else {
-    songs[number - 1].lyrics = new Map(Object.entries(songs[number - 1].lyrics));
     return songs[number - 1];
   }
 }
