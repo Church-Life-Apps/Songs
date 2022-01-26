@@ -33,11 +33,11 @@ export interface Song {
   author: string;
   songNumber: number;
   lyrics: Map<string, string[]>;
-  presentation?: string;
+  presentation: string;
 }
 
 // Placeholder blank song.
-export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: new Map() };
+export const PLACEHOLDER_SONG: Song = { title: "", author: "", songNumber: 0, lyrics: new Map(), presentation: "" };
 
 /* ---------- Songbook Stuff -------------- */
 export interface Songbook {

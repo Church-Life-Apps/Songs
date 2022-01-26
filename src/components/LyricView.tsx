@@ -29,8 +29,15 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
 
   useEffect(() => {
+    console.log("triggering song view");
     triggerSongView(props.songNumber, SongViewMode.Lyrics);
     getSong(props.songNumber, bookId).then((song) => {
+      console.log("got song " + song.title)
+      console.log("printing lyrics in use effect");
+      song.lyrics.forEach((x) => {
+        console.log(x);
+      });
+  
       setSong(song);
     });
   }, [songId]);
@@ -58,6 +65,8 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     const lyrics: JSX.Element[] = [];
     let key = 0;
 
+
+    console.log("song = " + song.title);
     const songLyrics = song.lyrics;
     const presentationOrder = song.presentation?.split(" ");
 
