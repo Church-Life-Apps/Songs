@@ -12,7 +12,8 @@ const selectors = {
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
-  lyricLine: "#lyricViewCard > ion-card-content > ion-text",
+  lyricVerseName: "#lyricViewCard > ion-card-content > h5",
+  lyricLine: "#lyricViewCard > ion-card-content > ion-text > p",
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
   nextButton: "#nextButton",
   prevButton: "#prevButton",
@@ -112,7 +113,7 @@ describe("App", () => {
 
     await navigation;
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(page.url()).toEqual(getSongLink(6));
     const musicViewSrc = await page.$eval(selectors.musicView, (e) => e.getAttribute("src"));
     expect(musicViewSrc).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
@@ -135,6 +136,38 @@ describe("App", () => {
 
     const lyricLines = await page.$$(selectors.lyricLine);
     expect(lyricLines.length).toEqual(27);
+  });
+
+  it("lyrics view displays lyrics based on presentation order - song 42", async () => {
+    await page.goto(getSongLink(42));
+
+    await page.waitForSelector(selectors.lyricViewIonCardTitle);
+
+    const cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
+    expect(cardTitle).toEqual("Blessed Be Your Name");
+
+    const lyricVerseNames = await page.$$(selectors.lyricVerseName);
+    expect(lyricVerseNames.length).toEqual(10);
+
+    expect(await lyricVerseNames[2].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
+    expect(await lyricVerseNames[3].evaluate((e) => e.innerHTML)).toEqual("Chorus 2");
+    expect(await lyricVerseNames[5].evaluate((e) => e.innerHTML)).toEqual("Verse 4");
+    expect(await lyricVerseNames[8].evaluate((e) => e.innerHTML)).toEqual("Bridge 1");
+  });
+
+  it("lyrics view displays lyrics based on presentation order - song 44", async () => {
+    await page.goto(getSongLink(44));
+
+    await page.waitForSelector(selectors.lyricViewIonCardTitle);
+
+    const cardTitle = await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML);
+    expect(cardTitle).toEqual("The Name Of Jesus");
+
+    const lyricVerseNames = await page.$$(selectors.lyricVerseName);
+    expect(lyricVerseNames.length).toEqual(8);
+
+    expect(await lyricVerseNames[1].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
+    expect(await lyricVerseNames[5].evaluate((e) => e.innerHTML)).toEqual("Chorus 1");
   });
 
   it("displays song list and loads all songs on scroll", async () => {
@@ -176,13 +209,13 @@ describe("App", () => {
 
     await page.waitForSelector(selectors.lyricViewIonCardTitle);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(page.url()).toEqual(getSongLink(6));
     expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
 
     await page.waitForSelector(selectors.nextButton);
     await page.click(selectors.nextButton);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/7");
+    expect(page.url()).toEqual(getSongLink(7));
     expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual(
       "God, Our Father, We Adore Thee!"
     );
@@ -190,7 +223,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.prevButton);
     await page.click(selectors.prevButton);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(page.url()).toEqual(getSongLink(6));
     expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
   });
 
@@ -208,7 +241,7 @@ describe("App", () => {
 
     await page.waitForSelector(selectors.musicView);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(page.url()).toEqual(getSongLink(6));
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
@@ -216,7 +249,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.nextButton);
     await page.click(selectors.nextButton);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/7");
+    expect(page.url()).toEqual(getSongLink(7));
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_007.png"
     );
@@ -224,7 +257,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.prevButton);
     await page.click(selectors.prevButton);
 
-    expect(page.url()).toEqual(baseUrl + "/#/shl/6");
+    expect(page.url()).toEqual(getSongLink(6));
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
@@ -274,4 +307,8 @@ async function verifySearchResults(page: Page, searchTerm: string, songResults: 
       expect(await ionCards[i].evaluate((e) => e.innerHTML)).toEqual(songResults[i]);
     }
   }
+}
+
+function getSongLink(songNumber: number) {
+  return baseUrl + "/#/shl/" + songNumber.toString();
 }
