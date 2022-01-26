@@ -52,7 +52,7 @@ export async function getSong(number: number, bookId: string): Promise<Song> {
   if (isNaN(number) || number < 0 || number > songs.length) {
     return { title: "", author: "", songNumber: -1, lyrics: new Map(), presentation: "" };
   } else {
-    if (!(songs[number - 1].lyrics instanceof Map)){
+    if (!(songs[number - 1].lyrics instanceof Map)) {
       songs[number - 1].lyrics = new Map(Object.entries(songs[number - 1].lyrics));
     }
     return songs[number - 1];

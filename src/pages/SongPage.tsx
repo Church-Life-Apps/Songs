@@ -94,7 +94,7 @@ const SongPage: React.FC = () => {
             color="medium"
             onClick={() => {
               history.push(`/${bookId}/${Math.max(songNumber + 1, 1)}`);
-            }}  
+            }}
           >
             <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>
