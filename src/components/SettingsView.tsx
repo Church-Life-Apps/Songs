@@ -14,14 +14,14 @@ const SettingsView: React.FC = () => {
     document.body.classList.toggle("dark");
 
     const localStorageTheme = window.localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const isDarkMode = Object.values(document.body.classList).indexOf('dark') > -1 ? true : false;
     
-
     if (localStorageTheme === "dark") {
       window.localStorage.setItem("theme", "light");
     } else if (localStorageTheme === "light") {
       window.localStorage.setItem("theme", "dark");
-    } else if (prefersDark.matches) {
+    } else if (isDarkMode) {
+      // If the theme item in local storage is null
       window.localStorage.setItem("theme", "light");
     } else {
       window.localStorage.setItem("theme", "dark");
