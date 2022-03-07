@@ -44,7 +44,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
               <IonCardTitle key="title">{song?.title}</IonCardTitle>
               <IonCardSubtitle key="author">By {song?.author}</IonCardSubtitle>
             </IonCardHeader>
-            <IonCardContent key="lyrics">{song ? getLyrics(song) : song}</IonCardContent>
+            <IonCardContent key="lyrics" className="ion-text-center">{song ? getLyrics(song) : song}</IonCardContent>
           </IonCard>
         </IonCol>
       </IonRow>
