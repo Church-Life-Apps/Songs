@@ -12,10 +12,9 @@ const SettingsView: React.FC = () => {
 
   const toggleDarkModeHandler = () => {
     // Check dark mode status by going through class name and check for 'dark'
-    const isDarkMode = Object.values(document.body.classList).indexOf('dark') > -1 ? true : false;
-    
-    if (isDarkMode) {
+    const isDarkMode = Object.values(document.body.classList).indexOf("dark") > -1 ? true : false;
 
+    if (isDarkMode) {
       window.localStorage.setItem("theme", "light");
     } else {
       window.localStorage.setItem("theme", "dark");
