@@ -12,9 +12,16 @@ const SettingsView: React.FC = () => {
 
   const toggleDarkModeHandler = () => {
     document.body.classList.toggle("dark");
+
     const localStorageTheme = window.localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    
 
     if (localStorageTheme === "dark") {
+      window.localStorage.setItem("theme", "light");
+    } else if (localStorageTheme === "light") {
+      window.localStorage.setItem("theme", "dark");
+    } else if (prefersDark.matches) {
       window.localStorage.setItem("theme", "light");
     } else {
       window.localStorage.setItem("theme", "dark");
