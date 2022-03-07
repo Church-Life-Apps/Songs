@@ -11,22 +11,16 @@ const SettingsView: React.FC = () => {
   const [chosenSetting, setChosenSetting] = useState<string>("");
 
   const toggleDarkModeHandler = () => {
-    document.body.classList.toggle("dark");
-
-    const localStorageTheme = window.localStorage.getItem("theme");
+    // Check dark mode status by going through class name and check for 'dark'
     const isDarkMode = Object.values(document.body.classList).indexOf('dark') > -1 ? true : false;
     
-
-    if (localStorageTheme === "dark") {
-      window.localStorage.setItem("theme", "light");
-    } else if (localStorageTheme === "light") {
-      window.localStorage.setItem("theme", "dark");
-    } else if (isDarkMode) {
-      // If the theme item in local storage is null
+    if (isDarkMode) {
       window.localStorage.setItem("theme", "light");
     } else {
       window.localStorage.setItem("theme", "dark");
     }
+
+    document.body.classList.toggle("dark");
   };
 
   return (
