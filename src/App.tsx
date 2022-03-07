@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 /* Core CSS required for Ionic components to work properly */
@@ -35,6 +35,17 @@ try {
 const App: React.FC = () => {
   logPlatforms();
 
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const localColorScheme = window.localStorage.getItem('colors');
+
+    if (localColorScheme === 'dark') {
+      document.body.classList.toggle("dark");
+    } else if (prefersDark.matches && localColorScheme !== 'light') {
+      document.body.classList.toggle("dark");
+    }
+  }, [])
+  
   return (
     <HashRouter>
       <Switch>

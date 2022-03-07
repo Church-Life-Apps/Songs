@@ -1,4 +1,5 @@
-import { IonButton, IonContent, IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonLabel, IonList, IonIcon, IonToggle } from "@ionic/react";
+import { moon } from "ionicons/icons";
 import React, { useState } from "react";
 import "./Components.css";
 import FeedbackForm from "./FeedbackForm";
@@ -8,6 +9,17 @@ import FeedbackForm from "./FeedbackForm";
  */
 const SettingsView: React.FC = () => {
   const [chosenSetting, setChosenSetting] = useState<string>("");
+
+  const toggleDarkModeHandler = () => {
+    document.body.classList.toggle("dark");
+    const localColorScheme = window.localStorage.getItem('colors')
+
+    if (localColorScheme === 'dark') {
+      window.localStorage.setItem('colors', 'light');
+    } else {
+      window.localStorage.setItem('colors', 'dark');
+    }
+  };
 
   return (
     <IonContent>
@@ -20,6 +32,15 @@ const SettingsView: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonButton onClick={() => setChosenSetting("feedback")}>Submit Feedback</IonButton>
+          </IonItem>
+          <IonItem>
+            <IonIcon slot="start" icon={moon} />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle
+              slot="end"
+              name="darkMode"
+              onIonChange={toggleDarkModeHandler}
+            />
           </IonItem>
         </IonList>
       ) : null}
