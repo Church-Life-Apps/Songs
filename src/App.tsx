@@ -30,23 +30,22 @@ try {
   PageView();
 } catch (e) {
   console.error(e);
-  
 }
 
 const App: React.FC = () => {
   logPlatforms();
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const localStorageTheme = window.localStorage.getItem('theme');
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const localStorageTheme = window.localStorage.getItem("theme");
 
-    if (localStorageTheme === 'dark') {
+    if (localStorageTheme === "dark") {
       document.body.classList.toggle("dark");
-    } else if (prefersDark.matches && localStorageTheme !== 'light') {
+    } else if (prefersDark.matches && localStorageTheme !== "light") {
       document.body.classList.toggle("dark");
     }
-  }, [])
-  
+  }, []);
+
   return (
     <HashRouter>
       <Switch>

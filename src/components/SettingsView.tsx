@@ -12,12 +12,12 @@ const SettingsView: React.FC = () => {
 
   const toggleDarkModeHandler = () => {
     document.body.classList.toggle("dark");
-    const localStorageTheme = window.localStorage.getItem('theme')
+    const localStorageTheme = window.localStorage.getItem("theme");
 
-    if (localStorageTheme === 'dark') {
-      window.localStorage.setItem('theme', 'light');
+    if (localStorageTheme === "dark") {
+      window.localStorage.setItem("theme", "light");
     } else {
-      window.localStorage.setItem('theme', 'dark');
+      window.localStorage.setItem("theme", "dark");
     }
   };
 
@@ -34,13 +34,9 @@ const SettingsView: React.FC = () => {
             <IonButton onClick={() => setChosenSetting("feedback")}>Submit Feedback</IonButton>
           </IonItem>
           <IonItem>
-            <IonIcon slot="start" icon={ moon } />
+            <IonIcon slot="start" icon={moon} />
             <IonLabel>Dark Mode</IonLabel>
-            <IonToggle
-              slot="end"
-              name="darkMode"
-              onIonChange={toggleDarkModeHandler}
-            />
+            <IonToggle slot="end" name="darkMode" onIonChange={toggleDarkModeHandler} />
           </IonItem>
         </IonList>
       ) : null}
