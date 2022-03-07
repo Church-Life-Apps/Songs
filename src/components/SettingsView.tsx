@@ -15,7 +15,6 @@ const SettingsView: React.FC = () => {
 
     const localStorageTheme = window.localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    
 
     if (localStorageTheme === "dark") {
       window.localStorage.setItem("theme", "light");
