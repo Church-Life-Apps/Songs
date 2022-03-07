@@ -30,6 +30,7 @@ try {
   PageView();
 } catch (e) {
   console.error(e);
+  
 }
 
 const App: React.FC = () => {
@@ -37,11 +38,11 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const localColorScheme = window.localStorage.getItem('colors');
+    const localStorageTheme = window.localStorage.getItem('theme');
 
-    if (localColorScheme === 'dark') {
+    if (localStorageTheme === 'dark') {
       document.body.classList.toggle("dark");
-    } else if (prefersDark.matches && localColorScheme !== 'light') {
+    } else if (prefersDark.matches && localStorageTheme !== 'light') {
       document.body.classList.toggle("dark");
     }
   }, [])
