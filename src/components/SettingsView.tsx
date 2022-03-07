@@ -15,6 +15,7 @@ const SettingsView: React.FC = () => {
     const isDarkMode = Object.values(document.body.classList).indexOf('dark') > -1 ? true : false;
     
     if (isDarkMode) {
+
       window.localStorage.setItem("theme", "light");
     } else {
       window.localStorage.setItem("theme", "dark");
