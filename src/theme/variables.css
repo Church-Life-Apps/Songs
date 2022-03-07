@@ -231,3 +231,7 @@ body.dark {
 
   --ion-card-background: #1e1e1e;
 }
+/* Optional CSS, this is added for the flashing that happens when toggling between themes */
+ion-item {
+  --transition: none;
+}
