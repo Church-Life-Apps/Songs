@@ -11,7 +11,7 @@ export const YES = "yes";
 export const NO = "no";
 
 /**
- * Constants for theme related things
+ * Constants for theme related variables
  */
 export const DARK_THEME = "dark";
 export const LIGHT_THEME = "light";
