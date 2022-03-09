@@ -37,14 +37,14 @@ const App: React.FC = () => {
   logPlatforms();
 
   useEffect(() => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    const localStorageTheme = window.localStorage.getItem(THEME_KEY);
-
     /**
      * Set theme on load based on local setting.
      * Uses system preferences for theme if local setting not set or cleared.
      * Default to light theme in all other cases.
      */
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const localStorageTheme = window.localStorage.getItem(THEME_KEY);
+    
     if (localStorageTheme === DARK_THEME || (prefersDark.matches && localStorageTheme !== LIGHT_THEME)) {
       document.body.classList.toggle(DARK_THEME);
     }
