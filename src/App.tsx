@@ -44,7 +44,7 @@ const App: React.FC = () => {
      */
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
     const localStorageTheme = window.localStorage.getItem(THEME_KEY);
-    
+
     if (localStorageTheme === DARK_THEME || (prefersDark.matches && localStorageTheme !== LIGHT_THEME)) {
       document.body.classList.toggle(DARK_THEME);
     }
