@@ -11,6 +11,13 @@ export const YES = "yes";
 export const NO = "no";
 
 /**
+ * Constants for theme related variables
+ */
+export const DARK_THEME = "dark";
+export const LIGHT_THEME = "light";
+export const THEME_KEY = "theme";
+
+/**
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.
  * If an item with that key already existed, it will overwrite the value.
  */

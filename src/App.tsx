@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 /* Core CSS required for Ionic components to work properly */
@@ -24,6 +24,7 @@ import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { initGA, PageView } from "./tracking/GoogleAnalytics";
 import { logPlatforms } from "./utils/PlatformUtils";
+import { THEME_KEY, DARK_THEME, LIGHT_THEME } from "./utils/StorageUtils";
 
 try {
   initGA();
@@ -34,6 +35,20 @@ try {
 
 const App: React.FC = () => {
   logPlatforms();
+
+  useEffect(() => {
+    /**
+     * Set theme on load based on local setting.
+     * Uses system preferences for theme if local setting not set or cleared.
+     * Default to light theme in all other cases.
+     */
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const localStorageTheme = window.localStorage.getItem(THEME_KEY);
+
+    if (localStorageTheme === DARK_THEME || (prefersDark.matches && localStorageTheme !== LIGHT_THEME)) {
+      document.body.classList.toggle(DARK_THEME);
+    }
+  }, []);
 
   return (
     <HashRouter>

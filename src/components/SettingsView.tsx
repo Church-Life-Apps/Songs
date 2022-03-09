@@ -1,13 +1,26 @@
-import { IonButton, IonContent, IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonContent, IonItem, IonLabel, IonList, IonIcon, IonToggle } from "@ionic/react";
+import { moon } from "ionicons/icons";
 import React, { useState } from "react";
 import "./Components.css";
 import FeedbackForm from "./FeedbackForm";
-
+import { DARK_THEME, LIGHT_THEME, THEME_KEY } from "../utils/StorageUtils";
 /**
  * Settings Page.
  */
 const SettingsView: React.FC = () => {
   const [chosenSetting, setChosenSetting] = useState<string>("");
+
+  const toggleDarkModeHandler = () => {
+    // Check current theme and swaps it
+    const theme = Object.values(document.body.classList).includes(DARK_THEME) ? LIGHT_THEME : DARK_THEME;
+
+    window.localStorage.setItem(THEME_KEY, theme);
+    document.body.classList.toggle(DARK_THEME);
+  };
+
+  const darkModeCheckedStatus = () => {
+    return Object.values(document.body.classList).includes(DARK_THEME);
+  };
 
   return (
     <IonContent>
@@ -20,6 +33,16 @@ const SettingsView: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonButton onClick={() => setChosenSetting("feedback")}>Submit Feedback</IonButton>
+          </IonItem>
+          <IonItem>
+            <IonIcon slot="start" icon={moon} />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle
+              slot="end"
+              name="darkMode"
+              onIonChange={toggleDarkModeHandler}
+              checked={darkModeCheckedStatus()}
+            />
           </IonItem>
         </IonList>
       ) : null}
