@@ -18,6 +18,10 @@ const SettingsView: React.FC = () => {
     document.body.classList.toggle("dark");
   };
 
+  const darkModeCheckedStatus = () => {
+    return Object.values(document.body.classList).includes(DARK_THEME);
+  };
+
   return (
     <IonContent>
       {/* To add another settings item, add another IonItem with an IonLabel. */}
@@ -33,7 +37,7 @@ const SettingsView: React.FC = () => {
           <IonItem>
             <IonIcon slot="start" icon={moon} />
             <IonLabel>Dark Mode</IonLabel>
-            <IonToggle slot="end" name="darkMode" onIonChange={toggleDarkModeHandler} />
+            <IonToggle slot="end" name="darkMode" onIonChange={toggleDarkModeHandler} checked={darkModeCheckedStatus()}/>
           </IonItem>
         </IonList>
       ) : null}
