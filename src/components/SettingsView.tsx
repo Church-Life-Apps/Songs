@@ -37,7 +37,12 @@ const SettingsView: React.FC = () => {
           <IonItem>
             <IonIcon slot="start" icon={moon} />
             <IonLabel>Dark Mode</IonLabel>
-            <IonToggle slot="end" name="darkMode" onIonChange={toggleDarkModeHandler} checked={darkModeCheckedStatus()}/>
+            <IonToggle
+              slot="end"
+              name="darkMode"
+              onIonChange={toggleDarkModeHandler}
+              checked={darkModeCheckedStatus()}
+            />
           </IonItem>
         </IonList>
       ) : null}

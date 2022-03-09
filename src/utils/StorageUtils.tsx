@@ -13,7 +13,7 @@ export const NO = "no";
 /**
  * Constants for theme related things
  */
-export const DARK_THEME = "dark"; 
+export const DARK_THEME = "dark";
 export const LIGHT_THEME = "light";
 export const THEME_KEY = "theme";
 
