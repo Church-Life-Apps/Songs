@@ -11,7 +11,7 @@ const SettingsView: React.FC = () => {
   const [chosenSetting, setChosenSetting] = useState<string>("");
 
   const toggleDarkModeHandler = () => {
-    // Check current theme and swaps it 
+    // Check current theme and swaps it
     const theme = Object.values(document.body.classList).includes(DARK_THEME) ? LIGHT_THEME : DARK_THEME;
 
     window.localStorage.setItem(THEME_KEY, theme);
