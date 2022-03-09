@@ -3,7 +3,7 @@ import { moon } from "ionicons/icons";
 import React, { useState } from "react";
 import "./Components.css";
 import FeedbackForm from "./FeedbackForm";
-
+import { DARK_THEME, LIGHT_THEME, THEME_KEY } from "../utils/StorageUtils";
 /**
  * Settings Page.
  */
@@ -11,15 +11,10 @@ const SettingsView: React.FC = () => {
   const [chosenSetting, setChosenSetting] = useState<string>("");
 
   const toggleDarkModeHandler = () => {
-    // Check dark mode status by going through class name and check for 'dark'
-    const isDarkMode = Object.values(document.body.classList).indexOf("dark") > -1 ? true : false;
+    // Check current theme and swaps it
+    const theme = Object.values(document.body.classList).includes(DARK_THEME) ? LIGHT_THEME : DARK_THEME;
 
-    if (isDarkMode) {
-      window.localStorage.setItem("theme", "light");
-    } else {
-      window.localStorage.setItem("theme", "dark");
-    }
-
+    window.localStorage.setItem(THEME_KEY, theme);
     document.body.classList.toggle("dark");
   };
 

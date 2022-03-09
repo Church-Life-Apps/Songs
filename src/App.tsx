@@ -24,6 +24,7 @@ import BookPage from "./pages/BookPage";
 import SongPage from "./pages/SongPage";
 import { initGA, PageView } from "./tracking/GoogleAnalytics";
 import { logPlatforms } from "./utils/PlatformUtils";
+import { THEME_KEY, DARK_THEME, LIGHT_THEME } from "./utils/StorageUtils";
 
 try {
   initGA();
@@ -37,12 +38,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    const localStorageTheme = window.localStorage.getItem("theme");
-
-    if (localStorageTheme === "dark") {
-      document.body.classList.toggle("dark");
-    } else if (prefersDark.matches && localStorageTheme !== "light") {
-      document.body.classList.toggle("dark");
+    const localStorageTheme = window.localStorage.getItem(THEME_KEY);
+    
+    if (localStorageTheme === DARK_THEME || prefersDark.matches && localStorageTheme !== LIGHT_THEME) {
+      document.body.classList.toggle(DARK_THEME);
     }
   }, []);
 
