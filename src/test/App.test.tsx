@@ -289,7 +289,7 @@ describe("App", () => {
  */
 async function verifySearchResults(page: Page, searchTerm: string, songResults: string[], strict = true) {
   if (hasMultipleBooks) {
-    await page.waitForSelector(selectors.shlSongbook); 
+    await page.waitForSelector(selectors.shlSongbook);
     await page.click(selectors.shlSongbook);
   }
 
