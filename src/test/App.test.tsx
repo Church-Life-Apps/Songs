@@ -1,5 +1,4 @@
 import puppeteer, { Browser, Page } from "puppeteer";
-import { defaultNavigationTitle } from "../components/NavigationBar";
 import { exception } from "console";
 
 const baseUrl = "http://localhost:8080";

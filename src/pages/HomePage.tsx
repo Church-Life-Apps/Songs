@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     getSongbooks().then((books) => {
-      if (books.length == 1) {
+      if (books.length === 1) {
         history.push(books[0].bookId);
       }
       setSongbooks(books);
