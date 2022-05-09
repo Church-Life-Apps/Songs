@@ -205,8 +205,7 @@ describe("App", () => {
   }, 20000);
 
   it("displays arrow buttons and transitions correctly on lyrics mode when screen is wide enough", async () => {
-
-    await page.setViewport({ width: 1366, height: 768});
+    await page.setViewport({ width: 1366, height: 768 });
     if (hasMultipleBooks) {
       await page.waitForSelector(selectors.shlSongbook);
       await page.click(selectors.shlSongbook);

@@ -18,7 +18,7 @@ import { getSong } from "../service/SongsService";
 import { useParams } from "react-router";
 
 interface LyricViewProps {
-  songNumber: number
+  songNumber: number;
   setTooNarrow: (tooNarrow: boolean) => void;
 }
 
@@ -36,11 +36,11 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     });
     // check for initial screen width, since the listener only checks on resize
     props.setTooNarrow(window.innerWidth <= 991);
-    window.addEventListener('resize', ToggleNavButtonListener);
+    window.addEventListener("resize", ToggleNavButtonListener);
     // remove listener on component unmount
     return () => {
-      window.removeEventListener('resize', ToggleNavButtonListener)
-    }
+      window.removeEventListener("resize", ToggleNavButtonListener);
+    };
   }, [songId]);
 
   return (

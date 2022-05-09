@@ -29,7 +29,6 @@ const SongPage: React.FC = () => {
 
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
-
   }, [bookId]);
 
   return (
@@ -56,10 +55,7 @@ const SongPage: React.FC = () => {
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
-      return <LyricView 
-          songNumber={songNumber} 
-          setTooNarrow = { (tooNarrow: boolean) => setTooNarrow(tooNarrow)}
-        />;
+      return <LyricView songNumber={songNumber} setTooNarrow={(tooNarrow: boolean) => setTooNarrow(tooNarrow)} />;
     }
   }
 
