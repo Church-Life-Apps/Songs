@@ -115,18 +115,16 @@ const SongPage: React.FC = () => {
   }
 
   function ToggleNavButtonListeners() {
-
-    const prevButtonElement = document.querySelector('#prevButton') as HTMLElement;
-    const nextButtonElement = document.querySelector('#nextButton') as HTMLElement;
-    const songPageCenterElement = document.querySelector('#prevButton') as HTMLElement;
+    const prevButtonElement = document.querySelector("#prevButton") as HTMLElement;
+    const nextButtonElement = document.querySelector("#nextButton") as HTMLElement;
+    const songPageCenterElement = document.querySelector("#prevButton") as HTMLElement;
 
     if (prevButtonElement) {
       setPrevButtonOverlapping(doElementsOverlap(prevButtonElement, songPageCenterElement));
     }
     if (nextButtonElement) {
-      setNextButtonOverlapping(doElementsOverlap(nextButtonElement,songPageCenterElement));
+      setNextButtonOverlapping(doElementsOverlap(nextButtonElement, songPageCenterElement));
     }
-
   }
 };
 
