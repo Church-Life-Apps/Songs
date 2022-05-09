@@ -44,9 +44,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && !tooNarrow ? RenderPrevButton(+songId) : null}
+        {isBrowser() && !tooNarrow && RenderPrevButton(+songId)}
         {RenderSong(+songId)}
-        {isBrowser() && !tooNarrow ? RenderNextButton(+songId) : null}
+        {isBrowser() && !tooNarrow && RenderNextButton(+songId)}
       </IonContent>
     </IonPage>
   );
