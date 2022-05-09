@@ -24,8 +24,12 @@ const SongPage: React.FC = () => {
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
   const [songBookLength, setSongBookLength] = useState<number>(0);
 
+  // is the screen wide enough for buttons to render
+  const [tooNarrow, setTooNarrow] = useState(false);
+
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
+
   }, [bookId]);
 
   return (
@@ -41,9 +45,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && RenderPrevButton(+songId)}
+        {isBrowser() && !tooNarrow ? RenderPrevButton(+songId) : null}
         {RenderSong(+songId)}
-        {isBrowser() && RenderNextButton(+songId)}
+        {isBrowser() && !tooNarrow ? RenderNextButton(+songId) : null}
       </IonContent>
     </IonPage>
   );
@@ -52,7 +56,10 @@ const SongPage: React.FC = () => {
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
-      return <LyricView songNumber={songNumber} />;
+      return <LyricView 
+          songNumber={songNumber} 
+          setTooNarrow = { (tooNarrow: boolean) => setTooNarrow(tooNarrow)}
+        />;
     }
   }
 
