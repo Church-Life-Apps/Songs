@@ -39,7 +39,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     window.addEventListener("resize", ToggleNavButtonListener);
 
     return () => {
-      // reset tooNarrow to false 
+      // reset tooNarrow to false
       props.setTooNarrow(false);
       // remove listener on component unmount
       window.removeEventListener("resize", ToggleNavButtonListener);

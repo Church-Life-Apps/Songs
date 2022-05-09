@@ -271,8 +271,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.songViewToggler);
     await page.click(selectors.songViewToggler);
 
-
-    expect(document.querySelector(selectors.prevButton)).toBeTruthy
+    expect(document.querySelector(selectors.prevButton)).toBeTruthy;
     expect(document.querySelector(selectors.nextButton)).toBeTruthy;
   });
 
