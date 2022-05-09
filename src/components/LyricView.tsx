@@ -37,8 +37,11 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     // check for initial screen width, since the listener only checks on resize
     props.setTooNarrow(window.innerWidth <= 991);
     window.addEventListener("resize", ToggleNavButtonListener);
-    // remove listener on component unmount
+
     return () => {
+      // reset tooNarrow to false 
+      props.setTooNarrow(false);
+      // remove listener on component unmount
       window.removeEventListener("resize", ToggleNavButtonListener);
     };
   }, [songId]);
