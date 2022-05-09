@@ -7,9 +7,11 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
-//Import Event tracking
+// Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
+// Import utils
+import { doElementsOverlap } from "../utils/UiUtils";
 
 /**
  * Song Page Component.
@@ -25,10 +27,16 @@ const SongPage: React.FC = () => {
   const [songBookLength, setSongBookLength] = useState<number>(0);
 
   // is the screen wide enough for buttons to render
-  const [tooNarrow, setTooNarrow] = useState(false);
+  const [prevButtonOverlapping, setPrevButtonOverlapping] = useState(false);
+  const [nextButtonOverlapping, setNextButtonOverlapping] = useState(false);
 
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
+
+    window.addEventListener("resize", ToggleNavButtonListeners);
+    return () => {
+      window.removeEventListener("resize", ToggleNavButtonListeners);
+    };
   }, [bookId]);
 
   return (
@@ -44,9 +52,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && !tooNarrow && RenderPrevButton(+songId)}
+        {isBrowser() && !prevButtonOverlapping && RenderPrevButton(+songId)}
         {RenderSong(+songId)}
-        {isBrowser() && !tooNarrow && RenderNextButton(+songId)}
+        {isBrowser() && !nextButtonOverlapping && RenderNextButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -55,7 +63,7 @@ const SongPage: React.FC = () => {
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
-      return <LyricView songNumber={songNumber} setTooNarrow={(tooNarrow: boolean) => setTooNarrow(tooNarrow)} />;
+      return <LyricView songNumber={songNumber} />;
     }
   }
 
@@ -104,6 +112,21 @@ const SongPage: React.FC = () => {
         </IonFab>
       );
     }
+  }
+
+  function ToggleNavButtonListeners() {
+
+    const prevButtonElement = document.querySelector('#prevButton') as HTMLElement;
+    const nextButtonElement = document.querySelector('#nextButton') as HTMLElement;
+    const songPageCenterElement = document.querySelector('#prevButton') as HTMLElement;
+
+    if (prevButtonElement) {
+      setPrevButtonOverlapping(doElementsOverlap(prevButtonElement, songPageCenterElement));
+    }
+    if (nextButtonElement) {
+      setNextButtonOverlapping(doElementsOverlap(nextButtonElement,songPageCenterElement));
+    }
+
   }
 };
 

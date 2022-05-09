@@ -19,7 +19,6 @@ import { useParams } from "react-router";
 
 interface LyricViewProps {
   songNumber: number;
-  setTooNarrow: (tooNarrow: boolean) => void;
 }
 
 /**
@@ -34,22 +33,12 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     getSong(props.songNumber, bookId).then((song) => {
       setSong(song);
     });
-    // check for initial screen width, since the listener only checks on resize
-    props.setTooNarrow(window.innerWidth <= 991);
-    window.addEventListener("resize", ToggleNavButtonListener);
-
-    return () => {
-      // reset tooNarrow to false
-      props.setTooNarrow(false);
-      // remove listener on component unmount
-      window.removeEventListener("resize", ToggleNavButtonListener);
-    };
   }, [songId]);
 
   return (
     <IonGrid>
       <IonRow class="ion-justify-content-center">
-        <IonCol size="12" size-lg="8" size-xl="6">
+        <IonCol size="12" size-lg="8" size-xl="6" className="song-page-center">
           <IonCard id="lyricViewCard" className="ion-padding">
             <IonCardHeader className="ion-text-center">
               <IonCardTitle key="title">{song?.title}</IonCardTitle>
@@ -140,11 +129,6 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
         </IonText>
       </Fragment>
     );
-  }
-
-  function ToggleNavButtonListener() {
-    // 991 is the exact width that the button starts to overlap the lyric view
-    props.setTooNarrow(window.innerWidth <= 991);
   }
 };
 
