@@ -25,7 +25,7 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false, // uncomment this to open browser window for tests
+      headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
@@ -204,7 +204,9 @@ describe("App", () => {
     expect(loadedIonCards.length).toBe(533); // list should contain all 533 songs.
   }, 20000);
 
-  it("displays arrow buttons and transitions correctly on lyrics mode", async () => {
+  it("displays arrow buttons and transitions correctly on lyrics mode when screen is wide enough", async () => {
+
+    await page.setViewport({ width: 1366, height: 768});
     if (hasMultipleBooks) {
       await page.waitForSelector(selectors.shlSongbook);
       await page.click(selectors.shlSongbook);
@@ -271,7 +273,7 @@ describe("App", () => {
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
-  });
+  }, 40000);
 
   afterAll(async () => {
     browser.close();
