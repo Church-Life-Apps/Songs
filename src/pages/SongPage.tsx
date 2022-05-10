@@ -28,8 +28,8 @@ const SongPage: React.FC = () => {
 
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
-    
-    setTimeout(ToggleNavButtonListeners, 500)
+
+    setTimeout(ToggleNavButtonListeners, 500);
     window.addEventListener("resize", ToggleNavButtonListeners);
     return () => {
       window.removeEventListener("resize", ToggleNavButtonListeners);
@@ -118,12 +118,16 @@ const SongPage: React.FC = () => {
 
     if (prevButtonElement) {
       // console.log(doElementsOverlap(prevButtonElement, songPageCenterElement))
-      prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
+      prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement)
+        ? "hidden"
+        : "visible";
     }
     if (nextButtonElement) {
       // console.log(nextButtonElement)
       // console.log(doElementsOverlap(nextButtonElement, songPageCenterElement))
-      nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
+      nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement)
+        ? "hidden"
+        : "visible";
     }
   }
 };
