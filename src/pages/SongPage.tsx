@@ -26,13 +26,10 @@ const SongPage: React.FC = () => {
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
   const [songBookLength, setSongBookLength] = useState<number>(0);
 
-  // is the screen wide enough for buttons to render
-  const [prevButtonOverlapping, setPrevButtonOverlapping] = useState(false);
-  const [nextButtonOverlapping, setNextButtonOverlapping] = useState(false);
-
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
-
+    
+    setTimeout(ToggleNavButtonListeners, 500)
     window.addEventListener("resize", ToggleNavButtonListeners);
     return () => {
       window.removeEventListener("resize", ToggleNavButtonListeners);
@@ -52,9 +49,9 @@ const SongPage: React.FC = () => {
 
       <IonContent>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && !prevButtonOverlapping && RenderPrevButton(+songId)}
+        {isBrowser() && RenderPrevButton(+songId)}
         {RenderSong(+songId)}
-        {isBrowser() && !nextButtonOverlapping && RenderNextButton(+songId)}
+        {isBrowser() && RenderNextButton(+songId)}
       </IonContent>
     </IonPage>
   );
@@ -117,13 +114,16 @@ const SongPage: React.FC = () => {
   function ToggleNavButtonListeners() {
     const prevButtonElement = document.querySelector("#prevButton") as HTMLElement;
     const nextButtonElement = document.querySelector("#nextButton") as HTMLElement;
-    const songPageCenterElement = document.querySelector("#prevButton") as HTMLElement;
+    const songPageCenterElement = document.querySelector(".song-page-center") as HTMLElement;
 
     if (prevButtonElement) {
-      setPrevButtonOverlapping(doElementsOverlap(prevButtonElement, songPageCenterElement));
+      // console.log(doElementsOverlap(prevButtonElement, songPageCenterElement))
+      prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
     }
     if (nextButtonElement) {
-      setNextButtonOverlapping(doElementsOverlap(nextButtonElement, songPageCenterElement));
+      // console.log(nextButtonElement)
+      // console.log(doElementsOverlap(nextButtonElement, songPageCenterElement))
+      nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
     }
   }
 };

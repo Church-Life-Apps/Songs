@@ -1,4 +1,5 @@
 export function doElementsOverlap(element1: HTMLElement, element2: HTMLElement): boolean {
+
   const rect1 = element1.getBoundingClientRect();
   const rect2 = element2.getBoundingClientRect();
   return !(
