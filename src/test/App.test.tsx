@@ -25,8 +25,8 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false, // uncomment this to open browser window for tests
-      slowMo: 10, // use this to slow down testing for debugging purposes
+      headless: false, // uncomment this to open browser window for tests
+      slowMo: 200, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
@@ -236,27 +236,7 @@ describe("App", () => {
     expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
   });
 
-  it("does not displays arrow buttons when screen too narrow", async () => {
-    await page.setViewport({ width: 900, height: 768 });
-    if (hasMultipleBooks) {
-      await page.waitForSelector(selectors.shlSongbook);
-      await page.click(selectors.shlSongbook);
-    }
-
-    await page.waitForSelector(selectors.searchViewIonCardTitle);
-
-    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
-    await ionCards[5].click();
-
-    await page.waitForSelector(selectors.lyricViewIonCardTitle);
-
-    expect(page.url()).toEqual(getSongLink(6));
-    expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
-    expect(document.querySelector(selectors.prevButton)).toEqual(null);
-    expect(document.querySelector(selectors.nextButton)).toEqual(null);
-  });
-
-  it("display arrow buttons in song view even when screen is too narrow", async () => {
+  it("buttons invisible but should still be in dom", async () => {
     await page.setViewport({ width: 900, height: 768 });
     if (hasMultipleBooks) {
       await page.waitForSelector(selectors.shlSongbook);

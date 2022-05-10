@@ -117,12 +117,9 @@ const SongPage: React.FC = () => {
     const songPageCenterElement = document.querySelector(".song-page-center") as HTMLElement;
 
     if (prevButtonElement) {
-      // console.log(doElementsOverlap(prevButtonElement, songPageCenterElement))
       prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
     }
     if (nextButtonElement) {
-      // console.log(nextButtonElement)
-      // console.log(doElementsOverlap(nextButtonElement, songPageCenterElement))
       nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
     }
   }
