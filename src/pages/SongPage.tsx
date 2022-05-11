@@ -37,6 +37,8 @@ const SongPage: React.FC = () => {
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
   const [songBookLength, setSongBookLength] = useState<number>(0);
+  // current song id converted to number
+  const currSongId: number = +songId;
 
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
@@ -51,12 +53,12 @@ const SongPage: React.FC = () => {
       onEnd: (detail: GestureDetail) => { 
         if (Math.abs(detail.velocityX) > MINIMUM_SWIPE_VELOCITY) {
           if (detail.deltaX > MINIMUM_SWIPE_DISTANCE) {
-            if (+songId < songBookLength) {
-              history.push(`/${bookId}/${Math.max(+songId + 1, 1)}`);
+            if (currSongId < songBookLength) {
+              history.push(`/${bookId}/${Math.max(currSongId + 1, 1)}`);
             }
           } else {
-            if (+songId > 1) {
-              history.push(`/${bookId}/${Math.min(+songId - 1, songBookLength)}`);
+            if (currSongId > 1) {
+              history.push(`/${bookId}/${Math.min(currSongId - 1, songBookLength)}`);
             }
           }
         }
@@ -78,9 +80,9 @@ const SongPage: React.FC = () => {
 
       <IonContent id='song-page-body'>
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && RenderPrevButton(+songId)}
-        {RenderSong(+songId)}
-        {isBrowser() && RenderNextButton(+songId)}
+        {isBrowser() && RenderPrevButton(currSongId)}
+        {RenderSong(currSongId)}
+        {isBrowser() && RenderNextButton(currSongId)}
       </IonContent>
     </IonPage>
   );
