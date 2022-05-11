@@ -28,6 +28,7 @@ describe("App", () => {
       // headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      // dumpio: true // uncomment this to have console logs and verbose logging
     });
   });
 
@@ -272,6 +273,49 @@ describe("App", () => {
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
   });
+
+  // it.only("swipe transitions correctly on music mode", async () => {
+
+  //   await page.setViewport({ width: 2000, height: 1500 });
+  //   if (hasMultipleBooks) {
+  //     await page.waitForSelector(selectors.shlSongbook);
+  //     await page.click(selectors.shlSongbook);
+  //   }
+
+  //   await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+  //   const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+  //   await ionCards[5].click();
+
+  //   await page.waitForSelector(selectors.lyricViewIonCardTitle);
+
+  //   expect(page.url()).toEqual(getSongLink(6));
+  //   expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
+
+
+  //   await page.waitForSelector(selectors.prevButton);
+  //   await page.evaluate(() => {
+  //     document.onmousemove = function(e: MouseEvent){
+  //       const mouseX = e.offsetX;
+  //       const mouseY = e.offsetY;
+  //       console.log('MOVEDDDDD: ', mouseX, mouseY);
+  //     }
+  //  })
+  //   await page.mouse.move(100, 221);
+  //   await page.mouse.down();
+  //   await page.mouse.move(100, 221);
+  //   await page.mouse.up();
+  //   // doesn't move
+  //   expect(page.url()).toEqual(getSongLink(6));
+
+  //   await page.mouse.move(100, 200);
+  //   await page.mouse.down();
+  //   await page.mouse.move(200, 200);
+  //   await page.mouse.up();
+
+  //   expect(page.url()).toEqual(getSongLink(6));
+
+  // });
 
   afterAll(async () => {
     browser.close();
