@@ -35,6 +35,12 @@ const SongPage: React.FC = () => {
     };
   }, [bookId]);
 
+  useEffect(() => {
+    // want to give it enough time before running the button hiding/showing function
+    // if we run it too soon, the buttons won't be in the dom yet
+    setTimeout(ToggleNavButtonListeners, 1000);
+  }, [songViewMode]);
+
   return (
     <IonPage>
       <IonHeader>
@@ -56,10 +62,6 @@ const SongPage: React.FC = () => {
   );
 
   function RenderSong(songNumber: number) {
-    // want to give it enough time before running the button hiding/showing function
-    // if we run it too soon, the buttons won't be in the dom yet
-    setTimeout(ToggleNavButtonListeners, 1000);
-
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
