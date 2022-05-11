@@ -292,7 +292,6 @@ describe("App", () => {
   //   expect(page.url()).toEqual(getSongLink(6));
   //   expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
 
-
   //   await page.waitForSelector(selectors.prevButton);
   //   await page.evaluate(() => {
   //     document.onmousemove = function(e: MouseEvent){
