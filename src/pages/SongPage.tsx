@@ -29,7 +29,6 @@ const SongPage: React.FC = () => {
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
 
-    setTimeout(ToggleNavButtonListeners, 500);
     window.addEventListener("resize", ToggleNavButtonListeners);
     return () => {
       window.removeEventListener("resize", ToggleNavButtonListeners);
@@ -57,6 +56,10 @@ const SongPage: React.FC = () => {
   );
 
   function RenderSong(songNumber: number) {
+    // want to give it enough time before running the button hiding/showing function
+    // if we run it too soon, the buttons won't be in the dom yet
+    setTimeout(ToggleNavButtonListeners, 1000);
+
     if (songViewMode === SongViewMode.Music) {
       return <MusicView songNumber={songNumber} />;
     } else {
@@ -117,24 +120,14 @@ const SongPage: React.FC = () => {
     const songPageCenterElement = document.querySelector(".song-page-center") as HTMLElement;
 
     if (prevButtonElement) {
-<<<<<<< HEAD
-      prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
-    }
-    if (nextButtonElement) {
-      nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement) ? 'hidden' : 'visible';
-=======
-      // console.log(doElementsOverlap(prevButtonElement, songPageCenterElement))
       prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement)
         ? "hidden"
         : "visible";
     }
     if (nextButtonElement) {
-      // console.log(nextButtonElement)
-      // console.log(doElementsOverlap(nextButtonElement, songPageCenterElement))
       nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement)
         ? "hidden"
         : "visible";
->>>>>>> 2eab06b94e286a06e7e60a8cdf364294de9c4dde
     }
   }
 };

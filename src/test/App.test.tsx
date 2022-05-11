@@ -25,8 +25,8 @@ describe("App", () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false, // uncomment this to open browser window for tests
-      slowMo: 200, // use this to slow down testing for debugging purposes
+      // headless: false, // uncomment this to open browser window for tests
+      slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   });
@@ -291,7 +291,7 @@ describe("App", () => {
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
-  }, 40000);
+  }, 20000);
 
   afterAll(async () => {
     browser.close();
