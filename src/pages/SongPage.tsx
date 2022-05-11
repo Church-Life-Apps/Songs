@@ -1,12 +1,13 @@
-import { IonIcon, 
-  IonContent, 
-  IonPage, 
-  IonHeader, 
-  IonFab, 
-  IonFabButton, 
-  createGesture, 
-  Gesture, 
-  GestureDetail
+import {
+  IonIcon,
+  IonContent,
+  IonPage,
+  IonHeader,
+  IonFab,
+  IonFabButton,
+  createGesture,
+  Gesture,
+  GestureDetail,
 } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
 import { isBrowser } from "../utils/PlatformUtils";
@@ -16,11 +17,7 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
-import { 
-  MINIMUM_SWIPE_DISTANCE, 
-  SWIPE_THRESHOLD, 
-  MINIMUM_SWIPE_VELOCITY  
-} from "../utils/StorageUtils";
+import { MINIMUM_SWIPE_DISTANCE, SWIPE_THRESHOLD, MINIMUM_SWIPE_VELOCITY } from "../utils/StorageUtils";
 //Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
@@ -46,11 +43,11 @@ const SongPage: React.FC = () => {
 
   useEffect(() => {
     const gesture: Gesture = createGesture({
-      el: document.getElementById('song-page-body') as Node,
+      el: document.getElementById("song-page-body") as Node,
       threshold: SWIPE_THRESHOLD,
-      gestureName: 'swipe-gesture',
-      direction: 'x',
-      onEnd: (detail: GestureDetail) => { 
+      gestureName: "swipe-gesture",
+      direction: "x",
+      onEnd: (detail: GestureDetail) => {
         if (Math.abs(detail.velocityX) > MINIMUM_SWIPE_VELOCITY) {
           if (detail.deltaX > MINIMUM_SWIPE_DISTANCE) {
             if (currSongId < songBookLength) {
@@ -62,10 +59,10 @@ const SongPage: React.FC = () => {
             }
           }
         }
-      }
+      },
     });
     gesture.enable();
-  }, [songId, songBookLength])
+  }, [songId, songBookLength]);
 
   return (
     <IonPage>
@@ -78,7 +75,7 @@ const SongPage: React.FC = () => {
         />
       </IonHeader>
 
-      <IonContent id='song-page-body'>
+      <IonContent id="song-page-body">
         {/* TODO: Add error handling in case of non number song Id */}
         {isBrowser() && RenderPrevButton(currSongId)}
         {RenderSong(currSongId)}
