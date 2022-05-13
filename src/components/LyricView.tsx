@@ -38,7 +38,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   return (
     <IonGrid>
       <IonRow class="ion-justify-content-center">
-        <IonCol size="12" size-lg="8" size-xl="6">
+        <IonCol size="12" size-lg="8" size-xl="6" className="song-page-center">
           <IonCard id="lyricViewCard" className="ion-padding">
             <IonCardHeader className="ion-text-center">
               <IonCardTitle key="title">{song?.title}</IonCardTitle>

@@ -18,9 +18,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
 import { MINIMUM_SWIPE_DISTANCE, SWIPE_THRESHOLD, MINIMUM_SWIPE_VELOCITY } from "../utils/StorageUtils";
+
 //Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
+// Import utils
+import { doElementsOverlap } from "../utils/UiUtils";
 
 /**
  * Song Page Component.
@@ -39,9 +42,15 @@ const SongPage: React.FC = () => {
 
   useEffect(() => {
     getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
+
+    window.addEventListener("resize", ToggleNavButtonListeners);
+    return () => {
+      window.removeEventListener("resize", ToggleNavButtonListeners);
+    };
   }, [bookId]);
 
   useEffect(() => {
+
     const gesture: Gesture = createGesture({
       el: document.getElementById("song-page-body") as Node,
       threshold: SWIPE_THRESHOLD,
@@ -63,6 +72,13 @@ const SongPage: React.FC = () => {
     });
     gesture.enable();
   }, [songId, songBookLength]);
+
+  useEffect(() => {
+    // want to give it enough time before running the button hiding/showing function
+    // if we run it too soon, the buttons won't be in the dom yet
+    setTimeout(ToggleNavButtonListeners, 1000);
+  }, [songViewMode]);
+
 
   return (
     <IonPage>
@@ -136,6 +152,23 @@ const SongPage: React.FC = () => {
           </IonFabButton>
         </IonFab>
       );
+    }
+  }
+
+  function ToggleNavButtonListeners() {
+    const prevButtonElement = document.querySelector("#prevButton") as HTMLElement;
+    const nextButtonElement = document.querySelector("#nextButton") as HTMLElement;
+    const songPageCenterElement = document.querySelector(".song-page-center") as HTMLElement;
+
+    if (prevButtonElement) {
+      prevButtonElement.style.visibility = doElementsOverlap(prevButtonElement, songPageCenterElement)
+        ? "hidden"
+        : "visible";
+    }
+    if (nextButtonElement) {
+      nextButtonElement.style.visibility = doElementsOverlap(nextButtonElement, songPageCenterElement)
+        ? "hidden"
+        : "visible";
     }
   }
 };
