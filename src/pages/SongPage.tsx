@@ -50,7 +50,6 @@ const SongPage: React.FC = () => {
   }, [bookId]);
 
   useEffect(() => {
-
     const gesture: Gesture = createGesture({
       el: document.getElementById("song-page-body") as Node,
       threshold: SWIPE_THRESHOLD,
@@ -78,7 +77,6 @@ const SongPage: React.FC = () => {
     // if we run it too soon, the buttons won't be in the dom yet
     setTimeout(ToggleNavButtonListeners, 1000);
   }, [songViewMode]);
-
 
   return (
     <IonPage>
