@@ -204,7 +204,8 @@ describe("App", () => {
     expect(loadedIonCards.length).toBe(533); // list should contain all 533 songs.
   }, 20000);
 
-  it("displays arrow buttons and transitions correctly on lyrics mode", async () => {
+  it("displays arrow buttons and transitions correctly on lyrics mode when screen is wide enough", async () => {
+    await page.setViewport({ width: 1366, height: 768 });
     if (hasMultipleBooks) {
       await page.waitForSelector(selectors.shlSongbook);
       await page.click(selectors.shlSongbook);
@@ -233,6 +234,25 @@ describe("App", () => {
 
     expect(page.url()).toEqual(getSongLink(6));
     expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
+  });
+
+  it("buttons invisible but should still be in dom", async () => {
+    await page.setViewport({ width: 900, height: 768 });
+    if (hasMultipleBooks) {
+      await page.waitForSelector(selectors.shlSongbook);
+      await page.click(selectors.shlSongbook);
+    }
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.songViewToggler);
+    await page.click(selectors.songViewToggler);
+
+    expect(document.querySelector(selectors.prevButton)).toBeTruthy;
+    expect(document.querySelector(selectors.nextButton)).toBeTruthy;
   });
 
   it("displays arrow buttons and transitions correctly on music mode", async () => {
@@ -271,7 +291,7 @@ describe("App", () => {
     expect(await page.$eval(selectors.musicView, (e) => e.getAttribute("src"))).toEqual(
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
-  });
+  }, 20000);
 
   afterAll(async () => {
     browser.close();
