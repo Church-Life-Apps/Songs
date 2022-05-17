@@ -50,7 +50,7 @@ const SongPage: React.FC = () => {
 
   useEffect(() => {
     if (isDesktop()) {
-      return
+      return;
     }
     const gesture: Gesture = createGesture({
       el: document.getElementById("song-page-body") as Node,
