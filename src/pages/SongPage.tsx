@@ -10,7 +10,7 @@ import {
   GestureDetail,
 } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
-import { isBrowser } from "../utils/PlatformUtils";
+import { isDesktop } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
@@ -24,7 +24,6 @@ import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
 // Import utils
 import { doElementsOverlap } from "../utils/UiUtils";
-
 /**
  * Song Page Component.
  *
@@ -50,6 +49,9 @@ const SongPage: React.FC = () => {
   }, [bookId]);
 
   useEffect(() => {
+    if (isDesktop()) {
+      return
+    }
     const gesture: Gesture = createGesture({
       el: document.getElementById("song-page-body") as Node,
       threshold: SWIPE_THRESHOLD,
@@ -92,9 +94,9 @@ const SongPage: React.FC = () => {
 
       <IonContent id="song-page-body">
         {/* TODO: Add error handling in case of non number song Id */}
-        {isBrowser() && RenderPrevButton(currSongId)}
+        {isDesktop() && RenderPrevButton(currSongId)}
         {RenderSong(currSongId)}
-        {isBrowser() && RenderNextButton(currSongId)}
+        {isDesktop() && RenderNextButton(currSongId)}
       </IonContent>
     </IonPage>
   );

@@ -20,7 +20,7 @@ export const THEME_KEY = "theme";
 /**
  * Constants for swipe gesture related varibles
  */
-export const MINIMUM_SWIPE_DISTANCE = 20;
+export const MINIMUM_SWIPE_DISTANCE = 10;
 export const SWIPE_THRESHOLD = 10;
 export const MINIMUM_SWIPE_VELOCITY = 0.2;
 
