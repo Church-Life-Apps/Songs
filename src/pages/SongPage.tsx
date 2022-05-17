@@ -56,7 +56,7 @@ const SongPage: React.FC = () => {
       gestureName: "swipe-gesture",
       direction: "x",
       onEnd: (detail: GestureDetail) => {
-        console.log(detail)
+        console.log(detail);
         if (Math.abs(detail.velocityX) > MINIMUM_SWIPE_VELOCITY) {
           if (detail.deltaX > MINIMUM_SWIPE_DISTANCE) {
             if (currSongId < songBookLength) {
