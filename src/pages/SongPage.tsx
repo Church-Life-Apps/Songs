@@ -56,14 +56,15 @@ const SongPage: React.FC = () => {
       gestureName: "swipe-gesture",
       direction: "x",
       onEnd: (detail: GestureDetail) => {
+        console.log(detail)
         if (Math.abs(detail.velocityX) > MINIMUM_SWIPE_VELOCITY) {
           if (detail.deltaX > MINIMUM_SWIPE_DISTANCE) {
             if (currSongId < songBookLength) {
-              history.push(`/${bookId}/${Math.max(currSongId + 1, 1)}`);
+              history.push(`/${bookId}/${Math.min(currSongId - 1, songBookLength)}`);
             }
           } else {
             if (currSongId > 1) {
-              history.push(`/${bookId}/${Math.min(currSongId - 1, songBookLength)}`);
+              history.push(`/${bookId}/${Math.max(currSongId + 1, 1)}`);
             }
           }
         }

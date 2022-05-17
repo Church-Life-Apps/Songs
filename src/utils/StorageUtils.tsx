@@ -20,9 +20,9 @@ export const THEME_KEY = "theme";
 /**
  * Constants for swipe gesture related varibles
  */
-export const MINIMUM_SWIPE_DISTANCE = 25;
-export const SWIPE_THRESHOLD = 15;
-export const MINIMUM_SWIPE_VELOCITY = 0.3;
+export const MINIMUM_SWIPE_DISTANCE = 20;
+export const SWIPE_THRESHOLD = 10;
+export const MINIMUM_SWIPE_VELOCITY = 0.2;
 
 /**
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.
