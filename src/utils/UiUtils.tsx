@@ -1,10 +1,6 @@
 import { MINIMUM_SWIPE_DISTANCE, SWIPE_THRESHOLD, MINIMUM_SWIPE_VELOCITY } from "./StorageUtils";
 import { isDesktop } from "./PlatformUtils";
-import {
-  createGesture,
-  Gesture,
-  GestureDetail,
-} from "@ionic/react";
+import { createGesture, Gesture, GestureDetail } from "@ionic/react";
 
 export function doElementsOverlap(element1: HTMLElement, element2: HTMLElement): boolean {
   const rect1 = element1.getBoundingClientRect();
@@ -17,13 +13,17 @@ export function doElementsOverlap(element1: HTMLElement, element2: HTMLElement):
   );
 }
 
-export function createSwipeGesture(currSongId: number, songBookLength: number, navToPrevSong: () => void, navToNextSong: () => void): void {
+export function createSwipeGesture(
+  currSongId: number,
+  songBookLength: number,
+  navToPrevSong: () => void,
+  navToNextSong: () => void
+): void {
   // Don't create swipe gesture if on desktop
   if (isDesktop()) {
     return;
   }
   const gesture: Gesture = createGesture({
-
     el: document.getElementById("song-page-body") as Node,
     threshold: SWIPE_THRESHOLD,
     gestureName: "swipe-gesture",

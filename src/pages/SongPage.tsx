@@ -1,11 +1,4 @@
-import {
-  IonIcon,
-  IonContent,
-  IonPage,
-  IonHeader,
-  IonFab,
-  IonFabButton
-} from "@ionic/react";
+import { IonIcon, IonContent, IonPage, IonHeader, IonFab, IonFabButton } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
 import { isDesktop } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
@@ -47,12 +40,7 @@ const SongPage: React.FC = () => {
 
   // mount/remounts the swipe gesture everytime songId/songBookLength changes
   useEffect(() => {
-    createSwipeGesture(
-      currSongId, 
-      songBookLength,
-      navigateToPrevSong,
-      navigateToNextSong
-    );
+    createSwipeGesture(currSongId, songBookLength, navigateToPrevSong, navigateToNextSong);
   }, [songId, songBookLength]);
 
   useEffect(() => {
@@ -106,10 +94,7 @@ const SongPage: React.FC = () => {
     if (songNumber > 1) {
       return (
         <IonFab id="prevButton" vertical="center" horizontal="start" slot="fixed">
-          <IonFabButton
-            color="medium"
-            onClick={navigateToPrevSong}
-          >
+          <IonFabButton color="medium" onClick={navigateToPrevSong}>
             <IonIcon class="pageTurnButton" icon={arrowBackCircleOutline} />
           </IonFabButton>
         </IonFab>
@@ -121,10 +106,7 @@ const SongPage: React.FC = () => {
     if (songNumber < songBookLength) {
       return (
         <IonFab id="nextButton" vertical="center" horizontal="end" slot="fixed">
-          <IonFabButton
-            color="medium"
-            onClick={navigateToNextSong}
-          >
+          <IonFabButton color="medium" onClick={navigateToNextSong}>
             <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>
         </IonFab>
