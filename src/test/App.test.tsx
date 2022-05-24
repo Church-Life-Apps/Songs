@@ -294,48 +294,6 @@ describe("App", () => {
     );
   }, 20000);
 
-  // it.only("swipe transitions correctly on music mode", async () => {
-
-  //   await page.setViewport({ width: 2000, height: 1500 });
-  //   if (hasMultipleBooks) {
-  //     await page.waitForSelector(selectors.shlSongbook);
-  //     await page.click(selectors.shlSongbook);
-  //   }
-
-  //   await page.waitForSelector(selectors.searchViewIonCardTitle);
-
-  //   const ionCards = await page.$$(selectors.searchViewIonCardTitle);
-  //   await ionCards[5].click();
-
-  //   await page.waitForSelector(selectors.lyricViewIonCardTitle);
-
-  //   expect(page.url()).toEqual(getSongLink(6));
-  //   expect(await page.$eval(selectors.lyricViewIonCardTitle, (e) => e.innerHTML)).toEqual("Come, Thou Almighty King");
-
-  //   await page.waitForSelector(selectors.prevButton);
-  //   await page.evaluate(() => {
-  //     document.onmousemove = function(e: MouseEvent){
-  //       const mouseX = e.offsetX;
-  //       const mouseY = e.offsetY;
-  //       console.log('MOVEDDDDD: ', mouseX, mouseY);
-  //     }
-  //  })
-  //   await page.mouse.move(100, 221);
-  //   await page.mouse.down();
-  //   await page.mouse.move(100, 221);
-  //   await page.mouse.up();
-  //   // doesn't move
-  //   expect(page.url()).toEqual(getSongLink(6));
-
-  //   await page.mouse.move(100, 200);
-  //   await page.mouse.down();
-  //   await page.mouse.move(200, 200);
-  //   await page.mouse.up();
-
-  //   expect(page.url()).toEqual(getSongLink(6));
-
-  // });
-
   afterAll(async () => {
     browser.close();
   });

@@ -4,10 +4,7 @@ import {
   IonPage,
   IonHeader,
   IonFab,
-  IonFabButton,
-  createGesture,
-  Gesture,
-  GestureDetail,
+  IonFabButton
 } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
 import { isDesktop } from "../utils/PlatformUtils";
@@ -17,13 +14,13 @@ import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
-import { MINIMUM_SWIPE_DISTANCE, SWIPE_THRESHOLD, MINIMUM_SWIPE_VELOCITY } from "../utils/StorageUtils";
 
-//Import Event tracking
+// Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
 // Import utils
 import { doElementsOverlap } from "../utils/UiUtils";
+import { createSwipeGesture } from "../utils/UiUtils";
 /**
  * Song Page Component.
  *
@@ -48,31 +45,14 @@ const SongPage: React.FC = () => {
     };
   }, [bookId]);
 
+  // mount/remounts the swipe gesture everytime songId/songBookLength changes
   useEffect(() => {
-    if (isDesktop()) {
-      return;
-    }
-    const gesture: Gesture = createGesture({
-      el: document.getElementById("song-page-body") as Node,
-      threshold: SWIPE_THRESHOLD,
-      gestureName: "swipe-gesture",
-      direction: "x",
-      onEnd: (detail: GestureDetail) => {
-        console.log(detail);
-        if (Math.abs(detail.velocityX) > MINIMUM_SWIPE_VELOCITY) {
-          if (detail.deltaX > MINIMUM_SWIPE_DISTANCE) {
-            if (currSongId < songBookLength) {
-              history.push(`/${bookId}/${Math.min(currSongId - 1, songBookLength)}`);
-            }
-          } else {
-            if (currSongId > 1) {
-              history.push(`/${bookId}/${Math.max(currSongId + 1, 1)}`);
-            }
-          }
-        }
-      },
-    });
-    gesture.enable();
+    createSwipeGesture(
+      currSongId, 
+      songBookLength,
+      navigateToPrevSong,
+      navigateToNextSong
+    );
   }, [songId, songBookLength]);
 
   useEffect(() => {
@@ -128,9 +108,7 @@ const SongPage: React.FC = () => {
         <IonFab id="prevButton" vertical="center" horizontal="start" slot="fixed">
           <IonFabButton
             color="medium"
-            onClick={() => {
-              history.push(`/${bookId}/${Math.min(songNumber - 1, songBookLength)}`);
-            }}
+            onClick={navigateToPrevSong}
           >
             <IonIcon class="pageTurnButton" icon={arrowBackCircleOutline} />
           </IonFabButton>
@@ -145,9 +123,7 @@ const SongPage: React.FC = () => {
         <IonFab id="nextButton" vertical="center" horizontal="end" slot="fixed">
           <IonFabButton
             color="medium"
-            onClick={() => {
-              history.push(`/${bookId}/${Math.max(songNumber + 1, 1)}`);
-            }}
+            onClick={navigateToNextSong}
           >
             <IonIcon class="pageTurnButton" icon={arrowForwardCircleOutline} />
           </IonFabButton>
@@ -171,6 +147,14 @@ const SongPage: React.FC = () => {
         ? "hidden"
         : "visible";
     }
+  }
+
+  function navigateToNextSong() {
+    history.push(`/${bookId}/${Math.max(currSongId + 1, 1)}`);
+  }
+
+  function navigateToPrevSong() {
+    history.push(`/${bookId}/${Math.min(currSongId - 1, songBookLength)}`);
   }
 };
 
