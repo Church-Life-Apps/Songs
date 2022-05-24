@@ -6,7 +6,7 @@ import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { arrowBackCircleOutline, arrowForwardCircleOutline, book } from "ionicons/icons";
+import { arrowBackCircleOutline, arrowForwardCircleOutline} from "ionicons/icons";
 
 // Import Event tracking
 import { Event } from "../tracking/GoogleAnalytics";

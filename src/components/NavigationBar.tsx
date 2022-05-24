@@ -31,7 +31,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
   const [songbookName, setSongbookName] = useState<string>(defaultNavigationTitle);
   const { bookId } = useParams<{ bookId: string }>();
-  const [songPageBlobUrl, setSongPageBlobUrl] = useState<string>('');
+  const [songPageBlobUrl, setSongPageBlobUrl] = useState<string>("");
 
   useEffect(() => {
     getSongbookById(bookId).then((book) => {
@@ -46,15 +46,15 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   // create a blob url and we then use that blob url when we render the download button
   useEffect(() => {
     fetch(props.musicPageUrl as string)
-      .then(response => response.blob())
-      .then(blob => {
+      .then((response) => response.blob())
+      .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
         if (songPageBlobUrl !== blobUrl) {
-          setSongPageBlobUrl(blobUrl)
+          setSongPageBlobUrl(blobUrl);
         }
       })
-      .catch(e => console.error(e));
-  }, [props.musicPageUrl])
+      .catch((e) => console.error(e));
+  }, [props.musicPageUrl]);
 
   return (
     <IonToolbar>
@@ -103,7 +103,6 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
         <IonIcon icon={swapHorizontalOutline} />
         <IonIcon icon={documentTextOutline} />
       </IonButton>
-
     );
   }
 
@@ -112,7 +111,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
       <IonButton download={props.songDownloadName} href={songPageBlobUrl}>
         <IonIcon icon={downloadOutline} />
       </IonButton>
-    )
+    );
   }
 };
 
