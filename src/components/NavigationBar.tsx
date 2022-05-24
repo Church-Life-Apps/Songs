@@ -42,7 +42,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
   // The reason we need this is beacuse you cannot download things cross origin
   // but blob data is considered same origin, so here we fetch the image data and
-  // create a blob url and set that blob url as the download link
+  // create a blob url and we then use that blob url when we render the download button
   useEffect(() => {
     fetch(props.musicPageUrl as string)
       .then(response => response.blob())
