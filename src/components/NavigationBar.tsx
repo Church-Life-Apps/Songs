@@ -18,6 +18,7 @@ interface NavigationBarProps {
   toggleSongModeOnClick?: () => void;
   songViewMode?: SongViewMode;
   musicPageUrl?: string;
+  songDownloadName?: string;
 }
 
 export const defaultNavigationTitle = "Choose a Songbook!";
@@ -108,7 +109,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
   function RenderDownloadSheetMusicButton() {
     return(
-      <IonButton download="hymn" href={songPageBlobUrl}>
+      <IonButton download={props.songDownloadName} href={songPageBlobUrl}>
         <IonIcon icon={downloadOutline} />
       </IonButton>
     )
