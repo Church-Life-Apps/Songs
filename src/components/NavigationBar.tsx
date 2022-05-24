@@ -6,15 +6,18 @@ import {
   musicalNotesOutline,
   settingsOutline,
   swapHorizontalOutline,
+  downloadOutline,
 } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import SettingsView from "../components/SettingsView";
 import { useParams } from "react-router";
-import { getSongbookById } from "../utils/SongUtils";
+import { getSongbookById, SongViewMode } from "../utils/SongUtils";
 
 interface NavigationBarProps {
   backButtonOnClick?: () => void;
   toggleSongModeOnClick?: () => void;
+  songViewMode?: SongViewMode;
+  musicPageUrl?: string;
 }
 
 export const defaultNavigationTitle = "Choose a Songbook!";
@@ -27,6 +30,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
   const [songbookName, setSongbookName] = useState<string>(defaultNavigationTitle);
   const { bookId } = useParams<{ bookId: string }>();
+  const [songPageBlobUrl, setSongPageBlobUrl] = useState<string>('');
 
   useEffect(() => {
     getSongbookById(bookId).then((book) => {
@@ -36,13 +40,29 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     });
   }, [bookId]);
 
+  // The reason we need this is beacuse you cannot download things cross origin
+  // but blob data is considered same origin, so here we fetch the image data and
+  // create a blob url and set that blob url as the download link
+  useEffect(() => {
+    fetch(props.musicPageUrl as string)
+      .then(response => response.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        if (songPageBlobUrl !== blobUrl) {
+          setSongPageBlobUrl(blobUrl)
+        }
+      })
+      .catch(e => console.error(e));
+  }, [props.musicPageUrl])
+
   return (
     <IonToolbar>
       <IonTitle id="appName">{songbookName}</IonTitle>
       <IonButtons slot="start">{RenderBackButton()}</IonButtons>
       <IonButtons slot="primary">
         {RenderToggleSongModeButton()}
-        {/* TODO: Put this Image/Lyric mode button into settings page. 
+        {props.songViewMode === SongViewMode.Music && RenderDownloadSheetMusicButton()}
+        {/* TODO: Put this Image/Lyric mode button into settings page.
           This might require some react magic to get state from a child component */}
         <IonButton onClick={() => setShowSettingsModal(true)}>
           <IonIcon icon={settingsOutline} />
@@ -82,7 +102,16 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
         <IonIcon icon={swapHorizontalOutline} />
         <IonIcon icon={documentTextOutline} />
       </IonButton>
+
     );
+  }
+
+  function RenderDownloadSheetMusicButton() {
+    return(
+      <IonButton download="songs" href={songPageBlobUrl}>
+        <IonIcon icon={downloadOutline} />
+      </IonButton>
+    )
   }
 };
 
