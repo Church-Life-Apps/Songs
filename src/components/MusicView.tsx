@@ -36,7 +36,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const url = songbook?.musicUrl + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
   useEffect(() => {
     props.setMusicPageUrl(url);
-  })
+  });
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Music);

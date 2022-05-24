@@ -24,7 +24,7 @@ const SongPage: React.FC = () => {
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
   const history = useHistory();
   // music page url
-  const [musicPageUrl, setMusicPageUrl] = useState<string>('');
+  const [musicPageUrl, setMusicPageUrl] = useState<string>("");
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
   const [songBookLength, setSongBookLength] = useState<number>(0);
@@ -59,8 +59,8 @@ const SongPage: React.FC = () => {
             history.push(`/${bookId}`);
           }}
           toggleSongModeOnClick={ToggleSongMode}
-          songViewMode={ songViewMode }
-          musicPageUrl={ musicPageUrl }
+          songViewMode={songViewMode}
+          musicPageUrl={musicPageUrl}
         />
       </IonHeader>
 
@@ -75,7 +75,7 @@ const SongPage: React.FC = () => {
 
   function RenderSong(songNumber: number) {
     if (songViewMode === SongViewMode.Music) {
-      return <MusicView songNumber={songNumber} setMusicPageUrl={setMusicPageUrl}/>;
+      return <MusicView songNumber={songNumber} setMusicPageUrl={setMusicPageUrl} />;
     } else {
       return <LyricView songNumber={songNumber} />;
     }
