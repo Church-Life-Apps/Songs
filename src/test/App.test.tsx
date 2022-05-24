@@ -28,6 +28,7 @@ describe("App", () => {
       // headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      // dumpio: true // uncomment this to have console logs and verbose logging
     });
   });
 

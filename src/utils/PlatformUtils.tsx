@@ -24,10 +24,31 @@ export function isAndroid(): boolean {
 }
 
 /**
- * Returns true if this app is currently running on the desktop.
+ * Returns true if this app is currently running on a desktop device.
  */
-export function isBrowser(): boolean {
+export function isDesktop(): boolean {
   return isPlatform("desktop");
+}
+
+/**
+ * Returns true if this app is currently running on a mobile device.
+ */
+export function isMobile(): boolean {
+  return isPlatform("mobile");
+}
+
+/**
+ * Returns true if this app is currently on a web browser running in a mobile device.
+ */
+export function isMobileWeb(): boolean {
+  return isPlatform("mobileweb");
+}
+
+/**
+ * Returns true if this app is currently running on a tablet device.
+ */
+export function istablet(): boolean {
+  return isPlatform("tablet");
 }
 
 /**

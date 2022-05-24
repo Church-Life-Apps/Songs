@@ -18,6 +18,13 @@ export const LIGHT_THEME = "light";
 export const THEME_KEY = "theme";
 
 /**
+ * Constants for swipe gesture related varibles
+ */
+export const MINIMUM_SWIPE_DISTANCE = 10;
+export const SWIPE_THRESHOLD = 10;
+export const MINIMUM_SWIPE_VELOCITY = 0.2;
+
+/**
  * Stores an item with given key/value pair. The value can be any string, including JSON strings.
  * If an item with that key already existed, it will overwrite the value.
  */
