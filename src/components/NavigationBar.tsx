@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import SettingsView from "../components/SettingsView";
 import { useParams } from "react-router";
 import { getSongbookById, SongViewMode } from "../utils/SongUtils";
+import { isMobile } from "../utils/PlatformUtils";
 
 interface NavigationBarProps {
   backButtonOnClick?: () => void;
@@ -62,7 +63,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
       <IonButtons slot="start">{RenderBackButton()}</IonButtons>
       <IonButtons slot="primary">
         {RenderToggleSongModeButton()}
-        {props.songViewMode === SongViewMode.Music && RenderDownloadSheetMusicButton()}
+        {!isMobile() && props.songViewMode === SongViewMode.Music && RenderDownloadSheetMusicButton()}
         {/* TODO: Put this Image/Lyric mode button into settings page.
           This might require some react magic to get state from a child component */}
         <IonButton onClick={() => setShowSettingsModal(true)}>
@@ -108,7 +109,11 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
   function RenderDownloadSheetMusicButton() {
     return (
-      <IonButton download={props.songDownloadName} href={songPageBlobUrl}>
+      <IonButton 
+        id='music-download-button' 
+        download={props.songDownloadName} 
+        href={songPageBlobUrl}
+      >
         <IonIcon icon={downloadOutline} />
       </IonButton>
     );
