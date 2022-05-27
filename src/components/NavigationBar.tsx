@@ -109,11 +109,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
   function RenderDownloadSheetMusicButton() {
     return (
-      <IonButton 
-        id='music-download-button' 
-        download={props.songDownloadName} 
-        href={songPageBlobUrl}
-      >
+      <IonButton id="music-download-button" download={props.songDownloadName} href={songPageBlobUrl}>
         <IonIcon icon={downloadOutline} />
       </IonButton>
     );

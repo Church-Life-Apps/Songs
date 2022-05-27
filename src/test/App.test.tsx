@@ -16,7 +16,7 @@ const selectors = {
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
   nextButton: "#nextButton",
   prevButton: "#prevButton",
-  downloadMusicButton: '#music-download-button',
+  downloadMusicButton: "#music-download-button",
 };
 const hasMultipleBooks = false;
 
@@ -29,7 +29,7 @@ describe("App", () => {
       // headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      dumpio: true // uncomment this to have console logs and verbose logging
+      dumpio: true, // uncomment this to have console logs and verbose logging
     });
   });
 
@@ -306,7 +306,7 @@ describe("App", () => {
     const ionCards = await page.$$(selectors.searchViewIonCardTitle);
     await ionCards[5].click();
 
-    const downloadButton = await page.$(selectors.downloadMusicButton)
+    const downloadButton = await page.$(selectors.downloadMusicButton);
 
     expect(downloadButton).toEqual(null);
   });
@@ -326,7 +326,7 @@ describe("App", () => {
     await page.click(selectors.songViewToggler);
 
     await page.waitForSelector(selectors.downloadMusicButton);
-    const downloadButton = await page.$(selectors.downloadMusicButton)
+    const downloadButton = await page.$(selectors.downloadMusicButton);
     expect(downloadButton).toBeTruthy();
   });
 
@@ -345,8 +345,8 @@ describe("App", () => {
     await page.click(selectors.songViewToggler);
 
     await page.waitForSelector(selectors.downloadMusicButton);
-    const downloadButtonLink = await page.$eval(selectors.downloadMusicButton, (e) => e.getAttribute('download'));
-    expect(downloadButtonLink).toEqual('shl_6')
+    const downloadButtonLink = await page.$eval(selectors.downloadMusicButton, (e) => e.getAttribute("download"));
+    expect(downloadButtonLink).toEqual("shl_6");
   });
 
   afterAll(async () => {
