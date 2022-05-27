@@ -16,6 +16,7 @@ const selectors = {
   noResultsFoundLabel: "#root > div > ion-content > ion-item > ion-label",
   nextButton: "#nextButton",
   prevButton: "#prevButton",
+  downloadMusicButton: "#music-download-button",
 };
 const hasMultipleBooks = false;
 
@@ -28,7 +29,7 @@ describe("App", () => {
       // headless: false, // uncomment this to open browser window for tests
       slowMo: 10, // use this to slow down testing for debugging purposes
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      // dumpio: true // uncomment this to have console logs and verbose logging
+      // dumpio: true, // uncomment this to have console logs and verbose logging
     });
   });
 
@@ -293,6 +294,60 @@ describe("App", () => {
       "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_006.png"
     );
   }, 20000);
+
+  it("Download music button should not exist on lyric view", async () => {
+    if (hasMultipleBooks) {
+      await page.waitForSelector(selectors.shlSongbook);
+      await page.click(selectors.shlSongbook);
+    }
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    const downloadButton = await page.$(selectors.downloadMusicButton);
+
+    expect(downloadButton).toEqual(null);
+  });
+
+  it("Download music button should exist in music mode", async () => {
+    if (hasMultipleBooks) {
+      await page.waitForSelector(selectors.shlSongbook);
+      await page.click(selectors.shlSongbook);
+    }
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.songViewToggler);
+    await page.click(selectors.songViewToggler);
+
+    await page.waitForSelector(selectors.downloadMusicButton);
+    const downloadButton = await page.$(selectors.downloadMusicButton);
+    expect(downloadButton).toBeTruthy();
+  });
+
+  it("Download music button should have right download name", async () => {
+    if (hasMultipleBooks) {
+      await page.waitForSelector(selectors.shlSongbook);
+      await page.click(selectors.shlSongbook);
+    }
+
+    await page.waitForSelector(selectors.searchViewIonCardTitle);
+
+    const ionCards = await page.$$(selectors.searchViewIonCardTitle);
+    await ionCards[5].click();
+
+    await page.waitForSelector(selectors.songViewToggler);
+    await page.click(selectors.songViewToggler);
+
+    await page.waitForSelector(selectors.downloadMusicButton);
+    const downloadButtonLink = await page.$eval(selectors.downloadMusicButton, (e) => e.getAttribute("download"));
+    expect(downloadButtonLink).toEqual("shl_6");
+  });
 
   afterAll(async () => {
     browser.close();

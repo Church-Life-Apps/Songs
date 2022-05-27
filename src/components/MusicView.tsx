@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./Components.css";
 import { getSongbookById, makeThreeDigits, Songbook, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
@@ -15,6 +15,7 @@ const songsWithTwoTunes = [156, 216, 278, 478];
 // Props are kind of like the parameters for the constructor of this class.
 interface MusicViewProps {
   songNumber: number;
+  setMusicPageUrl: Dispatch<SetStateAction<string>>;
 }
 
 /**
@@ -33,6 +34,9 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
   const url = songbook?.musicUrl + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+  useEffect(() => {
+    props.setMusicPageUrl(url);
+  });
 
   useEffect(() => {
     triggerSongView(props.songNumber, SongViewMode.Music);
