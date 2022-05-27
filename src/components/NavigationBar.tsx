@@ -63,7 +63,9 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
       <IonButtons slot="start">{RenderBackButton()}</IonButtons>
       <IonButtons slot="primary">
         {RenderToggleSongModeButton()}
-        {(isDesktop() || isMobileWeb()) && props.songViewMode === SongViewMode.Music && RenderDownloadSheetMusicButton()}
+        {(isDesktop() || isMobileWeb()) &&
+          props.songViewMode === SongViewMode.Music &&
+          RenderDownloadSheetMusicButton()}
         {/* TODO: Put this Image/Lyric mode button into settings page.
           This might require some react magic to get state from a child component */}
         <IonButton onClick={() => setShowSettingsModal(true)}>
