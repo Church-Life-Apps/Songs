@@ -47,7 +47,7 @@ export function isMobileWeb(): boolean {
 /**
  * Returns true if this app is currently running on a tablet device.
  */
-export function istablet(): boolean {
+export function isTablet(): boolean {
   return isPlatform("tablet");
 }
 

@@ -78,8 +78,8 @@ export async function getSongbooks(): Promise<Songbook[]> {
   if (songbooksFetched) {
     return cachedSongbooks;
   }
-  const response = await fetch(songbooksListUrl);
-  if (response) {
+  return fetch(songbooksListUrl)
+  .then(async (response) => {
     const body = await response.json();
     const stableBooks: Songbook[] = body["songbooks"];
     const testingBooks: Songbook[] = body["testing"];
@@ -87,9 +87,10 @@ export async function getSongbooks(): Promise<Songbook[]> {
     cachedSongbooks = songbooks;
     songbooksFetched = true;
     return songbooks;
-  } else {
+  }).catch((e) => {
+    console.error(`Failed to get songbooks list due to ${e}`);
     return defaultSongbooks;
-  }
+  });
 }
 
 /**

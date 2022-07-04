@@ -25,11 +25,17 @@ async function getOrfetchSongs(bookId: string): Promise<Song[]> {
       console.error("No songbook found for id " + bookId);
       return [];
     }
-    const response = await fetch(songbook.lyricsUrl);
-    const body = await response.json();
-    const songsForBook = body[songbook.name];
-    songs.set(bookId, songsForBook);
-    return songsForBook;
+    return fetch(songbook.lyricsUrl)
+    .then(async (response) => {
+      const body = await response.json();
+      const songsForBook = body[songbook.name];
+      songs.set(bookId, songsForBook);
+      return songsForBook;
+    })
+    .catch((e) => {
+      console.error(`Failed to fetch song lyrics due to ${e}`)
+      return [];
+    });
   } else {
     console.debug("Returning stored lyrics for book " + bookId);
     return cachedSongs;
