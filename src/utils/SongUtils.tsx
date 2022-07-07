@@ -79,18 +79,19 @@ export async function getSongbooks(): Promise<Songbook[]> {
     return cachedSongbooks;
   }
   return fetch(songbooksListUrl)
-  .then(async (response) => {
-    const body = await response.json();
-    const stableBooks: Songbook[] = body["songbooks"];
-    const testingBooks: Songbook[] = body["testing"];
-    const songbooks = includeTestingSongbooks ? stableBooks.concat(testingBooks) : stableBooks;
-    cachedSongbooks = songbooks;
-    songbooksFetched = true;
-    return songbooks;
-  }).catch((e) => {
-    console.error(`Failed to get songbooks list due to ${e}`);
-    return defaultSongbooks;
-  });
+    .then(async (response) => {
+      const body = await response.json();
+      const stableBooks: Songbook[] = body["songbooks"];
+      const testingBooks: Songbook[] = body["testing"];
+      const songbooks = includeTestingSongbooks ? stableBooks.concat(testingBooks) : stableBooks;
+      cachedSongbooks = songbooks;
+      songbooksFetched = true;
+      return songbooks;
+    })
+    .catch((e) => {
+      console.error(`Failed to get songbooks list due to ${e}`);
+      return defaultSongbooks;
+    });
 }
 
 /**
