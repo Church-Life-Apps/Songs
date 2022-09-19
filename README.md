@@ -1,3 +1,7 @@
+# THIS APP IS BEING DISCONTINUED
+
+We are (very) slowly discontinuing this app while we develop a new version! This means that for the most part we won't develop new features here, but we will still maintain the app including important bug fixes.
+
 # Songs
 
 An Ionic web, Android and iOS app for the SHL and SFG songbooks
