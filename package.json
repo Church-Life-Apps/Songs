@@ -69,7 +69,7 @@
     "eslint-plugin-react": "^7.27.1",
     "prettier": "^1.19.1",
     "puppeteer": "^5.5.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   },
   "description": "An Ionic project",
   "jest": {
