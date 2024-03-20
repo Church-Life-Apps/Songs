@@ -20,7 +20,7 @@
     "@types/react-router-dom": "^5.3.2",
     "@types/websql": "0.0.27",
     "crypto-js": "^4.1.1",
-    "follow-redirects": "^1.14.7",
+    "follow-redirects": "^1.14.8",
     "ionicons": "^5.5.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
