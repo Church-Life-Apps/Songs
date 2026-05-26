@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { PLACEHOLDER_SONG, Song, SongViewMode } from "../utils/SongUtils";
+import { getVerseText } from "../utils/LyricUtils";
 import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
@@ -42,7 +43,9 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
           <IonCard id="lyricViewCard" className="ion-padding">
             <IonCardHeader className="ion-text-center">
               <IonCardTitle key="title">{`${song?.songNumber}) ${song?.title}`}</IonCardTitle>
-              <IonCardSubtitle key="author">By {song?.author}</IonCardSubtitle>
+              {song?.author && song.author.trim() !== "" ? (
+                <IonCardSubtitle key="author">By {song.author}</IonCardSubtitle>
+              ) : null}
             </IonCardHeader>
             <IonCardContent key="lyrics">{song ? getLyrics(song) : song}</IonCardContent>
           </IonCard>
@@ -107,15 +110,6 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       });
     }
     return lyrics;
-  }
-
-  function getVerseText(verse: string) {
-    return verse
-      .toLowerCase()
-      .replace("v", "Verse ")
-      .replace("c", "Chorus ")
-      .replace("b", "Bridge ")
-      .replace("p", "Pre-Chorus ");
   }
 
   function buildLyricBlock(name: string, lines: string[], key: number) {
