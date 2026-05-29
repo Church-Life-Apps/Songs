@@ -114,6 +114,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   function getVerseText(verse: string) {
     return verse
       .toLowerCase()
+      .replace("i", "Interlude ")
       .replace("v", "Verse ")
       .replace("c", "Chorus ")
       .replace("b", "Bridge ")
