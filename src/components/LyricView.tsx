@@ -117,7 +117,8 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       .replace("v", "Verse ")
       .replace("c", "Chorus ")
       .replace("b", "Bridge ")
-      .replace("p", "Pre-Chorus ");
+      .replace("p", "Pre-Chorus ")
+      .replace("t", "Tag ");
   }
 
   function buildLyricBlock(name: string, lines: string[], key: number) {
