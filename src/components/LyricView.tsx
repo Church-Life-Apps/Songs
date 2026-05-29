@@ -122,6 +122,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       b: "Bridge",
       p: "Pre-Chorus",
       t: "Tag",
+      e: "Ending",
     };
     const label = labels[prefix];
     if (!label) return verse;
