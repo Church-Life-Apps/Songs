@@ -17,7 +17,7 @@ const selectors = {
   prevButton: "#prevButton",
   downloadMusicButton: "#music-download-button",
 };
-const hasMultipleBooks = false;
+const hasMultipleBooks = true;
 
 describe("App", () => {
   let page: Page;
@@ -184,7 +184,7 @@ describe("App", () => {
     await page.waitForSelector(selectors.searchViewIonCard);
 
     let ionCards = await page.$$(selectors.searchViewIonCard);
-    expect(ionCards.length).toBe(20); // list should only pre-load 20 songs.
+    expect(ionCards.length).toBe(30); // list should only pre-load 30 songs.
 
     // scroll to bottom
     await ionCards[ionCards.length - 1].hover();
