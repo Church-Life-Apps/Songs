@@ -42,7 +42,9 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
           <IonCard id="lyricViewCard" className="ion-padding">
             <IonCardHeader className="ion-text-center">
               <IonCardTitle key="title">{`${song?.songNumber}) ${song?.title}`}</IonCardTitle>
-              <IonCardSubtitle key="author">By {song?.author}</IonCardSubtitle>
+              {song?.author && song.author.trim() !== "" ? (
+                <IonCardSubtitle key="author">By {song.author}</IonCardSubtitle>
+              ) : null}
             </IonCardHeader>
             <IonCardContent key="lyrics">{song ? getLyrics(song) : song}</IonCardContent>
           </IonCard>
@@ -110,12 +112,21 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   }
 
   function getVerseText(verse: string) {
-    return verse
-      .toLowerCase()
-      .replace("v", "Verse ")
-      .replace("c", "Chorus ")
-      .replace("b", "Bridge ")
-      .replace("p", "Pre-Chorus ");
+    const lower = verse.toLowerCase();
+    const prefix = lower.charAt(0);
+    const rest = lower.slice(1);
+    const labels: { [key: string]: string } = {
+      i: "Interlude",
+      v: "Verse",
+      c: "Chorus",
+      b: "Bridge",
+      p: "Pre-Chorus",
+      t: "Tag",
+      e: "Ending",
+    };
+    const label = labels[prefix];
+    if (!label) return verse;
+    return rest ? `${label} ${rest}` : label;
   }
 
   function buildLyricBlock(name: string, lines: string[], key: number) {

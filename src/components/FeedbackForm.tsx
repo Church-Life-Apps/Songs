@@ -25,6 +25,26 @@ const FeedbackScreen: React.FC = () => {
   const [feedbackResponseText, setFeedbackResponseText] = useState<string>("");
   const [feedbackResponseModal, setShowFeedbackResponseModal] = useState<boolean>(false);
 
+  /**
+   * Reads the current songbook + song from the hash route, if any.
+   * The app uses HashRouter with routes like "/<bookId>/<songId>" so the hash
+   * looks like "#/sfog/12". Returns undefined for either field if not in a
+   * song-scoped route (e.g. when feedback is opened from a non-song page).
+   */
+  function getRouteContext(): { bookId?: string; songId?: string } {
+    if (typeof window === "undefined" || !window.location) return {};
+    const hash = window.location.hash || "";
+    // strip leading "#" and any leading slashes, then split on "/"
+    const parts = hash.replace(/^#\/?/, "").split("/").filter(p => p.length > 0);
+    if (parts.length >= 2) {
+      return { bookId: parts[0], songId: parts[1] };
+    }
+    if (parts.length === 1) {
+      return { bookId: parts[0] };
+    }
+    return {};
+  }
+
   return (
     <div id="feedbackFormDiv">
       <IonItem>
@@ -79,13 +99,19 @@ const FeedbackScreen: React.FC = () => {
     } else {
       // using octokit rest smaller bundle size
       const sentFromWhom = fromWhom || "anonymous";
+      const { bookId, songId } = getRouteContext();
+      const ctxPrefix = bookId && songId ? `[${bookId}/${songId}] ` : bookId ? `[${bookId}] ` : "";
+      const ctxFooter =
+        bookId || songId
+          ? `\n\n_Reported from: ${bookId || "—"} song ${songId || "—"}_`
+          : "";
 
       octokit.rest.issues
         .create({
           owner: REPO_OWNER,
           repo: REPO_NAME,
-          title: title,
-          body: `> ${message}\n\n— ${sentFromWhom}`,
+          title: `${ctxPrefix}${title}`,
+          body: `> ${message}\n\n— ${sentFromWhom}${ctxFooter}`,
         })
         .then(
           function (response) {
