@@ -28,7 +28,7 @@ const SearchView: React.FC<SearchViewProps> = (props: SearchViewProps) => {
   const history = useHistory();
 
   if (songCards.length === 0) {
-    LoadSongs(songCardsIterator, 20);
+    LoadSongs(songCardsIterator, 30);
   }
   return songCards.length > 0 ? (
     <div>
