@@ -17,7 +17,7 @@ const selectors = {
   prevButton: "#prevButton",
   downloadMusicButton: "#music-download-button",
 };
-const hasMultipleBooks = false;
+const hasMultipleBooks = true;
 
 describe("App", () => {
   let page: Page;
