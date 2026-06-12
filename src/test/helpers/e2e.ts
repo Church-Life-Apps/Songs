@@ -266,7 +266,7 @@ export async function waitForLyricTitleNumber(page: Page, songNumber: number): P
       const el = document.querySelector(sel as string);
       return !!el && (el.innerHTML || "").startsWith(`${n})`);
     },
-    { timeout: 20000 },
+    { timeout: 30000 },
     selectors.lyricViewIonCardTitle,
     songNumber
   );

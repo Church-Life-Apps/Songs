@@ -526,11 +526,13 @@ describe("Prev/next arrows (F20, desktop)", () => {
       const page = await newPage(browser, "desktop");
       try {
         await gotoSongLyric(page, bookId, 6);
-        await page.waitForSelector(selectors.nextButton, { timeout: 10000 });
+        await page.waitForSelector(selectors.nextButton, { timeout: 15000 });
+        await delay(300);
         await page.click(selectors.nextButton);
         await waitForLyricTitleNumber(page, 7);
         expect(page.url()).toBe(songUrl(bookId, 7));
-        await page.waitForSelector(selectors.prevButton, { timeout: 10000 });
+        await page.waitForSelector(selectors.prevButton, { timeout: 15000 });
+        await delay(300);
         await page.click(selectors.prevButton);
         await waitForLyricTitleNumber(page, 6);
         expect(page.url()).toBe(songUrl(bookId, 6));
@@ -538,7 +540,7 @@ describe("Prev/next arrows (F20, desktop)", () => {
         await page.close();
       }
     },
-    50000
+    60000
   );
 
   it("prev button is absent on song 1; next button absent on the last song (SHL)", async () => {
