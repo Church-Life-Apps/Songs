@@ -391,16 +391,6 @@ describe.each(BOOK_IDS)("Lyric view [%s]", bookId => {
   }, 40000);
 });
 
-// KNOWN BUG #251/#252: getVerseText mishandles multi-character section keys
-// (e.g. "pc" -> "Pre-Chorus c", "bc" -> "Bridge c"). The CURRENT live Resources
-// data for SHL and SFOG contains NO multi-char verse keys (verified at build
-// time against the live JSON), so this bug is not reachable via the live e2e
-// path today. We skip with this note rather than fabricate data; the unit-level
-// fix for #251 should add a dedicated getVerseText test.
-it.skip("multi-char verse keys (pc/bc) label correctly (#251 — no live data to exercise)", () => {
-  // Intentionally skipped — see comment above.
-});
-
 /* ----------------------------------------------------------------------------
  * Music view, view toggle, zoom (F16, F17, F18) — per book × viewport.
  * ------------------------------------------------------------------------- */
