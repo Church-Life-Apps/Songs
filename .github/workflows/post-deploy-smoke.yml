@@ -1,0 +1,41 @@
+name: Post-Deploy Smoke Test
+
+# Runs a minimal puppeteer smoke check against the LIVE GitHub Pages site after
+# the "Build and Deploy GitHub Pages" workflow completes on master. It is
+# intentionally lightweight and does NOT block the deploy itself (it runs after,
+# triggered by workflow_run). A manual trigger is also provided.
+on:
+  workflow_run:
+    workflows: ["Build and Deploy GitHub Pages"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      smoke_url:
+        description: "URL to smoke-test"
+        required: false
+        default: "https://church-life-apps.github.io/"
+
+jobs:
+  smoke:
+    name: Live Smoke Test
+    runs-on: ubuntu-latest
+    # Only run when the deploy succeeded (or when manually dispatched).
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+
+      - name: Install puppeteer
+        # Smoke test only needs puppeteer; install it standalone to keep this fast.
+        run: npm install puppeteer@^5.5.0 --no-save
+
+      - name: Run post-deploy smoke test
+        env:
+          SMOKE_URL: ${{ github.event.inputs.smoke_url || 'https://church-life-apps.github.io/' }}
+        run: node smoke/postDeploySmoke.js
