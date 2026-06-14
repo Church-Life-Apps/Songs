@@ -291,6 +291,32 @@ export async function toggleToMusic(page: Page, songNumber?: number): Promise<vo
       `_${makeThreeDigits(songNumber)}`
     );
   }
+  // Ensure the music image has finished loading and has a non-zero clickable box
+  // before any caller interacts with it (e.g. double-click zoom). Without this,
+  // puppeteer can compute the click point before layout settles and throw
+  // "Node is either not visible or not an HTMLElement".
+  await waitForImageReady(page);
+}
+
+/**
+ * Waits until the given image element is fully loaded and laid out with a
+ * non-zero bounding box, so it is reliably clickable.
+ */
+export async function waitForImageReady(
+  page: Page,
+  selector: string = selectors.musicView
+): Promise<void> {
+  await page.waitForSelector(selector, { visible: true, timeout: 15000 });
+  await page.waitForFunction(
+    sel => {
+      const el = document.querySelector(sel as string) as HTMLImageElement | null;
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return el.complete && el.naturalWidth > 0 && r.width > 0 && r.height > 0;
+    },
+    { timeout: 15000 },
+    selector
+  );
 }
 
 export { Browser, Page };
