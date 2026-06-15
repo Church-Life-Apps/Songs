@@ -319,31 +319,31 @@ describe.each(BOOK_IDS)("Infinite scroll [%s]", bookId => {
     }
   }, 60000);
 
-  it("tall viewport never auto-loads past the initial page (KNOWN BUG #242)", async () => {
-    // KNOWN BUG #242: when the initial page of items all fit within the viewport
-    // (no vertical overflow), IonInfiniteScroll's onIonInfinite never fires from
-    // scrolling, so songs past the first page are unreachable by scrolling alone.
-    // We use a very tall viewport (4000px) so all 30 initial cards fit with no
-    // overflow, then attempt to scroll and assert the list is STUCK at 30 —
-    // documenting the current (buggy) behavior. When #242 is fixed (auto-load
-    // until overflow, or a manual "load more"), this expectation should change to
-    // assert that more than 30 load.
+  it("tall viewport auto-loads past the initial page until content fills (#242)", async () => {
+    // FIXED #242: when the initial page of items all fit within the viewport (no
+    // vertical overflow), IonInfiniteScroll's onIonInfinite never fires from
+    // scrolling. SearchView now auto-loads additional pages until the list
+    // overflows the viewport (or all songs are loaded), and also exposes a
+    // "Load more songs" fallback button. We use a very tall viewport (4000px) so
+    // all 30 initial cards fit with no overflow, then assert that more than the
+    // initial 30 cards are reachable without any manual scrolling.
     const page = await browser.newPage();
     try {
       await page.setViewport({ width: 1366, height: 4000 });
       await page.goto(bookUrl(bookId), { waitUntil: "domcontentloaded" });
       await page.waitForSelector(selectors.searchViewIonCard, { timeout: 15000 });
-      const initial = await page.$$(selectors.searchViewIonCard);
-      expect(initial.length).toBe(30);
-      // Attempt to scroll: content fits, so nothing new should load.
-      await page.mouse.move(683, 2000);
-      for (let k = 0; k < 8; k++) {
-        await page.mouse.wheel({ deltaY: 1000 });
-        await delay(80);
-      }
-      await delay(1500);
+      const total = (songLists[bookId] as Song[]).length;
+      const expected = Math.min(total, 31); // at least one page beyond the initial 30
+      // Auto-load runs on a short timer after each render; poll until it settles.
+      await page.waitForFunction(
+        (sel, want) => document.querySelectorAll(sel).length >= want,
+        { timeout: 15000 },
+        selectors.searchViewIonCard,
+        expected
+      );
       const after = await page.$$(selectors.searchViewIonCard);
-      expect(after.length).toBe(30); // KNOWN BUG #242 — stuck at the initial page
+      // No manual scroll performed; auto-load alone got us past the first page.
+      expect(after.length).toBeGreaterThan(30);
     } finally {
       await page.close();
     }
