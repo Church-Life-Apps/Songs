@@ -55,7 +55,10 @@ export async function getNumSongsForBookId(bookId: string): Promise<number> {
  */
 export async function getSong(number: number, bookId: string): Promise<Song> {
   const songs = await getOrfetchSongs(bookId);
-  if (isNaN(number) || number < 0 || number > songs.length) {
+  // Treat 0, negatives, NaN, and anything past the last song as out-of-range.
+  // Returning songNumber:-1 signals "not found" so the UI can render a friendly
+  // message instead of a blank card with a stray author row (#147).
+  if (isNaN(number) || number < 1 || number > songs.length || !songs[number - 1]) {
     return { title: "", author: "", songNumber: -1, lyrics: new Map(), presentation: "" };
   } else {
     if (!(songs[number - 1].lyrics instanceof Map)) {

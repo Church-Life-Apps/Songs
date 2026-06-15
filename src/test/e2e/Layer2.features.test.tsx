@@ -789,20 +789,19 @@ describe("Feedback form (F25) — mocked GitHub API", () => {
  * Edge cases (F: error states) — bad songId in URL.
  * ------------------------------------------------------------------------- */
 describe("Edge cases", () => {
-  it("non-numeric songId in URL does not crash the app (#TODO error handling)", async () => {
+  it("non-numeric songId in URL renders a friendly not-found message (#147)", async () => {
     const page = await newPage(browser, "desktop");
     try {
-      // KNOWN GAP: SongPage has "// TODO: Add error handling in case of non number
-      // song Id". currSongId becomes NaN; getSong returns the blank placeholder.
-      // We assert the app stays alive and renders the lyric card shell rather
-      // than asserting a friendly message (which isn't implemented yet).
+      // currSongId becomes NaN for a non-numeric songId; getSong returns the
+      // not-found sentinel (songNumber:-1), which LyricView renders as a friendly
+      // "Song not found" card instead of a blank placeholder (#147).
       await page.goto(`${baseUrl}/#/shl/abc`, { waitUntil: "domcontentloaded" });
       await page.waitForSelector(selectors.lyricViewCard, { timeout: 15000 });
-      await delay(1500);
+      await delay(2500);
       const title = await page.$eval(selectors.lyricViewIonCardTitle, e => e.innerHTML);
-      // Placeholder blank song renders ("0) " before fetch, "-1) " for NaN guard).
-      expect(typeof title).toBe("string");
-      expect(title.includes(")")).toBe(true);
+      // App stays alive and shows the friendly not-found state, no "N) " prefix.
+      expect(title.trim()).toBe("Song not found");
+      expect(title).not.toMatch(/-?\d+\)/);
     } finally {
       await page.close();
     }

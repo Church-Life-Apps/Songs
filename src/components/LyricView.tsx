@@ -35,6 +35,32 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
     });
   }, [songId]);
 
+  // getSong() returns a sentinel song with songNumber === -1 when the requested
+  // song number is missing or out of range (e.g. /#/<book>/0 or /#/<book>/<N+1>).
+  // Render a friendly "Song not found" message instead of a blank card with a
+  // stray "By" author row (#147).
+  const isNotFound = !song || song.songNumber === -1;
+
+  if (isNotFound) {
+    return (
+      <IonGrid>
+        <IonRow class="ion-justify-content-center">
+          <IonCol size="12" size-lg="8" size-xl="6" className="song-page-center">
+            <IonCard id="lyricViewCard" className="ion-padding">
+              <IonCardHeader className="ion-text-center">
+                <IonCardTitle key="title">Song not found</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent key="notFound" id="lyricViewNotFound">
+                <p>We couldn&apos;t find that song. It may not exist in this songbook.</p>
+                <p>Please double-check the song number and try again.</p>
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+    );
+  }
+
   return (
     <IonGrid>
       <IonRow class="ion-justify-content-center">
