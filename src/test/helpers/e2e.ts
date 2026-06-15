@@ -177,25 +177,34 @@ export function makeThreeDigits(num: number): string {
 }
 
 /**
- * Replicates the app's getVerseText label mapping (LyricView.tsx) so tests can
- * compute the expected verse-label sequence from a song's presentation string.
+ * Replicates the app's section-label mapping (src/utils/LyricUtils.ts /
+ * getSectionLabel, surfaced via LyricView.tsx) so tests can compute the
+ * expected verse-label sequence from a song's presentation string.
+ *
+ * Uses an ordered longest-prefix-first map so multi-character keys like "pc"
+ * map to "Pre-Chorus" rather than "Pre-Chorus Chorus". Returns the label
+ * trimmed, matching how the rendered DOM text is read (.trim()) in the e2e
+ * assertions.
  */
 export function verseLabel(key: string): string {
   const lower = key.toLowerCase();
-  const prefix = lower.charAt(0);
-  const rest = lower.slice(1);
-  const labels: { [k: string]: string } = {
-    i: "Interlude",
-    v: "Verse",
-    c: "Chorus",
-    b: "Bridge",
-    p: "Pre-Chorus",
-    t: "Tag",
-    e: "Ending",
-  };
-  const label = labels[prefix];
-  if (!label) return key;
-  return rest ? `${label} ${rest}` : label;
+  const prefixes: Array<[string, string]> = [
+    ["pc", "Pre-Chorus"],
+    ["v", "Verse"],
+    ["c", "Chorus"],
+    ["b", "Bridge"],
+    ["p", "Pre-Chorus"],
+    ["i", "Interlude"],
+    ["t", "Tag"],
+    ["e", "Ending"],
+  ];
+  for (const [prefix, label] of prefixes) {
+    if (lower.startsWith(prefix)) {
+      const suffix = lower.slice(prefix.length);
+      return suffix ? `${label} ${suffix}` : label;
+    }
+  }
+  return key;
 }
 
 /**

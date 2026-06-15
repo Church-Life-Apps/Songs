@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { PLACEHOLDER_SONG, Song, SongViewMode } from "../utils/SongUtils";
+import { getSectionLabel } from "../utils/LyricUtils";
 import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
@@ -112,21 +113,7 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   }
 
   function getVerseText(verse: string) {
-    const lower = verse.toLowerCase();
-    const prefix = lower.charAt(0);
-    const rest = lower.slice(1);
-    const labels: { [key: string]: string } = {
-      i: "Interlude",
-      v: "Verse",
-      c: "Chorus",
-      b: "Bridge",
-      p: "Pre-Chorus",
-      t: "Tag",
-      e: "Ending",
-    };
-    const label = labels[prefix];
-    if (!label) return verse;
-    return rest ? `${label} ${rest}` : label;
+    return getSectionLabel(verse);
   }
 
   function buildLyricBlock(name: string, lines: string[], key: number) {
