@@ -163,6 +163,11 @@ describe.each<BookId>(["shl", "sfog"])("Layer 1 — %s sampled data", bookId => 
         // No stray "N) " numbering prefix should appear.
         expect(title).not.toMatch(/-?\d+\)/);
 
+        // The message echoes the requested song number and states the valid range.
+        const notFoundText = await page.$eval(selectors.lyricViewNotFound, e => e.textContent || "");
+        expect(notFoundText).toContain(String(edge));
+        expect(notFoundText).toContain(`1\u2013${maxSongNumber}`);
+
         // Author row should be absent for the not-found state.
         const authorEl = await page.$(selectors.lyricViewAuthor);
         expect(authorEl).toBeNull();

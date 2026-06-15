@@ -802,6 +802,11 @@ describe("Edge cases", () => {
       // App stays alive and shows the friendly not-found state, no "N) " prefix.
       expect(title.trim()).toBe("Song not found");
       expect(title).not.toMatch(/-?\d+\)/);
+
+      // The message echoes the requested (non-numeric) songId and the valid range.
+      const notFoundText = await page.$eval(selectors.lyricViewNotFound, e => e.textContent || "");
+      expect(notFoundText).toContain("abc");
+      expect(notFoundText).toMatch(/1\u2013\d+/);
     } finally {
       await page.close();
     }
