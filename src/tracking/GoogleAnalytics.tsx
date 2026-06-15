@@ -1,13 +1,17 @@
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
-const StreamID = "UA-183902236-1";
+// GA4 Measurement ID (migrated from the dead Universal Analytics property UA-183902236-1).
+const MeasurementID = "G-N1RESQYRT9";
 
 export const initGA = (): void => {
-  ReactGA.initialize(StreamID);
+  ReactGA.initialize(MeasurementID);
 };
 
 export const PageView = (): void => {
-  ReactGA.pageview(window.location.pathname + window.location.search);
+  ReactGA.send({
+    hitType: "pageview",
+    page: window.location.pathname + window.location.search,
+  });
   console.debug("Page viewed");
 };
 
