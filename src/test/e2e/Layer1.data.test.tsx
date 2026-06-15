@@ -41,11 +41,9 @@ const SAMPLES: Record<BookId, number[]> = {
   sfog: [1, 42, 44, 88, 100, 156, 200, 216, 250, 278, 280],
 };
 
-// Out-of-range edges per book: 0 and N+1.
-const EDGES: Record<BookId, number[]> = {
-  shl: [0, 534],
-  sfog: [0, 281],
-};
+// Out-of-range edges are derived per book from the live data at runtime
+// (low edge 0, high edge max(songNumber) + 1) so they never need hand-updating
+// when a songbook grows. See the out-of-range test below.
 
 const PER_SONG_TIMEOUT = 30000;
 
@@ -147,7 +145,10 @@ describe.each<BookId>(["shl", "sfog"])("Layer 1 — %s sampled data", bookId => 
   }, 90000);
 
   it("out-of-range song numbers (0 and N+1) document current behavior (#147)", async () => {
-    for (const edge of EDGES[bookId]) {
+    // Derive the high edge from live data: one past the largest real song number.
+    const maxSongNumber = songs.reduce((m, s) => Math.max(m, s.songNumber), 0);
+    const edges = [0, maxSongNumber + 1];
+    for (const edge of edges) {
       const page = await newPage(browser, "desktop");
       try {
         await page.goto(songUrl(bookId, edge), { waitUntil: "domcontentloaded" });
