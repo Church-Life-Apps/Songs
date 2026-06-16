@@ -48,6 +48,7 @@ export const selectors = {
   lyricViewCard: "#lyricViewCard",
   lyricViewIonCardTitle: "#lyricViewCard > ion-card-header > ion-card-title",
   lyricViewAuthor: "#lyricViewCard > ion-card-header > ion-card-subtitle",
+  lyricViewNotFound: "#lyricViewNotFound",
   musicView: "#musicView",
   songViewToggler: "#songViewToggler",
   songToggler: "#songToggler", // second-tune toggle wrapper (SHL only)
