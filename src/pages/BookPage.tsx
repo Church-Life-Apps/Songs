@@ -61,7 +61,8 @@ const BookPage: React.FC = () => {
           type="search"
           value={searchString}
           placeholder="Search for a song"
-          onIonChange={word => setSearchString(word.detail.value as string)}
+          // onIonInput (not onIonChange) fires every keystroke; on iOS onIonChange lags one behind (#104).
+          onIonInput={e => setSearchString((e.target as HTMLIonInputElement).value as string)}
         ></IonInput>
         {searchString !== "" && (
           <IonButton shape="round" fill="clear" color="medium" onClick={() => clearSearchText()}>
