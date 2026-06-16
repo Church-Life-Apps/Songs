@@ -14,7 +14,7 @@ import { PLACEHOLDER_SONG, Song, SongViewMode } from "../utils/SongUtils";
 import "./Components.css";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
-import { getSong } from "../service/SongsService";
+import { getSong, getNumSongsForBookId } from "../service/SongsService";
 import { useParams } from "react-router";
 
 interface LyricViewProps {
@@ -26,6 +26,7 @@ interface LyricViewProps {
  */
 const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
   const [song, setSong] = useState<Song>(PLACEHOLDER_SONG);
+  const [numSongs, setNumSongs] = useState<number>(0);
   const { bookId, songId } = useParams<{ bookId: string; songId: string }>();
 
   useEffect(() => {
@@ -34,6 +35,44 @@ const LyricView: React.FC<LyricViewProps> = (props: LyricViewProps) => {
       setSong(song);
     });
   }, [songId]);
+
+  // Song count for this book, used to show the valid range in the not-found message.
+  useEffect(() => {
+    getNumSongsForBookId(bookId).then(setNumSongs);
+  }, [bookId]);
+
+  // getSong() returns a sentinel song with songNumber === -1 when the requested
+  // song number is missing or out of range (e.g. /#/<book>/0 or /#/<book>/<N+1>).
+  // Render a friendly "Song not found" message instead of a blank card with a
+  // stray "By" author row (#147).
+  const isNotFound = !song || song.songNumber === -1;
+
+  if (isNotFound) {
+    // The raw `songId` param is what the user actually requested (a number like
+    // "9999", or a non-numeric value like "abc"). Show it back to them along with
+    // the valid range so they know what to try instead.
+    const requested = songId;
+    const rangeText = numSongs > 0 ? `This songbook has songs 1\u2013${numSongs}.` : "";
+    return (
+      <IonGrid>
+        <IonRow class="ion-justify-content-center">
+          <IonCol size="12" size-lg="8" size-xl="6" className="song-page-center">
+            <IonCard id="lyricViewCard" className="ion-padding">
+              <IonCardHeader className="ion-text-center">
+                <IonCardTitle key="title">Song not found</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent key="notFound" id="lyricViewNotFound">
+                <p>
+                  We couldn&apos;t find song <strong>{requested}</strong> in this songbook.
+                </p>
+                {rangeText !== "" ? <p>{rangeText} Please check the number and try again.</p> : <p>Please check the number and try again.</p>}
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+    );
+  }
 
   return (
     <IonGrid>

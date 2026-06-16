@@ -144,7 +144,7 @@ describe.each<BookId>(["shl", "sfog"])("Layer 1 — %s sampled data", bookId => 
     }
   }, 90000);
 
-  it("out-of-range song numbers (0 and N+1) document current behavior (#147)", async () => {
+  it("out-of-range song numbers (0 and N+1) render a friendly not-found message (#147)", async () => {
     // Derive the high edge from live data: one past the largest real song number.
     const maxSongNumber = songs.reduce((m, s) => Math.max(m, s.songNumber), 0);
     const edges = [0, maxSongNumber + 1];
@@ -153,18 +153,22 @@ describe.each<BookId>(["shl", "sfog"])("Layer 1 — %s sampled data", bookId => 
       try {
         await page.goto(songUrl(bookId, edge), { waitUntil: "domcontentloaded" });
         await page.waitForSelector(selectors.lyricViewIonCardTitle, { timeout: 15000 });
-        // Allow the async getSong() to resolve.
+        // Allow the async getSong() to resolve to the not-found sentinel.
         await delay(2500);
         const title = await page.$eval(selectors.lyricViewIonCardTitle, e => e.innerHTML);
 
-        // KNOWN BUG #147: out-of-range numbers render a blank song card instead of
-        // a friendly "Song not found" message. getSong() returns songNumber:-1 for
-        // numbers > N (rendered as "-1) "), and leaves the "0) " placeholder for 0.
-        // We assert the CURRENT (buggy) behavior so the suite stays green; when #147
-        // is fixed, this expectation should be updated to the friendly state.
-        expect(title === "0) " || title === "-1) " || title.startsWith("-1)") || title.startsWith("0)")).toBe(true);
+        // FIXED #147: out-of-range numbers now render a friendly "Song not found"
+        // card instead of a blank "0) " / "-1) " placeholder.
+        expect(title.trim()).toBe("Song not found");
+        // No stray "N) " numbering prefix should appear.
+        expect(title).not.toMatch(/-?\d+\)/);
 
-        // Author row should be absent for the blank placeholder song.
+        // The message echoes the requested song number and states the valid range.
+        const notFoundText = await page.$eval(selectors.lyricViewNotFound, e => e.textContent || "");
+        expect(notFoundText).toContain(String(edge));
+        expect(notFoundText).toContain(`1\u2013${maxSongNumber}`);
+
+        // Author row should be absent for the not-found state.
         const authorEl = await page.$(selectors.lyricViewAuthor);
         expect(authorEl).toBeNull();
       } finally {
