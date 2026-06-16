@@ -131,6 +131,7 @@ jobs:
 
       - name: Add Comment on PR
         uses: mshick/add-pr-comment@v1
+        continue-on-error: true
         with:
           message: Android APK for this PR has been built and uploaded. Check Github Actions.
           repo-token: ${{ secrets.GITHUB_TOKEN }}
