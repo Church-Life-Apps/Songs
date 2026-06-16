@@ -61,10 +61,7 @@ const BookPage: React.FC = () => {
           type="search"
           value={searchString}
           placeholder="Search for a song"
-          // Use onIonInput (fires on every keystroke) instead of onIonChange,
-          // which on iOS lags one keystroke behind. In Ionic 5 the ionInput
-          // event detail is a KeyboardEvent, so read the current value from the
-          // input element itself to keep the field fully controlled.
+          // onIonInput (not onIonChange) fires every keystroke; on iOS onIonChange lags one behind (#104).
           onIonInput={e => setSearchString((e.target as HTMLIonInputElement).value as string)}
         ></IonInput>
         {searchString !== "" && (
