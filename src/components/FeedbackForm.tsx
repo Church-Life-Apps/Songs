@@ -14,7 +14,7 @@ const FeedbackScreen: React.FC = () => {
   // REPO_OWNER can be a github username or organization name
   const REPO_OWNER = "Church-Life-Apps";
   const REPO_NAME = "Songs";
-  const ENCRYPTED_TOKEN = "U2FsdGVkX1+bPnD7qF/W1r3lCIYIwy88qJ1SO+d9HiCkYac2WeRs2MOpFHVq5TjdPNV0vrizHfRlMCgxInEAIQ==";
+  const ENCRYPTED_TOKEN = "U2FsdGVkX19FFsXAn9Kqoh6Em094OusaL4jRCigm6C3eVbW4MlplenL/tOvNRZb5cjG5ahkV4ZGcmAGvPbTmaB0CZO2TqCDkJsxMQyt0eBbxTLl+tqlgv6/VytHtPt6XcaIV/eDyuNPLGJfDYXM1qA==";
 
   // Sets up octokit (github api wrapper)
   const octokit = new Octokit({ auth: decrypt(ENCRYPTED_TOKEN, PRIVATE_KEY) });
