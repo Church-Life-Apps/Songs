@@ -19,6 +19,17 @@ export function makeThreeDigits(num: number): string {
   }
 }
 
+/**
+ * Returns true only when `url` is a non-empty string safe to pass to `fetch()`.
+ *
+ * Guards against the case where an optional URL prop is `undefined`/`null`/empty.
+ * Passing `undefined` to `fetch()` coerces it to the string "undefined", which the
+ * browser resolves against the origin and requests as `/undefined` (a spurious 404).
+ */
+export function isFetchableUrl(url: string | undefined | null): url is string {
+  return typeof url === "string" && url.trim().length > 0;
+}
+
 export enum SongViewMode {
   Music,
   Lyrics,

@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SettingsView from "../components/SettingsView";
 import { useParams } from "react-router";
-import { getSongbookById, SongViewMode } from "../utils/SongUtils";
+import { getSongbookById, isFetchableUrl, SongViewMode } from "../utils/SongUtils";
 import { isDesktop, isMobileWeb } from "../utils/PlatformUtils";
 
 interface NavigationBarProps {
@@ -46,7 +46,13 @@ const NavigationBar: React.FC<NavigationBarProps> = props => {
   // but blob data is considered same origin, so here we fetch the image data and
   // create a blob url and we then use that blob url when we render the download button
   useEffect(() => {
-    fetch(props.musicPageUrl as string)
+    // Only fetch when a real music URL is present. On pages without sheet music
+    // (e.g. the home page) props.musicPageUrl is undefined; passing that to fetch()
+    // would request "/undefined" and 404. See isFetchableUrl.
+    if (!isFetchableUrl(props.musicPageUrl)) {
+      return;
+    }
+    fetch(props.musicPageUrl)
       .then(response => response.blob())
       .then(blob => {
         const blobUrl = URL.createObjectURL(blob);
