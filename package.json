@@ -57,7 +57,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
-    "@capacitor/cli": "^5.0.0",
+    "@capacitor/cli": "^8.4.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
@@ -71,7 +71,7 @@
     "eslint-plugin-react": "^7.27.1",
     "prettier": "^1.19.1",
     "puppeteer": "^5.5.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   },
   "description": "An Ionic project",
   "jest": {
