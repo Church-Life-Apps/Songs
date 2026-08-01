@@ -62,6 +62,12 @@ export const defaultSongbooks = [
     lyricsUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/shl.json",
     musicUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/shl/SHL_",
   },
+  {
+    name: "Songs For Our Generation",
+    bookId: "sfog",
+    lyricsUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/metadata/sfog.json",
+    musicUrl: "https://raw.githubusercontent.com/Church-Life-Apps/Resources/master/resources/images/sfog/SFOG_",
+  },
 ];
 
 let cachedSongbooks = defaultSongbooks;
