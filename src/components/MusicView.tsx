@@ -1,13 +1,12 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./Components.css";
-import { getSongbookById, makeThreeDigits, Songbook, SongViewMode } from "../utils/SongUtils";
+import { buildSheetMusicUrl, getSongbookById, Songbook, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isDesktop } from "../utils/PlatformUtils";
 //Import Event tracking
 import { triggerSongView } from "../tracking/EventFunctions";
 import { useParams } from "react-router";
 
-const imageSuffix = ".png";
 const alt = "No Song Found";
 
 const songsWithTwoTunes = [156, 216, 278, 478];
@@ -33,7 +32,7 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const songHasTwoTunes = songsWithTwoTunes.includes(props.songNumber) && bookId === "shl";
   const secondTuneSuffix = songHasTwoTunes && secondTune ? "-B" : "";
 
-  const url = songbook?.musicUrl + makeThreeDigits(props.songNumber) + secondTuneSuffix + imageSuffix;
+  const url = buildSheetMusicUrl(songbook?.musicUrl, props.songNumber, secondTuneSuffix);
   useEffect(() => {
     props.setMusicPageUrl(url);
   });

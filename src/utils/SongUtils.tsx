@@ -25,9 +25,61 @@ export function makeThreeDigits(num: number): string {
  * Guards against the case where an optional URL prop is `undefined`/`null`/empty.
  * Passing `undefined` to `fetch()` coerces it to the string "undefined", which the
  * browser resolves against the origin and requests as `/undefined` (a spurious 404).
+ *
+ * NOTE: This is a nullish/empty guard only. It intentionally does NOT reject the
+ * literal string "undefined" or app-logic-corrupted URLs like "undefined080.png"
+ * (see {@link buildSheetMusicUrl} and {@link isImageResponse}, which guard those).
  */
 export function isFetchableUrl(url: string | undefined | null): url is string {
   return typeof url === "string" && url.trim().length > 0;
+}
+
+/**
+ * Builds the absolute sheet-music PNG URL for a song, or returns "" when the
+ * songbook's `musicUrl` base is not yet available.
+ *
+ * Why this exists (guards #211):
+ * The music image URL was previously built inline as
+ *   `songbook?.musicUrl + makeThreeDigits(n) + suffix + ".png"`.
+ * When the songbook has not finished loading (async fetch), `songbook?.musicUrl`
+ * is `undefined`, and string concatenation produces the string
+ *   `"undefined" + "080" + ".png"` === `"undefined080.png"`.
+ * That is a NON-EMPTY, fetchable-looking RELATIVE url, so `isFetchableUrl` lets it
+ * through, the browser resolves it against the origin, and it 404s to an HTML
+ * error page. The download button then serves that HTML as `<book>_<n>.html`.
+ *
+ * By returning "" whenever `musicUrl` is falsy, no `undefined...png` URL is ever
+ * produced, and downstream `isFetchableUrl` correctly skips the prefetch.
+ */
+export function buildSheetMusicUrl(
+  musicUrl: string | undefined | null,
+  songNumber: number,
+  suffix = ""
+): string {
+  if (!musicUrl || musicUrl.trim().length === 0) {
+    return "";
+  }
+  return `${musicUrl}${makeThreeDigits(songNumber)}${suffix}.png`;
+}
+
+/**
+ * Returns true only when an HTTP response looks like a real sheet-music image
+ * (2xx status and an image/* content-type), rather than an HTML error page.
+ *
+ * Guards #211: `fetch(...).then(r => r.blob())` happily turns a 404 HTML error
+ * page into a blob. Wiring that blob into the download button (whose `download`
+ * attribute has no extension) makes the browser save `<book>_<n>.html`.
+ * Validating the response before building the blob prevents the HTML download.
+ */
+export function isImageResponse(response: {
+  ok: boolean;
+  headers: { get(name: string): string | null };
+}): boolean {
+  if (!response.ok) {
+    return false;
+  }
+  const contentType = (response.headers.get("content-type") || "").toLowerCase();
+  return contentType.startsWith("image/");
 }
 
 export enum SongViewMode {
