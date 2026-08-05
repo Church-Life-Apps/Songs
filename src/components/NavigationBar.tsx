@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SettingsView from "../components/SettingsView";
 import { useParams } from "react-router";
-import { getSongbookById, isFetchableUrl, SongViewMode } from "../utils/SongUtils";
+import { getSongbookById, isFetchableUrl, isImageResponse, SongViewMode } from "../utils/SongUtils";
 import { isDesktop, isMobileWeb } from "../utils/PlatformUtils";
 
 interface NavigationBarProps {
@@ -50,17 +50,47 @@ const NavigationBar: React.FC<NavigationBarProps> = props => {
     // (e.g. the home page) props.musicPageUrl is undefined; passing that to fetch()
     // would request "/undefined" and 404. See isFetchableUrl.
     if (!isFetchableUrl(props.musicPageUrl)) {
+      setSongPageBlobUrl("");
       return;
     }
+    let cancelled = false;
     fetch(props.musicPageUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        const blobUrl = URL.createObjectURL(blob);
-        if (songPageBlobUrl !== blobUrl) {
-          setSongPageBlobUrl(blobUrl);
+      .then(response => {
+        // Guard #211: do NOT turn a non-image response (e.g. a 404 HTML error
+        // page) into a blob. If we did, the download button would serve that
+        // HTML as "<book>_<n>.html" instead of the PNG sheet music. Only build a
+        // blob URL when the response is an actual image.
+        if (!isImageResponse(response)) {
+          throw new Error(
+            `Sheet music fetch did not return an image (status ${response.status}, ` +
+              `content-type ${response.headers.get("content-type") || "unknown"}) for ${props.musicPageUrl}`
+          );
         }
+        return response.blob();
       })
-      .catch(e => console.error(e));
+      .then(blob => {
+        if (cancelled) {
+          return;
+        }
+        const blobUrl = URL.createObjectURL(blob);
+        setSongPageBlobUrl(prev => {
+          if (prev.startsWith("blob:") && prev !== blobUrl) {
+            URL.revokeObjectURL(prev);
+          }
+          return blobUrl;
+        });
+      })
+      .catch(e => {
+        // On any failure (network error or non-image response) clear the href so
+        // the button never points at stale or HTML content.
+        if (!cancelled) {
+          setSongPageBlobUrl("");
+        }
+        console.error(e);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [props.musicPageUrl]);
 
   return (
