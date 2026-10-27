@@ -303,10 +303,7 @@ export async function toggleToMusic(page: Page, songNumber?: number): Promise<vo
  * Waits until the given image element is fully loaded and laid out with a
  * non-zero bounding box, so it is reliably clickable.
  */
-export async function waitForImageReady(
-  page: Page,
-  selector: string = selectors.musicView
-): Promise<void> {
+export async function waitForImageReady(page: Page, selector: string = selectors.musicView): Promise<void> {
   await page.waitForSelector(selector, { visible: true, timeout: 15000 });
   await page.waitForFunction(
     sel => {
@@ -433,6 +430,61 @@ export async function swipe(page: Page, deltaX: number, y = 400): Promise<void> 
     await new Promise(r => setTimeout(r, 8));
   }
   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+}
+
+/**
+ * Two-finger horizontal drag on the song page body (both fingers move together),
+ * via CDP touch events. Used to check that multi-finger gestures never change song.
+ */
+export async function twoFingerSwipe(page: Page, deltaX: number, y = 400): Promise<void> {
+  const cdp = await page.target().createCDPSession();
+  const fromX = deltaX < 0 ? 320 : 60;
+  const points = (x: number) => [
+    { x, y, id: 0 },
+    { x, y: y + 80, id: 1 },
+  ];
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: points(fromX) });
+  const steps = 5;
+  for (let i = 1; i <= steps; i++) {
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: points(fromX + (deltaX * i) / steps),
+    });
+    await new Promise(r => setTimeout(r, 8));
+  }
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+}
+
+/**
+ * Real browser pinch zoom via CDP Input.synthesizePinchGesture (Chromium only).
+ * scaleFactor > 1 zooms in, < 1 zooms out. The pinch centre must be inside the
+ * visual viewport, which shrinks once zoomed in, so it is read from the page.
+ * Resolves once the gesture has finished.
+ */
+export async function pinch(page: Page, scaleFactor: number): Promise<void> {
+  const cdp = await page.target().createCDPSession();
+  const [w, h] = await page.evaluate(() => {
+    const vv = window.visualViewport;
+    return vv ? [vv.width, vv.height] : [window.innerWidth, window.innerHeight];
+  });
+  await cdp.send("Input.synthesizePinchGesture", {
+    x: Math.round(w / 2),
+    y: Math.round(h / 2),
+    scaleFactor,
+    relativeSpeed: 300,
+    gestureSourceType: "touch",
+  });
+}
+
+/** Current browser pinch-zoom level (visualViewport.scale), 1 when not zoomed. */
+export async function getPageScale(page: Page): Promise<number> {
+  return page.evaluate(() => (window.visualViewport ? window.visualViewport.scale : 1));
+}
+
+/** Two quick one-finger touch taps at the same point (a phone double tap). */
+export async function doubleTap(page: Page, x: number, y: number): Promise<void> {
+  await page.touchscreen.tap(x, y);
+  await page.touchscreen.tap(x, y);
 }
 
 /** Small fixed delay helper for the few places we must wait for an animation. */
