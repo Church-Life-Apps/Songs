@@ -24,6 +24,13 @@ ion-toggle {
   margin-right: auto;
 }
 
+/* Double-tapped sheet music on a phone. Ionic's base CSS caps every image at max-width: 100%,
+   which silently undid the enlarge. Lift the cap so the image can be wider than the screen
+   and the user can pan sideways to read it. */
+#musicView.enlarged {
+  max-width: none;
+}
+
 /* Settings Pages */
 #feedbackResponseModal {
   padding: 15px;
