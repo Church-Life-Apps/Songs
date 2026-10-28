@@ -27,7 +27,7 @@
     "react-ga4": "^2.1.0",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
-    "react-zoom-pan-pinch": "^1.6.1",
+    "react-zoom-pan-pinch": "^3.7.0",
     "start-server-and-test": "^3.0.11",
     "string-similarity": "^4.0.4",
     "typescript": "^3.9.10"

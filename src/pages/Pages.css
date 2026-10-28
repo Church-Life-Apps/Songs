@@ -4,17 +4,3 @@
   padding-left: 15px;
   padding-right: 15px;
 }
-
-/* Song page scroll area. Ionic sets touch-action: pan-y here, which blocks pinch zoom on the song.
-   - Normally: allow vertical scrolling and two-finger pinch zoom. Sideways drags stay with the app's
-     swipe-to-change-song, exactly as before (letting the browser have them can trigger "swipe back").
-   - While pinch-zoomed in, or while sheet music is enlarged: also allow sideways panning so the user
-     can move around. Swiping between songs is paused in that state (see createSwipeGesture).
-   Neither value allows the browser's own double-tap zoom, so our sheet-music double tap works the same everywhere. */
-#song-page-body::part(scroll) {
-  touch-action: pan-y pinch-zoom;
-}
-
-#song-page-body.allow-sideways-pan::part(scroll) {
-  touch-action: manipulation;
-}

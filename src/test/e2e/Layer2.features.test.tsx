@@ -420,22 +420,23 @@ describe.each(BOOK_IDS)("Music view [%s]", bookId => {
     50000
   );
 
-  it("double-click zoom doubles image width then resets", async () => {
+  it("click opens the full-screen viewer with the same image, X closes it", async () => {
     const page = await newPage(browser, "desktop");
     try {
       const n = SAMPLE_SONG[bookId];
       await gotoSongLyric(page, bookId, n);
       await toggleToMusic(page, n);
-      const w1 = await page.$eval(selectors.musicView, e => (e as HTMLElement).style.width);
-      await page.click(selectors.musicView, { clickCount: 2 });
-      await delay(400);
-      const w2 = await page.$eval(selectors.musicView, e => (e as HTMLElement).style.width);
-      await page.click(selectors.musicView, { clickCount: 2 });
-      await delay(400);
-      const w3 = await page.$eval(selectors.musicView, e => (e as HTMLElement).style.width);
-      const px = (s: string) => parseFloat(s);
-      expect(px(w2)).toBeCloseTo(px(w1) * 2, 0);
-      expect(px(w3)).toBeCloseTo(px(w1), 0);
+      const src = await page.$eval(selectors.musicView, e => e.getAttribute("src"));
+      await page.click(selectors.musicView);
+      await page.waitForSelector(selectors.musicViewerImage, { visible: true, timeout: 8000 });
+      expect(await page.$eval(selectors.musicViewerImage, e => e.getAttribute("src"))).toBe(src);
+      await page.click(selectors.musicViewerClose);
+      await page.waitForFunction(
+        sel => !document.querySelector(sel as string),
+        { timeout: 8000 },
+        selectors.musicViewer
+      );
+      expect(page.url()).toBe(songUrl(bookId, n));
     } finally {
       await page.close();
     }

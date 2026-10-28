@@ -1,11 +1,10 @@
 import { IonIcon, IonContent, IonPage, IonHeader, IonFab, IonFabButton } from "@ionic/react";
 import { SongViewMode } from "../utils/SongUtils";
-import "./Pages.css";
 import { isDesktop } from "../utils/PlatformUtils";
 import LyricView from "../components/LyricView";
 import MusicView from "../components/MusicView";
 import NavigationBar from "../components/NavigationBar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { arrowBackCircleOutline, arrowForwardCircleOutline } from "ionicons/icons";
 
@@ -14,7 +13,7 @@ import { Event } from "../tracking/GoogleAnalytics";
 import { getNumSongsForBookId } from "../service/SongsService";
 // Import utils
 import { doElementsOverlap } from "../utils/UiUtils";
-import { createSwipeGesture, isPageZoomedIn } from "../utils/UiUtils";
+import { createSwipeGesture } from "../utils/UiUtils";
 /**
  * Song Page Component.
  *
@@ -29,18 +28,11 @@ const SongPage: React.FC = () => {
   // when in song view, use music view or lyrics view
   const [songViewMode, setSongViewMode] = useState<SongViewMode>(SongViewMode.Lyrics);
   const [songBookLength, setSongBookLength] = useState<number>(0);
-  // true while the sheet music is enlarged by a double tap. Swiping is paused so the user can pan the music.
-  const [musicEnlarged, setMusicEnlarged] = useState<boolean>(false);
-  // the swipe gesture reads this ref so it always sees the latest value without being recreated
-  const musicEnlargedRef = useRef<boolean>(false);
-  musicEnlargedRef.current = musicEnlarged;
-  // true while the user has pinch-zoomed the page in
-  const [pageZoomed, setPageZoomed] = useState<boolean>(isPageZoomedIn());
   // current song id converted to number
   const currSongId: number = +songId;
 
   useEffect(() => {
-    getNumSongsForBookId(bookId).then(size => setSongBookLength(size));
+    getNumSongsForBookId(bookId).then((size) => setSongBookLength(size));
 
     window.addEventListener("resize", ToggleNavButtonListeners);
     return () => {
@@ -48,26 +40,9 @@ const SongPage: React.FC = () => {
     };
   }, [bookId]);
 
-  // Track pinch zoom so sideways panning is allowed only while zoomed in (see Pages.css).
-  useEffect(() => {
-    const viewport = window.visualViewport;
-    if (!viewport) {
-      return;
-    }
-    const onViewportResize = () => setPageZoomed(isPageZoomedIn());
-    viewport.addEventListener("resize", onViewportResize);
-    return () => viewport.removeEventListener("resize", onViewportResize);
-  }, []);
-
   // mount/remounts the swipe gesture everytime songId/songBookLength changes
   useEffect(() => {
-    return createSwipeGesture(
-      currSongId,
-      songBookLength,
-      navigateToPrevSong,
-      navigateToNextSong,
-      () => musicEnlargedRef.current
-    );
+    createSwipeGesture(currSongId, songBookLength, navigateToPrevSong, navigateToNextSong);
   }, [songId, songBookLength]);
 
   useEffect(() => {
@@ -90,12 +65,7 @@ const SongPage: React.FC = () => {
         />
       </IonHeader>
 
-      {/* scrollX lets the user pan sideways across enlarged sheet music. allow-sideways-pan: see Pages.css. */}
-      <IonContent
-        id="song-page-body"
-        scrollX={musicEnlarged}
-        className={pageZoomed || musicEnlarged ? "allow-sideways-pan" : undefined}
-      >
+      <IonContent id="song-page-body">
         {/* TODO: Add error handling in case of non number song Id */}
         {isDesktop() && RenderPrevButton(currSongId)}
         {RenderSong(currSongId)}
@@ -106,9 +76,7 @@ const SongPage: React.FC = () => {
 
   function RenderSong(songNumber: number) {
     if (songViewMode === SongViewMode.Music) {
-      return (
-        <MusicView songNumber={songNumber} setMusicPageUrl={setMusicPageUrl} onEnlargedChange={setMusicEnlarged} />
-      );
+      return <MusicView songNumber={songNumber} setMusicPageUrl={setMusicPageUrl} />;
     } else {
       return <LyricView songNumber={songNumber} />;
     }
