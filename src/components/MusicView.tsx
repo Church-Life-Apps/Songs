@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./Components.css";
+import MusicViewer from "./MusicViewer";
 import { getSongbookById, makeThreeDigits, Songbook, SongViewMode } from "../utils/SongUtils";
 import { IonToggle } from "@ionic/react";
 import { isDesktop } from "../utils/PlatformUtils";
@@ -24,8 +25,9 @@ interface MusicViewProps {
 const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   const widthPixels = isDesktop() ? window.innerWidth / 2 : window.innerWidth;
   const [secondTune, setSecondTune] = useState<boolean>(false);
-  const [width, setWidth] = useState<number>(widthPixels);
-  const [zoomed, setZoomed] = useState<boolean>(false);
+  const [width] = useState<number>(widthPixels);
+  // Natural size of the music image while the full-screen viewer is open, undefined when closed.
+  const [viewerImageSize, setViewerImageSize] = useState<{ width: number; height: number }>();
   const [songbook, setSongbook] = useState<Songbook>();
   const { bookId } = useParams<{ bookId: string }>();
 
@@ -43,12 +45,16 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
   }, [props.songNumber]);
 
   useEffect(() => {
-    getSongbookById(bookId).then((book) => {
+    getSongbookById(bookId).then(book => {
       setSongbook(book);
     });
   }, [bookId]);
 
-  // TODO: Add Pinch and Zoom to image.
+  // Close the viewer when the song or tune changes.
+  useEffect(() => {
+    setViewerImageSize(undefined);
+  }, [url]);
+
   return (
     <div>
       {/* Second Tune Toggler  */}
@@ -63,15 +69,26 @@ const MusicView: React.FC<MusicViewProps> = (props: MusicViewProps) => {
         style={{ width: width }}
         id="musicView"
         className="song-page-center"
-        onDoubleClick={() => {
-          if (zoomed) {
-            setWidth(widthPixels);
-          } else setWidth(widthPixels * 2);
-          setZoomed(!zoomed);
+        // Tap or click the music to open it full screen, where it can be zoomed.
+        onClick={e => {
+          const img = e.currentTarget;
+          if (img.naturalWidth > 0) {
+            setViewerImageSize({ width: img.naturalWidth, height: img.naturalHeight });
+          }
         }}
         src={url}
         alt={alt}
       />
+
+      {viewerImageSize && (
+        <MusicViewer
+          src={url}
+          alt={alt}
+          imageWidth={viewerImageSize.width}
+          imageHeight={viewerImageSize.height}
+          onClose={() => setViewerImageSize(undefined)}
+        />
+      )}
     </div>
   );
 };

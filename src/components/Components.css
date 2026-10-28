@@ -22,6 +22,40 @@ ion-toggle {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  /* tapping or clicking opens the full-screen viewer */
+  cursor: zoom-in;
+}
+
+/* Full-screen sheet music viewer (MusicViewer.tsx). */
+#musicViewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30000;
+  background-color: #111;
+  /* the viewer handles every touch itself, so the browser never scrolls or zooms the page */
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+#musicViewerClose {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 12px);
+  right: calc(env(safe-area-inset-right) + 12px);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* Settings Pages */

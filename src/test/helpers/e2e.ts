@@ -50,6 +50,9 @@ export const selectors = {
   lyricViewAuthor: "#lyricViewCard > ion-card-header > ion-card-subtitle",
   lyricViewNotFound: "#lyricViewNotFound",
   musicView: "#musicView",
+  musicViewer: "#musicViewer",
+  musicViewerImage: "#musicViewerImage",
+  musicViewerClose: "#musicViewerClose",
   songViewToggler: "#songViewToggler",
   songToggler: "#songToggler", // second-tune toggle wrapper (SHL only)
   songTogglerToggle: "#songToggler > ion-toggle",
@@ -433,6 +436,21 @@ export async function swipe(page: Page, deltaX: number, y = 400): Promise<void> 
     await new Promise(r => setTimeout(r, 8));
   }
   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+}
+
+/**
+ * Two-finger pinch at the given point via CDP Input.synthesizePinchGesture (Chromium only).
+ * scaleFactor > 1 spreads the fingers apart (zoom in). Resolves once the gesture has finished.
+ */
+export async function pinch(page: Page, x: number, y: number, scaleFactor: number): Promise<void> {
+  const cdp = await page.target().createCDPSession();
+  await cdp.send("Input.synthesizePinchGesture", {
+    x: Math.round(x),
+    y: Math.round(y),
+    scaleFactor,
+    relativeSpeed: 300,
+    gestureSourceType: "touch",
+  });
 }
 
 /** Small fixed delay helper for the few places we must wait for an animation. */
